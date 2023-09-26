@@ -22,13 +22,46 @@ repositories {
 }
 
 dependencies {
+
+	// Implementation dependencies
+
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+
 	implementation 'org.hibernate:hibernate-core:6.2.9.Final'
+
+
+	// Compile dependencies
+
 	compileOnly 'org.projectlombok:lombok'
-	runtimeOnly 'com.mysql:mysql-connector-j:8.0.32'
+
 	annotationProcessor 'org.projectlombok:lombok'
+
+
+	// Runtime dependencies.
+
+	runtimeOnly 'com.mysql:mysql-connector-j:8.0.32'
+
+
+	// Test dependencies.
+
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+	testImplementation 'org.springframework.boot:spring-boot-starter-web'
+
+	// https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api
+	testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.10.0'
+
+	// https://mvnrepository.com/artifact/org.testcontainers/junit-jupiter
+	testImplementation group: 'org.testcontainers', name: 'junit-jupiter', version: '1.19.0'
+
+	// https://mvnrepository.com/artifact/org.testcontainers/testcontainers
+	testImplementation group: 'org.testcontainers', name: 'testcontainers', version: '1.19.0'
+
+	// https://mvnrepository.com/artifact/org.testcontainers/mysql
+	testImplementation group: 'org.testcontainers', name: 'mysql', version: '1.19.0'
+
 }
 
 tasks.named('test') {
