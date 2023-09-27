@@ -42,7 +42,7 @@ class GrowControlApplicationTests {
 					"spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver",
 					"spring.jpa.show-sql=true",
 					"spring.jpa.hibernate.ddl-auto=update",
-					"spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL5InnoDBDialect"
+					"spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQLDialect"
 			).applyTo(configurableApplicationContext.getEnvironment());
 		}
 	}
