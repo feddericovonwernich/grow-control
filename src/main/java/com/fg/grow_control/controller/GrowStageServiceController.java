@@ -33,10 +33,12 @@ public class GrowStageServiceController {
     }
 
     @PostMapping
+    @PutMapping
     public ResponseEntity<GrowStage> createOrUpdateGrowStage(@RequestBody GrowStage growStage) {
         GrowStage createdGrowStage = growStageService.createOrUpdateGrowStage(growStage);
         return new ResponseEntity<>(createdGrowStage, HttpStatus.CREATED);
     }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteGrowStage(@PathVariable Long id) {
         try {

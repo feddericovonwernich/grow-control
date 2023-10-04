@@ -37,6 +37,7 @@ public class OptimalGrowingParameterController {
         OptimalGrowingParameter createdOptimalGrowingParameter = optimalGrowingParameterService.createOrUpdateOptimalGrowingParameter(optimalGrowingParameter);
         return new ResponseEntity<>(createdOptimalGrowingParameter, HttpStatus.CREATED);
     }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteOptimalGrowingParameter(@PathVariable Long id) {
         try {

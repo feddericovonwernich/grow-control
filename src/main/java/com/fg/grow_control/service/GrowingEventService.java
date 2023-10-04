@@ -13,11 +13,12 @@ import java.util.Optional;
 public class GrowingEventService {
     @Autowired
     private GrowingEventRepository growingEventRepository;
+
     @Transactional
     public GrowingEvent createOrUpdateGrowingEvent(GrowingEvent growingEvent) {
-
         return growingEventRepository.save(growingEvent);
     }
+
     public GrowingEvent getGrowingEventById(Long id) throws EntityNotFoundException {
         Optional<GrowingEvent> response = growingEventRepository.findById(id);
         if (response.isPresent()) {
@@ -26,6 +27,7 @@ public class GrowingEventService {
             throw new EntityNotFoundException("No se encontró la entidad con el ID: " + id);
         }
     }
+
     public List<GrowingEvent> getAllGrowingEvent() {
         return growingEventRepository.findAll();
     }

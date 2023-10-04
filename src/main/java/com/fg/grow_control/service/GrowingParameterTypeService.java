@@ -15,11 +15,12 @@ import java.util.Optional;
 public class GrowingParameterTypeService {
     @Autowired
     private GrowingParameterTypeRepository growingParameterTypeRepository;
+
     @Transactional
     public GrowingParameterType createOrUpdateGrowingParameterType(GrowingParameterType growingParameterType) {
-
         return growingParameterTypeRepository.save(growingParameterType);
     }
+
     public GrowingParameterType getGrowingParameterTypeById(Long id) throws EntityNotFoundException {
         Optional<GrowingParameterType> response = growingParameterTypeRepository.findById(id);
         if (response.isPresent()) {
@@ -28,9 +29,11 @@ public class GrowingParameterTypeService {
             throw new EntityNotFoundException("No se encontró la entidad con el ID: " + id);
         }
     }
+
     public List<GrowingParameterType> getAllGrowingParameterType() {
         return growingParameterTypeRepository.findAll();
     }
+
     @Transactional
     public void deleteGrowingParameterType(Long id) throws EntityNotFoundException {
         Optional<GrowingParameterType> response = growingParameterTypeRepository.findById(id);

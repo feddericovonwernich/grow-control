@@ -13,9 +13,9 @@ import java.util.Optional;
 public class GrowingEventTypeService {
     @Autowired
     private GrowingEventTypeRepository growingEventTypeRepository;
+
     @Transactional
     public GrowingEventType createOrUpdateGrowingEventType(GrowingEventType growingEventType) {
-
         return growingEventTypeRepository.save(growingEventType);
     }
     public GrowingEventType getGrowingEventTypeById(Long id) throws EntityNotFoundException {
@@ -26,9 +26,11 @@ public class GrowingEventTypeService {
             throw new EntityNotFoundException("No se encontró la entidad con el ID: " + id);
         }
     }
+
     public List<GrowingEventType> getAllGrowingEventType() {
         return growingEventTypeRepository.findAll();
     }
+
     @Transactional
     public void deleteGrowingEventType(Long id) throws EntityNotFoundException {
         Optional<GrowingEventType> response = growingEventTypeRepository.findById(id);

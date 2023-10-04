@@ -12,28 +12,35 @@ import java.util.List;
 @RestController
 @RequestMapping("/growingParameterValueTime")
 public class GrowingParameterValueTimeController {
+
     @Autowired
     private GrowingParameterValueTimeService growingParameterValueTimeService;
 
     @GetMapping
     public ResponseEntity<List<GrowingParameterValueTime>> getAllGrowingParameterValueTime() {
-        List<GrowingParameterValueTime> growingParameterValueTimeServices = growingParameterValueTimeService.getAllGrowingParameterValueTime();
+        List<GrowingParameterValueTime> growingParameterValueTimeServices
+                = growingParameterValueTimeService.getAllGrowingParameterValueTime();
         return new ResponseEntity<>(growingParameterValueTimeServices, HttpStatus.OK);
     }
     @GetMapping("/{id}")
     public ResponseEntity<GrowingParameterValueTime> getGrowingParameterValueTimeById(@PathVariable Long id) {
-        GrowingParameterValueTime growingParameterValueTime = growingParameterValueTimeService.getGrowingParameterValueTimeById(id);
+        GrowingParameterValueTime growingParameterValueTime
+                = growingParameterValueTimeService.getGrowingParameterValueTimeById(id);
         if (growingParameterValueTime != null) {
             return new ResponseEntity<>(growingParameterValueTime, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
     @PostMapping
+    @PutMapping
     public ResponseEntity<GrowingParameterValueTime> createOrUpdateGrowingParameterValueTime(@RequestBody GrowingParameterValueTime growingParameterValueTime) {
-        GrowingParameterValueTime createdGrowingParameterValueTime = growingParameterValueTimeService.createOrUpdateGrowingParameterValueTime(growingParameterValueTime);
+        GrowingParameterValueTime createdGrowingParameterValueTime
+                = growingParameterValueTimeService.createOrUpdateGrowingParameterValueTime(growingParameterValueTime);
         return new ResponseEntity<>(createdGrowingParameterValueTime, HttpStatus.CREATED);
     }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteGrowingParameterValueTime(@PathVariable Long id) {
         try {

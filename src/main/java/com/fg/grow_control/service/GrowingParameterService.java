@@ -15,9 +15,9 @@ import java.util.Optional;
 public class GrowingParameterService {
     @Autowired
     private GrowingParameterRepository growingParameterRepository;
+
     @Transactional
     public GrowingParameter createOrUpdateGrowingParameter(GrowingParameter growingParameter) {
-
         return growingParameterRepository.save(growingParameter);
     }
     public GrowingParameter getGrowingParameterById(Long id) throws EntityNotFoundException {
@@ -28,9 +28,11 @@ public class GrowingParameterService {
             throw new EntityNotFoundException("No se encontró la entidad con el ID: " + id);
         }
     }
+
     public List<GrowingParameter> getAllGrowingParameter() {
         return growingParameterRepository.findAll();
     }
+
     @Transactional
     public void deleteGrowingParameter(Long id) throws EntityNotFoundException {
         Optional<GrowingParameter> response = growingParameterRepository.findById(id);

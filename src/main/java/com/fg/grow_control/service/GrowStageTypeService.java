@@ -17,9 +17,9 @@ public class GrowStageTypeService {
     private GrowStageTypeRepository growStageTypeRepository;
     @Transactional
     public GrowStageType createOrUpdateGrowStageType(GrowStageType growStageType) {
-
         return growStageTypeRepository.save(growStageType);
     }
+
     public GrowStageType getGrowStageTypeById(Long id) throws EntityNotFoundException {
         Optional<GrowStageType> response = growStageTypeRepository.findById(id);
         if (response.isPresent()) {
@@ -28,9 +28,11 @@ public class GrowStageTypeService {
             throw new EntityNotFoundException("No se encontró la entidad con el ID: " + id);
         }
     }
+
     public List<GrowStageType> getAllGrowStageType() {
         return growStageTypeRepository.findAll();
     }
+
     @Transactional
     public void deleteGrowStageType(Long id) throws EntityNotFoundException {
         Optional<GrowStageType> response = growStageTypeRepository.findById(id);

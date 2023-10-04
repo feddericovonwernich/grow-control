@@ -22,6 +22,7 @@ public class GrowingParameterTypeController {
         List<GrowingParameterType> growingParameterTypes = growingParameterTypeService.getAllGrowingParameterType();
         return new ResponseEntity<>(growingParameterTypes, HttpStatus.OK);
     }
+
     @GetMapping("/{id}")
     public ResponseEntity<GrowingParameterType> getGrowingParameterTypeById(@PathVariable Long id) {
         GrowingParameterType growingParameterType = growingParameterTypeService.getGrowingParameterTypeById(id);
@@ -31,11 +32,15 @@ public class GrowingParameterTypeController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
     @PostMapping
+    @PutMapping
     public ResponseEntity<GrowingParameterType> createOrUpdateGrowingParameterType(@RequestBody GrowingParameterType growingParameterType) {
-        GrowingParameterType createdGrowingParameterType = growingParameterTypeService.createOrUpdateGrowingParameterType(growingParameterType);
+        GrowingParameterType createdGrowingParameterType
+                = growingParameterTypeService.createOrUpdateGrowingParameterType(growingParameterType);
         return new ResponseEntity<>(createdGrowingParameterType, HttpStatus.CREATED);
     }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteGrowingParameterType(@PathVariable Long id) {
         try {

@@ -15,11 +15,12 @@ import java.util.Optional;
 public class GrowStageService {
     @Autowired
     private GrowStageRepository growStageRepository;
+
     @Transactional
     public GrowStage createOrUpdateGrowStage(GrowStage growStage) {
-
         return growStageRepository.save(growStage);
     }
+
     public GrowStage getGrowStageById(Long id) throws EntityNotFoundException {
         Optional<GrowStage> response = growStageRepository.findById(id);
         if (response.isPresent()) {
@@ -28,6 +29,7 @@ public class GrowStageService {
             throw new EntityNotFoundException("No se encontró la entidad con el ID: " + id);
         }
     }
+
     public List<GrowStage> getAllGrowStages() {
         return growStageRepository.findAll();
     }

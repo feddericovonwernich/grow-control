@@ -33,10 +33,12 @@ public class GrowStageTypeController {
     }
 
     @PostMapping
+    @PutMapping
     public ResponseEntity<GrowStageType> createOrUpdateGrowStageType(@RequestBody GrowStageType growStageType) {
         GrowStageType createdGrowStageType = growStageTypeService.createOrUpdateGrowStageType(growStageType);
         return new ResponseEntity<>(createdGrowStageType, HttpStatus.CREATED);
     }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteGrowStageType(@PathVariable Long id) {
         try {

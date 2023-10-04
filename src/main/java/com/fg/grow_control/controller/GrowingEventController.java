@@ -12,6 +12,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/growingEvent")
 public class GrowingEventController {
+
     @Autowired
     private GrowingEventService growingEventService;
 
@@ -20,6 +21,7 @@ public class GrowingEventController {
         List<GrowingEvent> growingEvents = growingEventService.getAllGrowingEvent();
         return new ResponseEntity<>(growingEvents, HttpStatus.OK);
     }
+
     @GetMapping("/{id}")
     public ResponseEntity<GrowingEvent> getGrowingEventById(@PathVariable Long id) {
         GrowingEvent growingEvent = growingEventService.getGrowingEventById(id);
@@ -29,11 +31,14 @@ public class GrowingEventController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
     @PostMapping
+    @PutMapping
     public ResponseEntity<GrowingEvent> createOrUpdateGrowingEvent(@RequestBody GrowingEvent growingEvent) {
         GrowingEvent createdGrowingEvent = growingEventService.createOrUpdateGrowingEvent(growingEvent);
         return new ResponseEntity<>(createdGrowingEvent, HttpStatus.CREATED);
     }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteGrowingEvent(@PathVariable Long id) {
         try {

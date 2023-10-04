@@ -15,11 +15,12 @@ import java.util.Optional;
 public class OptimalGrowingParameterService {
     @Autowired
     private OptimalGrowingParameterRepository optimalGrowingParameterRepository;
+
     @Transactional
     public OptimalGrowingParameter createOrUpdateOptimalGrowingParameter(OptimalGrowingParameter optimalGrowingParameter) {
-
         return optimalGrowingParameterRepository.save(optimalGrowingParameter);
     }
+
     public OptimalGrowingParameter getOptimalGrowingParameterById(Long id) throws EntityNotFoundException {
         Optional<OptimalGrowingParameter> response = optimalGrowingParameterRepository.findById(id);
         if (response.isPresent()) {
@@ -28,9 +29,11 @@ public class OptimalGrowingParameterService {
             throw new EntityNotFoundException("No se encontró la entidad con el ID: " + id);
         }
     }
+
     public List<OptimalGrowingParameter> getAllOptimalGrowingParameter() {
         return optimalGrowingParameterRepository.findAll();
     }
+
     @Transactional
     public void deleteOptimalGrowingParameter(Long id) throws EntityNotFoundException {
         Optional<OptimalGrowingParameter> response = optimalGrowingParameterRepository.findById(id);

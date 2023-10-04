@@ -21,9 +21,9 @@ public class GrowCycleService {
 
     @Transactional
     public GrowCycle createOrUpdateGrowCycle(GrowCycle growCycle) {
-
         return growCycleRepository.save(growCycle);
     }
+
     public GrowCycle getGrowCycleById(Long id) throws EntityNotFoundException {
         Optional<GrowCycle> response = growCycleRepository.findById(id);
         if (response.isPresent()) {
@@ -32,6 +32,7 @@ public class GrowCycleService {
             throw new EntityNotFoundException("No se encontró la entidad con el ID: " + id);
         }
     }
+
     public List<GrowCycle> getAllGrowCycles() {
         return growCycleRepository.findAll();
     }

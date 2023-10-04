@@ -33,10 +33,12 @@ public class GrowCycleController {
     }
 
     @PostMapping
+    @PutMapping
     public ResponseEntity<GrowCycle> createOrUpdateGrowCycle(@RequestBody GrowCycle growCycle) {
         GrowCycle createdGrowCycle = growCycleService.createOrUpdateGrowCycle(growCycle);
         return new ResponseEntity<>(createdGrowCycle, HttpStatus.CREATED);
     }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteGrowCycle(@PathVariable Long id) {
         try {
