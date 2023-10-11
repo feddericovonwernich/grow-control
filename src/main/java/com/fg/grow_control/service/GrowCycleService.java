@@ -2,11 +2,11 @@ package com.fg.grow_control.service;
 
 import com.fg.grow_control.entity.GrowCycle;
 import com.fg.grow_control.repository.GrowCycleRepository;
-import com.fg.grow_control.repository.GrowStageRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import jakarta.persistence.EntityNotFoundException;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -15,9 +15,6 @@ public class GrowCycleService {
 
     @Autowired
     private GrowCycleRepository growCycleRepository;
-
-    @Autowired
-    private GrowStageRepository growStageRepository;
 
     @Transactional
     public GrowCycle createOrUpdateGrowCycle(GrowCycle growCycle) {
@@ -46,4 +43,5 @@ public class GrowCycleService {
             throw new EntityNotFoundException("No se pudo eliminar el ciclo de cultivo con ID " + id);
         }
     }
+
 }

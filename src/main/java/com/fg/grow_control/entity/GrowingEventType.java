@@ -1,9 +1,9 @@
 package com.fg.grow_control.entity;
 
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import jakarta.persistence.*;
 
 @Entity
 @Getter

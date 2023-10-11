@@ -1,15 +1,14 @@
 package com.fg.grow_control.entity;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import jakarta.persistence.*;
-import java.util.List;
+import lombok.*;
 
 @Entity
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 public class GrowingParameterType {
 
     @Id
@@ -19,11 +18,5 @@ public class GrowingParameterType {
     @Column(nullable = false)
     private String name;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<GrowingParameterType> growingParameterTypes;
-
-    public GrowingParameterType(String name) {
-        this.name = name;
-    }
 }
 

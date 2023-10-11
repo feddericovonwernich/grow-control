@@ -1,9 +1,10 @@
 package com.fg.grow_control.entity;
 
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import jakarta.persistence.*;
+
 import java.util.Date;
 
 @Entity
