@@ -1,13 +1,27 @@
 version: '3'
 services:
-  # Servicio de la base de datos MySQL
-  mysql:
+  gc_mysql:
     image: mysql:5.7
-    container_name: mysql_container
     ports:
-      - "3306:3306"
+      - "3030:3306"
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: grow-control
-      MYSQL_USER: root
       MYSQL_PASSWORD: root
+    networks:
+      - gc_network
+
+  gc-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:3306"
+    networks:
+      - gc_network
+    depends_on:
+      - gc_mysql
+
+networks:
+  gc_network:
+    driver: bridge
