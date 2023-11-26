@@ -7,10 +7,21 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class MeasurementDeviceService extends BasicService<MeasurementDevice, Long, MeasurementDeviceRepository>{
+    @Autowired
+    private GrowingParameterTypeService growingParameterTypeService;
 
     @Autowired
     public MeasurementDeviceService(MeasurementDeviceRepository repository) {
         super(repository);
     }
 
+    @Override
+    public MeasurementDevice createOrUpdate(MeasurementDevice measurementDevice) {
+
+        //if (measurementDevice.getGrowingParameterType().getId() == null) {
+        //    growingParameterTypeService.createOrUpdate(measurementDevice.getGrowingParameterType());
+        //}
+
+        return super.createOrUpdate(measurementDevice);
+    }
 }

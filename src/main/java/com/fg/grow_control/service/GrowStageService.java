@@ -1,6 +1,6 @@
 package com.fg.grow_control.service;
 
-import com.fg.grow_control.entity.GrowStage;
+import com.fg.grow_control.entity.*;
 import com.fg.grow_control.repository.GrowStageRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,34 +11,9 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class GrowStageService {
+public class GrowStageService extends BasicService<GrowStage, Long, GrowStageRepository> {
     @Autowired
-    private GrowStageRepository growStageRepository;
-
-    @Transactional
-    public GrowStage createOrUpdateGrowStage(GrowStage growStage) {
-        return growStageRepository.save(growStage);
-    }
-
-    public GrowStage getGrowStageById(Long id) throws EntityNotFoundException {
-        Optional<GrowStage> response = growStageRepository.findById(id);
-        if (response.isPresent()) {
-            return response.get();
-        } else {
-            throw new EntityNotFoundException("No se encontró la entidad con el ID: " + id);
+    public GrowStageService(GrowStageRepository repository) {
+            super(repository);
         }
-    }
-
-    public List<GrowStage> getAllGrowStages() {
-        return growStageRepository.findAll();
-    }
-    @Transactional
-    public void deleteGrowStage(Long id) throws EntityNotFoundException {
-        Optional<GrowStage> response = growStageRepository.findById(id);
-        if (response.isPresent()) {
-            growStageRepository.delete(response.get());
-        } else {
-            throw new EntityNotFoundException("No se encontró la entidad con el ID: " + id);
-        }
-    }
 }

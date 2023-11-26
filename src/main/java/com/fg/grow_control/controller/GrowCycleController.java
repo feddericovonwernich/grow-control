@@ -19,13 +19,13 @@ public class GrowCycleController {
 
     @GetMapping
     public ResponseEntity<List<GrowCycle>> getAllGrowCycles() {
-        List<GrowCycle> growCycles = growCycleService.getAllGrowCycles();
+        List<GrowCycle> growCycles = growCycleService.getAll();
         return new ResponseEntity<>(growCycles, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<GrowCycle> getGrowCycleById(@PathVariable Long id) {
-        GrowCycle growCycle = growCycleService.getGrowCycleById(id);
+        GrowCycle growCycle = growCycleService.getById(id);
         if (growCycle != null) {
             return new ResponseEntity<>(growCycle, HttpStatus.OK);
         } else {
@@ -36,14 +36,14 @@ public class GrowCycleController {
     @PostMapping
     @PutMapping
     public ResponseEntity<GrowCycle> createOrUpdateGrowCycle(@RequestBody GrowCycle growCycle) {
-        GrowCycle createdGrowCycle = growCycleService.createOrUpdateGrowCycle(growCycle);
+        GrowCycle createdGrowCycle = growCycleService.createOrUpdate(growCycle);
         return new ResponseEntity<>(createdGrowCycle, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteGrowCycle(@PathVariable Long id) {
         try {
-            growCycleService.deleteGrowCycle(id);
+            growCycleService.deletebyId(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (EntityNotFoundException ex) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

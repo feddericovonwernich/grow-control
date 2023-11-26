@@ -1,17 +1,17 @@
 package com.fg.grow_control.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
-import java.util.Date;
+import java.sql.Timestamp;
 import java.util.List;
 
 @Entity
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 public class GrowCycle {
 
     @Id
@@ -22,15 +22,17 @@ public class GrowCycle {
     private String description;
 
     @Column(nullable = false)
-    private Date date_start;
+    @Temporal(TemporalType.TIMESTAMP)  // Indica que es un campo de fecha y hora
+    private Timestamp date_start;
 
     @Column(nullable = false)
-    private Date date_end;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Timestamp date_end;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<GrowStage> growStages;
 
-    public GrowCycle(String description, Date date_start, Date date_end) {
+    public GrowCycle(String description, Timestamp date_start, Timestamp date_end) {
         this.description = description;
         this.date_start = date_start;
         this.date_end = date_end;

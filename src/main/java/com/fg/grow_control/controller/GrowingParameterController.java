@@ -20,13 +20,13 @@ public class GrowingParameterController {
 
     @GetMapping
     public ResponseEntity<List<GrowingParameter>> getAllGrowingParameter() {
-        List<GrowingParameter> growingParameters = growingParameterService.getAllGrowingParameter();
+        List<GrowingParameter> growingParameters = growingParameterService.getAll();
         return new ResponseEntity<>(growingParameters, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<GrowingParameter> getGrowingParameterById(@PathVariable Long id) {
-        GrowingParameter growingParameter = growingParameterService.getGrowingParameterById(id);
+        GrowingParameter growingParameter = growingParameterService.getById(id);
         if (growingParameter != null) {
             return new ResponseEntity<>(growingParameter, HttpStatus.OK);
         } else {
@@ -38,14 +38,14 @@ public class GrowingParameterController {
     @PutMapping
     public ResponseEntity<GrowingParameter> createOrUpdateGrowingParameter(@RequestBody GrowingParameter growingParameter) {
         GrowingParameter createdGrowingParameter
-                = growingParameterService.createOrUpdateGrowingParameter(growingParameter);
+                = growingParameterService.createOrUpdate(growingParameter);
         return new ResponseEntity<>(createdGrowingParameter, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteGrowingParameter(@PathVariable Long id) {
         try {
-            growingParameterService.deleteGrowingParameter(id);
+            growingParameterService.deletebyId(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (EntityNotFoundException ex) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

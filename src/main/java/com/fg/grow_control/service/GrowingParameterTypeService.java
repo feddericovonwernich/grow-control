@@ -1,7 +1,9 @@
 package com.fg.grow_control.service;
 
 import com.fg.grow_control.entity.GrowingParameterType;
+import com.fg.grow_control.entity.MeasurementDevice;
 import com.fg.grow_control.repository.GrowingParameterTypeRepository;
+import com.fg.grow_control.repository.MeasurementDeviceRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,35 +13,10 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class GrowingParameterTypeService {
+public class GrowingParameterTypeService extends BasicService<GrowingParameterType, Long, GrowingParameterTypeRepository> {
     @Autowired
-    private GrowingParameterTypeRepository growingParameterTypeRepository;
-
-    @Transactional
-    public GrowingParameterType createOrUpdateGrowingParameterType(GrowingParameterType growingParameterType) {
-        return growingParameterTypeRepository.save(growingParameterType);
+    public GrowingParameterTypeService(GrowingParameterTypeRepository repository) {
+        super(repository);
     }
 
-    public GrowingParameterType getGrowingParameterTypeById(Long id) throws EntityNotFoundException {
-        Optional<GrowingParameterType> response = growingParameterTypeRepository.findById(id);
-        if (response.isPresent()) {
-            return response.get();
-        } else {
-            throw new EntityNotFoundException("No se encontró la entidad con el ID: " + id);
-        }
-    }
-
-    public List<GrowingParameterType> getAllGrowingParameterType() {
-        return growingParameterTypeRepository.findAll();
-    }
-
-    @Transactional
-    public void deleteGrowingParameterType(Long id) throws EntityNotFoundException {
-        Optional<GrowingParameterType> response = growingParameterTypeRepository.findById(id);
-        if (response.isPresent()) {
-            growingParameterTypeRepository.delete(response.get());
-        } else {
-            throw new EntityNotFoundException("No se encontró la entidad con el ID: " + id);
-        }
-    }
 }

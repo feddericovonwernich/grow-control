@@ -19,13 +19,13 @@ public class GrowingParameterTypeController {
 
     @GetMapping
     public ResponseEntity<List<GrowingParameterType>> getAllGrowingParameterTypes() {
-        List<GrowingParameterType> growingParameterTypes = growingParameterTypeService.getAllGrowingParameterType();
+        List<GrowingParameterType> growingParameterTypes = growingParameterTypeService.getAll();
         return new ResponseEntity<>(growingParameterTypes, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<GrowingParameterType> getGrowingParameterTypeById(@PathVariable Long id) {
-        GrowingParameterType growingParameterType = growingParameterTypeService.getGrowingParameterTypeById(id);
+        GrowingParameterType growingParameterType = growingParameterTypeService.getById(id);
         if (growingParameterType != null) {
             return new ResponseEntity<>(growingParameterType, HttpStatus.OK);
         } else {
@@ -37,14 +37,14 @@ public class GrowingParameterTypeController {
     @PutMapping
     public ResponseEntity<GrowingParameterType> createOrUpdateGrowingParameterType(@RequestBody GrowingParameterType growingParameterType) {
         GrowingParameterType createdGrowingParameterType
-                = growingParameterTypeService.createOrUpdateGrowingParameterType(growingParameterType);
+                = growingParameterTypeService.createOrUpdate(growingParameterType);
         return new ResponseEntity<>(createdGrowingParameterType, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteGrowingParameterType(@PathVariable Long id) {
         try {
-            growingParameterTypeService.deleteGrowingParameterType(id);
+            growingParameterTypeService.deletebyId(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (EntityNotFoundException ex) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

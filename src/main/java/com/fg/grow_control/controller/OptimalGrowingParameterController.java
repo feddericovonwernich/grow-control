@@ -19,13 +19,13 @@ public class OptimalGrowingParameterController {
 
     @GetMapping
     public ResponseEntity<List<OptimalGrowingParameter>> getAllOptimalGrowingParameter() {
-        List<OptimalGrowingParameter> optimalGrowingParameters = optimalGrowingParameterService.getAllOptimalGrowingParameter();
+        List<OptimalGrowingParameter> optimalGrowingParameters = optimalGrowingParameterService.getAll();
         return new ResponseEntity<>(optimalGrowingParameters, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<OptimalGrowingParameter> getOptimalGrowingParameterById(@PathVariable Long id) {
-        OptimalGrowingParameter optimalGrowingParameter = optimalGrowingParameterService.getOptimalGrowingParameterById(id);
+        OptimalGrowingParameter optimalGrowingParameter = optimalGrowingParameterService.getById(id);
         if (optimalGrowingParameter != null) {
             return new ResponseEntity<>(optimalGrowingParameter, HttpStatus.OK);
         } else {
@@ -35,14 +35,14 @@ public class OptimalGrowingParameterController {
 
     @PostMapping
     public ResponseEntity<OptimalGrowingParameter> createOrUpdateOptimalGrowingParameter(@RequestBody OptimalGrowingParameter optimalGrowingParameter) {
-        OptimalGrowingParameter createdOptimalGrowingParameter = optimalGrowingParameterService.createOrUpdateOptimalGrowingParameter(optimalGrowingParameter);
+        OptimalGrowingParameter createdOptimalGrowingParameter = optimalGrowingParameterService.createOrUpdate(optimalGrowingParameter);
         return new ResponseEntity<>(createdOptimalGrowingParameter, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteOptimalGrowingParameter(@PathVariable Long id) {
         try {
-            optimalGrowingParameterService.deleteOptimalGrowingParameter(id);
+            optimalGrowingParameterService.deletebyId(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (EntityNotFoundException ex) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

@@ -2,43 +2,14 @@ package com.fg.grow_control.service;
 
 import com.fg.grow_control.entity.GrowingParameter;
 import com.fg.grow_control.repository.GrowingParameterRepository;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import java.util.Optional;
 
 @Service
-public class GrowingParameterService {
+public class GrowingParameterService extends BasicService<GrowingParameter, Long, GrowingParameterRepository> {
     @Autowired
-    private GrowingParameterRepository growingParameterRepository;
-
-    @Transactional
-    public GrowingParameter createOrUpdateGrowingParameter(GrowingParameter growingParameter) {
-        return growingParameterRepository.save(growingParameter);
-    }
-    public GrowingParameter getGrowingParameterById(Long id) throws EntityNotFoundException {
-        Optional<GrowingParameter> response = growingParameterRepository.findById(id);
-        if (response.isPresent()) {
-            return response.get();
-        } else {
-            throw new EntityNotFoundException("No se encontró la entidad con el ID: " + id);
-        }
+    public GrowingParameterService(GrowingParameterRepository repository) {
+        super(repository);
     }
 
-    public List<GrowingParameter> getAllGrowingParameter() {
-        return growingParameterRepository.findAll();
-    }
-
-    @Transactional
-    public void deleteGrowingParameter(Long id) throws EntityNotFoundException {
-        Optional<GrowingParameter> response = growingParameterRepository.findById(id);
-        if (response.isPresent()) {
-            growingParameterRepository.delete(response.get());
-        } else {
-            throw new EntityNotFoundException("No se encontró la entidad con el ID: " + id);
-        }
-    }
 }

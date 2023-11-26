@@ -19,13 +19,13 @@ public class GrowingEventTypeController {
 
     @GetMapping
     public ResponseEntity<List<GrowingEventType>> getAllGrowingEvent() {
-        List<GrowingEventType> growingEventTypes = growingEventTypeService.getAllGrowingEventType();
+        List<GrowingEventType> growingEventTypes = growingEventTypeService.getAll();
         return new ResponseEntity<>(growingEventTypes, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<GrowingEventType> getGrowingEventTypeById(@PathVariable Long id) {
-        GrowingEventType growingEventType = growingEventTypeService.getGrowingEventTypeById(id);
+        GrowingEventType growingEventType = growingEventTypeService.getById(id);
         if (growingEventType != null) {
             return new ResponseEntity<>(growingEventType, HttpStatus.OK);
         } else {
@@ -36,14 +36,14 @@ public class GrowingEventTypeController {
     @PostMapping
     @PutMapping
     public ResponseEntity<GrowingEventType> createOrUpdateGrowingEventType(@RequestBody GrowingEventType growingEventType) {
-        GrowingEventType createdGrowingEventType = growingEventTypeService.createOrUpdateGrowingEventType(growingEventType);
+        GrowingEventType createdGrowingEventType = growingEventTypeService.createOrUpdate(growingEventType);
         return new ResponseEntity<>(createdGrowingEventType, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteGrowingEventType(@PathVariable Long id) {
         try {
-            growingEventTypeService.deleteGrowingEventType(id);
+            growingEventTypeService.deletebyId(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (EntityNotFoundException ex) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

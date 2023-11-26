@@ -31,9 +31,6 @@ public class DeviceReadingControllerIntegrationTest extends BasicApplicationinte
                 .name("Humedad")
                 .build();
 
-        // It's important to save this first, otherwise we get a org.hibernate.TransientPropertyValueException
-        growingParameterTypeService.createOrUpdateGrowingParameterType(growingParameterType);
-
         MeasurementDevice measurementDevice
                 = MeasurementDevice.builder()
                 .growingParameterType(growingParameterType)

@@ -19,13 +19,13 @@ public class GrowStageTypeController {
 
     @GetMapping
     public ResponseEntity<List<GrowStageType>> getAllGrowStageType() {
-        List<GrowStageType> growStageTypes = growStageTypeService.getAllGrowStageType();
+        List<GrowStageType> growStageTypes = growStageTypeService.getAll();
         return new ResponseEntity<>(growStageTypes, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<GrowStageType> getGrowStageTypeById(@PathVariable Long id) {
-        GrowStageType growStageType = growStageTypeService.getGrowStageTypeById(id);
+        GrowStageType growStageType = growStageTypeService.getById(id);
         if (growStageType != null) {
             return new ResponseEntity<>(growStageType, HttpStatus.OK);
         } else {
@@ -36,14 +36,14 @@ public class GrowStageTypeController {
     @PostMapping
     @PutMapping
     public ResponseEntity<GrowStageType> createOrUpdateGrowStageType(@RequestBody GrowStageType growStageType) {
-        GrowStageType createdGrowStageType = growStageTypeService.createOrUpdateGrowStageType(growStageType);
+        GrowStageType createdGrowStageType = growStageTypeService.createOrUpdate(growStageType);
         return new ResponseEntity<>(createdGrowStageType, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteGrowStageType(@PathVariable Long id) {
         try {
-            growStageTypeService.deleteGrowStageType(id);
+            growStageTypeService.deletebyId(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (EntityNotFoundException ex) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
