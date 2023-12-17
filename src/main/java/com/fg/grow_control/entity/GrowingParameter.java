@@ -1,16 +1,16 @@
 package com.fg.grow_control.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
 @Entity
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 public class GrowingParameter {
 
     @Id
@@ -29,12 +29,11 @@ public class GrowingParameter {
     private GrowingParameterType growingParameterType;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @Singular
     private List<GrowingParameterValueTime> growingParameterValueTimes;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @Singular
     private List<OptimalGrowingParameter> optimalGrowingParameters;
 
-    public GrowingParameter(Long value) {
-        this.value = value;
-    }
 }

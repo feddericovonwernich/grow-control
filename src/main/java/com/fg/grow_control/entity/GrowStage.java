@@ -32,13 +32,11 @@ public class GrowStage {
     private GrowCycle growCycle;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<GrowingEvent> growingEvent;
+    @Singular
+    private List<GrowingEvent> growingEvents;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<GrowingParameter> growingParameter;
+    @Singular
+    private List<GrowingParameter> growingParameters;
 
-    public GrowStage(String durationUnit, Long durationValue) {
-        this.durationUnit = durationUnit;
-        this.durationValue = durationValue;
-    }
 }

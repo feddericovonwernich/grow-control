@@ -18,9 +18,9 @@ public class MeasurementDeviceService extends BasicService<MeasurementDevice, Lo
     @Override
     public MeasurementDevice createOrUpdate(MeasurementDevice measurementDevice) {
 
-        //if (measurementDevice.getGrowingParameterType().getId() == null) {
-        //    growingParameterTypeService.createOrUpdate(measurementDevice.getGrowingParameterType());
-        //}
+        if (measurementDevice.getGrowingParameterType().getId() == null) {
+            growingParameterTypeService.createOrUpdate(measurementDevice.getGrowingParameterType());
+        }
 
         return super.createOrUpdate(measurementDevice);
     }

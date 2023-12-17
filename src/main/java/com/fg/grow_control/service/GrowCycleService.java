@@ -7,7 +7,24 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class GrowCycleService extends BasicService<GrowCycle, Long, GrowCycleRepository>{
+
+    @Autowired
+    private GrowStageService growStageService;
+
     @Autowired
     public GrowCycleService (GrowCycleRepository repository) { super(repository);}
 
+    @Override
+    public GrowCycle createOrUpdate(GrowCycle object) {
+
+        if (object.getGrowStages() != null && !object.getGrowStages().isEmpty()) {
+            object.getGrowStages().forEach(growStage -> {
+                if (growStage.getId() == null) {
+                    growStageService.createOrUpdate(growStage);
+                }
+            });
+        }
+
+        return super.createOrUpdate(object);
+    }
 }

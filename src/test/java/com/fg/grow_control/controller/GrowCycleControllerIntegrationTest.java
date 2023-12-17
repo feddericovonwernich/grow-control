@@ -15,8 +15,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Collections;
 
 public class GrowCycleControllerIntegrationTest extends BasicApplicationintegrationTest {
 
@@ -26,36 +24,66 @@ public class GrowCycleControllerIntegrationTest extends BasicApplicationintegrat
     @Test
     public void testCreateGrowCycle() {
 
-        // Set up
+        // Se crean instancias de varios tipos de entidades que son necesarios para configurar un GrowCycle
+
+        GrowStageType growStageType = GrowStageType.builder()
+                .name("TestType")
+                .build();
+
+        GrowingEventType growingEventType = GrowingEventType.builder()
+                .name("TestType")
+                .build();
+
+        GrowingParameterType growingParameterType = GrowingParameterType.builder()
+                .name("TestType")
+                .build();
+
+        GrowingParameterValueTime growingParameterValueTime = GrowingParameterValueTime.builder()
+                .value(1000L)
+                .date(java.sql.Timestamp.valueOf(LocalDateTime.now()))
+                .build();
+
+        OptimalGrowingParameter optimalGrowingParameter = OptimalGrowingParameter.builder()
+                .date_start(java.sql.Timestamp.valueOf(LocalDateTime.now()))
+                .date_end(java.sql.Timestamp.valueOf(LocalDateTime.now()))
+                .build();
+
+        GrowingParameter growingParameter = GrowingParameter.builder()
+                .growingParameterType(growingParameterType)
+                .growingParameterValueTime(growingParameterValueTime)
+                .optimalGrowingParameter(optimalGrowingParameter)
+                .value(1000L)
+                .build();
+
+        GrowingEvent growingEvent = GrowingEvent.builder()
+                .growingEventType(growingEventType)
+                .description("TestDescription")
+                .date(java.sql.Timestamp.valueOf(LocalDateTime.now()))
+                .build();
+
         GrowStage growStage = GrowStage.builder()
                 .durationUnit("days")
                 .durationValue(10L)
+                .growStageType(growStageType)
+                .growingParameter(growingParameter)
+                .growingEvent(growingEvent)
                 .build();
 
-        String description = "Test description";
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS");
-        LocalDateTime dateStart = LocalDateTime.parse("2023-12-06T11:53:27.000", formatter);
-        LocalDateTime dateEnd = LocalDateTime.parse("2023-12-07T11:53:27.000", formatter);
-
-
-        // Este objeto, cuando se guarda, también tiene que persistir el grow stage.
         GrowCycle growCycleWithStage = GrowCycle.builder()
-                .description(description)
-                .date_start(java.sql.Timestamp.valueOf(dateStart))
-                .date_end(java.sql.Timestamp.valueOf(dateEnd))
-                .growStages(Collections.singletonList(growStage))
+                .description("Test description")
+                .date_start(java.sql.Timestamp.valueOf(LocalDateTime.now()))
+                .date_end(java.sql.Timestamp.valueOf(LocalDateTime.now()))
+                .growStage(growStage)
                 .build();
 
-        // Este objeto, no tiene un grow stage, por lo tanto no hay que persistir nada ni crear uno.
-        //GrowCycle growCycleWithoutStage = GrowCycle.builder()
-        //        .description("Test description")
-        //        .build();
+        // Make request: Creación de la solicitud HTTP para crear un GrowCycle
 
-        // Make request
+        // Se convierte el objeto growCycleWithStage a formato JSON. Se configuran los encabezados HTTP y se crea una entidad HTTP con el cuerpo JSON y los encabezados
 
         Gson gson = new GsonBuilder()
                 .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS")
                 .create();
+
         String jsonString = gson.toJson(growCycleWithStage); // growCycleWithStage json string.
 
         HttpHeaders httpHeaders = new HttpHeaders();
@@ -64,11 +92,13 @@ public class GrowCycleControllerIntegrationTest extends BasicApplicationintegrat
 
         HttpEntity<String> entity = new HttpEntity<>(jsonString, httpHeaders);
 
+        // Se crea la URL para la solicitud HTTP
+
         String url = this.createURLWithPort("/growCycle");
 
         ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
 
-        // Assert
+        // Assert: Verificación de la respuesta HTTP exitosa
 
         Assertions.assertTrue(response.getStatusCode().is2xxSuccessful(), "La solicitud HTTP no fue exitosa. Respuesta: " + response.getBody());
 

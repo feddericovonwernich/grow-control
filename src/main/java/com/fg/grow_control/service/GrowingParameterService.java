@@ -7,9 +7,22 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class GrowingParameterService extends BasicService<GrowingParameter, Long, GrowingParameterRepository> {
+
+    @Autowired
+    private GrowingParameterTypeService growingParameterTypeService;
+
     @Autowired
     public GrowingParameterService(GrowingParameterRepository repository) {
         super(repository);
     }
 
+    @Override
+    public GrowingParameter createOrUpdate(GrowingParameter object) {
+
+        if(object.getGrowingParameterType() != null && object.getGrowingParameterType().getId() == null) {
+            growingParameterTypeService.createOrUpdate(object.getGrowingParameterType());
+        }
+
+        return super.createOrUpdate(object);
+    }
 }

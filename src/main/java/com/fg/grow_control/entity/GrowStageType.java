@@ -1,14 +1,14 @@
 package com.fg.grow_control.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 public class GrowStageType {
 
     @Id
@@ -18,7 +18,4 @@ public class GrowStageType {
     @Column(nullable = false)
     private String name;
 
-    public GrowStageType(String name) {
-        this.name = name;
-    }
 }

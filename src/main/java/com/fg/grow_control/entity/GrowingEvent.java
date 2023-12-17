@@ -1,16 +1,18 @@
 package com.fg.grow_control.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 public class GrowingEvent {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,7 +22,7 @@ public class GrowingEvent {
     private String description;
 
     @Column(nullable = false)
-    private Date date;
+    private Timestamp date;
 
     @ManyToOne
     @JoinColumn(name = "id_grow_stage")
@@ -28,10 +30,6 @@ public class GrowingEvent {
 
     @ManyToOne
     @JoinColumn(name = "id_growing_event_type")
-    private GrowingEventType growingeventtype;
+    private GrowingEventType growingEventType;
 
-    public GrowingEvent(String description, Date date) {
-        this.description = description;
-        this.date = date;
-    }
 }

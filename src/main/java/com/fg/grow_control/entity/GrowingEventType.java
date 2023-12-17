@@ -1,14 +1,14 @@
 package com.fg.grow_control.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 public class GrowingEventType {
 
     @Id
@@ -18,7 +18,4 @@ public class GrowingEventType {
     @Column(nullable = false)
     private String name;
 
-    public GrowingEventType(String name) {
-        this.name = name;
-    }
 }

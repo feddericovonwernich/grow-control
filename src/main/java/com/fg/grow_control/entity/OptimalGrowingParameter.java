@@ -1,16 +1,17 @@
 package com.fg.grow_control.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 @Entity
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 public class OptimalGrowingParameter {
 
     @Id
@@ -18,17 +19,13 @@ public class OptimalGrowingParameter {
     private Long id;
 
     @Column(nullable = false)
-    private Date date_start;
+    private Timestamp date_start;
 
     @Column(nullable = false)
-    private Date date_end;
+    private Timestamp date_end;
 
     @ManyToOne
     @JoinColumn(name = "id_growing_parameter")
     private GrowingParameter growingParameter;
 
-    public OptimalGrowingParameter(Date date_start, Date date_end) {
-        this.date_start = date_start;
-        this.date_end = date_end;
-    }
 }

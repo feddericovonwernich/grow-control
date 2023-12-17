@@ -20,17 +20,4 @@ public class OptimalGrowingParameterService extends BasicService<OptimalGrowingP
     public OptimalGrowingParameterService(OptimalGrowingParameterRepository repository) {
         super(repository);
     }
-
-    @Autowired
-    private GrowingParameterService growingParameterService;
-
-    @Override
-    public OptimalGrowingParameter createOrUpdate(OptimalGrowingParameter optimalGrowingParameter) {
-
-        if (optimalGrowingParameter.getGrowingParameter().getId() == null){
-            growingParameterService.createOrUpdate(optimalGrowingParameter.getGrowingParameter());
-        }
-
-        return super.createOrUpdate(optimalGrowingParameter);
-    }
 }

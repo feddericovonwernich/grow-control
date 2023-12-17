@@ -16,8 +16,8 @@ public class BasicService<T, ID, R extends JpaRepository<T, ID>> {
     }
 
     @Transactional
-    public T createOrUpdate(T measurementDevice) {
-        return repository.save(measurementDevice);
+    public T createOrUpdate(T object) {
+        return repository.save(object);
     }
 
     public T getById(ID id) throws EntityNotFoundException {

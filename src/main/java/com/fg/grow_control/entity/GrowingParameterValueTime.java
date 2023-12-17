@@ -1,16 +1,16 @@
 package com.fg.grow_control.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.Date;
 
 @Entity
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 public class GrowingParameterValueTime {
 
     @Id
@@ -27,8 +27,4 @@ public class GrowingParameterValueTime {
     @JoinColumn(name = "id_growing_parameter")
     private GrowingParameter growingParameter;
 
-    public GrowingParameterValueTime(Long value, Date date) {
-        this.value = value;
-        this.date = date;
-    }
 }

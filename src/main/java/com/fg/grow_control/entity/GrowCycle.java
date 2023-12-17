@@ -30,11 +30,7 @@ public class GrowCycle {
     private Timestamp date_end;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @Singular
     private List<GrowStage> growStages;
 
-    public GrowCycle(String description, Timestamp date_start, Timestamp date_end) {
-        this.description = description;
-        this.date_start = date_start;
-        this.date_end = date_end;
-    }
 }
