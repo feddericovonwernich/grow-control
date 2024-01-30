@@ -1,5 +1,6 @@
 package com.fg.grow_control;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.util.TestPropertyValues;
 import org.springframework.boot.test.web.client.TestRestTemplate;
@@ -8,11 +9,8 @@ import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.testcontainers.containers.MySQLContainer;
-import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
 
 
-@Testcontainers
 @SpringBootTest(classes = GrowControlApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ContextConfiguration(initializers = {BasicApplicationintegrationTest.Initializer.class})
 public class BasicApplicationintegrationTest {
@@ -23,8 +21,13 @@ public class BasicApplicationintegrationTest {
 	protected TestRestTemplate restTemplate = new TestRestTemplate();
 
 	// Will be shared between test methods
-	@Container
-	private static final MySQLContainer MY_SQL_CONTAINER = new MySQLContainer();
+	private static final MySQLContainer MY_SQL_CONTAINER = (MySQLContainer) new MySQLContainer()
+			.withReuse(true);
+
+	@BeforeAll
+	public static void beforeAll() {
+		MY_SQL_CONTAINER.start();
+	}
 
 	static class Initializer
 			implements ApplicationContextInitializer<ConfigurableApplicationContext> {

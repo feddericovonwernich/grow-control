@@ -101,7 +101,6 @@ public class GrowCycleControllerIntegrationTest extends BasicApplicationintegrat
         // Assert: Verificación de la respuesta HTTP exitosa
 
         Assertions.assertTrue(response.getStatusCode().is2xxSuccessful(), "La solicitud HTTP no fue exitosa. Respuesta: " + response.getBody());
-
     }
 
 }
