@@ -1,10 +1,8 @@
 name: Build and Test
 
 on:
-  push:
-    branches: [pipeline]
   pull_request:
-    branches: [pipeline]
+    branches: ['*']
     types: [opened, synchronize]
 
 jobs:
