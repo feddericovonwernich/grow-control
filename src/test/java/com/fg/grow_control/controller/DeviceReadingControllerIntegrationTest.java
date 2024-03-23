@@ -18,9 +18,6 @@ public class DeviceReadingControllerIntegrationTest extends BasicApplicationinte
     @Autowired
     private MeasurementDeviceService measurementDeviceService;
 
-    @Autowired
-    private GrowingParameterTypeService growingParameterTypeService;
-
     @Test
     public void testRegisterReading() {
 

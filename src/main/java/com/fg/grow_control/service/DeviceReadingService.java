@@ -29,4 +29,5 @@ public class DeviceReadingService extends BasicService<DeviceReading, Long, Devi
 
         return this.createOrUpdate(newReading);
     }
+
 }
