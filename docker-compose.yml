@@ -16,7 +16,7 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "8080:3306"
+      - "8080:8080"
     networks:
       - gc_network
     depends_on:
