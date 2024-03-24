@@ -13,7 +13,7 @@ import java.util.List;
 public class BasicController<T, ID, R extends JpaRepository<T, ID>, S extends BasicService<T, ID, R>> {
 
     @Autowired
-    private final S service;
+    protected final S service;
 
     public BasicController(S service) {
         this.service = service;
@@ -36,10 +36,9 @@ public class BasicController<T, ID, R extends JpaRepository<T, ID>, S extends Ba
     }
 
     @PostMapping
-    @PutMapping
     public ResponseEntity<T> createOrUpdate(@RequestBody T entity) {
         T createdEntity = service.createOrUpdate(entity);
-        return new ResponseEntity<>(createdEntity, HttpStatus.CREATED);
+        return new ResponseEntity<>(createdEntity, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")

@@ -36,7 +36,7 @@ public class MeasurementDeviceControllerIntegrationTest extends BasicApplication
         HttpEntity<String> entity = new HttpEntity<>(measurementDeviceJsonString, httpHeaders);
 
         // Construct the URL for the createOrUpdate endpoint
-        String url = this.createURLWithPort("/device");
+        String url = this.createURLWithPort("/measurementDevice");
 
         // Execute the POST request to the createOrUpdate endpoint
         ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);

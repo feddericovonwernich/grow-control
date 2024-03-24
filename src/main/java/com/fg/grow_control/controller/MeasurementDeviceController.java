@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/device")
+@RequestMapping("/measurementDevice")
 public class MeasurementDeviceController extends BasicController<MeasurementDevice, Long, MeasurementDeviceRepository, MeasurementDeviceService> {
 
     public MeasurementDeviceController(MeasurementDeviceService repository) {

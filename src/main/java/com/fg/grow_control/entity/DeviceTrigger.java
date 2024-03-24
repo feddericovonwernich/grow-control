@@ -11,23 +11,24 @@ import java.sql.Timestamp;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class DeviceReading {
+public class DeviceTrigger {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id; // TODO This probably should not be a Long
+    private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "id_measurement_device")
-    private MeasurementDevice measurementDevice;
+    @JoinColumn(name = "id_action_device")
+    private ActionDevice triggeredDevice;
 
     @Column(nullable = false)
-    private Double reading;
+    private Long triggerValue;
 
     @Column
     @Temporal(TemporalType.TIMESTAMP)
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Timestamp timestamp;
+    private Timestamp triggerTime;
 
-
+    @Column
+    private boolean completed;
 }
