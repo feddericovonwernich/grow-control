@@ -1,6 +1,7 @@
 package com.fg.grow_control.controller;
 
 import com.fg.grow_control.entity.GrowStageType;
+import com.fg.grow_control.repository.GrowStageTypeRepository;
 import com.fg.grow_control.service.GrowStageTypeService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,41 +13,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/growStageType")
-public class GrowStageTypeController {
-
-    @Autowired
-    private GrowStageTypeService growStageTypeService;
-
-    @GetMapping
-    public ResponseEntity<List<GrowStageType>> getAllGrowStageType() {
-        List<GrowStageType> growStageTypes = growStageTypeService.getAll();
-        return new ResponseEntity<>(growStageTypes, HttpStatus.OK);
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<GrowStageType> getGrowStageTypeById(@PathVariable Long id) {
-        GrowStageType growStageType = growStageTypeService.getById(id);
-        if (growStageType != null) {
-            return new ResponseEntity<>(growStageType, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
-
-    @PostMapping
-    @PutMapping
-    public ResponseEntity<GrowStageType> createOrUpdateGrowStageType(@RequestBody GrowStageType growStageType) {
-        GrowStageType createdGrowStageType = growStageTypeService.createOrUpdate(growStageType);
-        return new ResponseEntity<>(createdGrowStageType, HttpStatus.CREATED);
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteGrowStageType(@PathVariable Long id) {
-        try {
-            growStageTypeService.deletebyId(id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } catch (EntityNotFoundException ex) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+public class GrowStageTypeController extends BasicController<GrowStageType, Long, GrowStageTypeRepository, GrowStageTypeService>{
+    public GrowStageTypeController(GrowStageTypeService service) {
+        super(service);
     }
 }

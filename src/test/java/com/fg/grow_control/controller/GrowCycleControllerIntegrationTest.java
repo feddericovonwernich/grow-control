@@ -3,12 +3,17 @@ package com.fg.grow_control.controller;
 import com.fg.grow_control.BasicApplicationintegrationTest;
 import com.fg.grow_control.entity.GrowCycle;
 import com.fg.grow_control.entity.GrowStage;
-import com.fg.grow_control.service.GrowCycleService;
+import com.fg.grow_control.entity.GrowStageType;
+import com.fg.grow_control.entity.GrowingEvent;
+import com.fg.grow_control.entity.GrowingEventType;
+import com.fg.grow_control.entity.GrowingParameter;
+import com.fg.grow_control.entity.GrowingParameterType;
+import com.fg.grow_control.entity.GrowingParameterValueTime;
+import com.fg.grow_control.entity.OptimalGrowingParameter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -17,9 +22,6 @@ import org.springframework.http.ResponseEntity;
 import java.time.LocalDateTime;
 
 public class GrowCycleControllerIntegrationTest extends BasicApplicationintegrationTest {
-
-    @Autowired
-    private GrowCycleService growCycleService;
 
     @Test
     public void testCreateGrowCycle() {

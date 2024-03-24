@@ -1,6 +1,8 @@
 package com.fg.grow_control.controller;
 
 import com.fg.grow_control.entity.GrowingParameterType;
+import com.fg.grow_control.repository.GrowingParameterRepository;
+import com.fg.grow_control.repository.GrowingParameterTypeRepository;
 import com.fg.grow_control.service.GrowingParameterTypeService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,42 +14,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/growingParameterType")
-public class GrowingParameterTypeController {
-
-    @Autowired
-    private GrowingParameterTypeService growingParameterTypeService;
-
-    @GetMapping
-    public ResponseEntity<List<GrowingParameterType>> getAllGrowingParameterTypes() {
-        List<GrowingParameterType> growingParameterTypes = growingParameterTypeService.getAll();
-        return new ResponseEntity<>(growingParameterTypes, HttpStatus.OK);
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<GrowingParameterType> getGrowingParameterTypeById(@PathVariable Long id) {
-        GrowingParameterType growingParameterType = growingParameterTypeService.getById(id);
-        if (growingParameterType != null) {
-            return new ResponseEntity<>(growingParameterType, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
-
-    @PostMapping
-    @PutMapping
-    public ResponseEntity<GrowingParameterType> createOrUpdateGrowingParameterType(@RequestBody GrowingParameterType growingParameterType) {
-        GrowingParameterType createdGrowingParameterType
-                = growingParameterTypeService.createOrUpdate(growingParameterType);
-        return new ResponseEntity<>(createdGrowingParameterType, HttpStatus.CREATED);
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteGrowingParameterType(@PathVariable Long id) {
-        try {
-            growingParameterTypeService.deletebyId(id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } catch (EntityNotFoundException ex) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+public class GrowingParameterTypeController extends BasicController<GrowingParameterType, Long, GrowingParameterTypeRepository, GrowingParameterTypeService> {
+    public GrowingParameterTypeController(GrowingParameterTypeService service) {
+        super(service);
     }
 }
