@@ -22,7 +22,5 @@ jobs:
         run: |
           mkdir -p ~/.ssh/ && touch ~/.ssh/known_hosts
           ssh-keyscan ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
-#          eval $(ssh-agent)
-#          ssh-add - <<< "${{ secrets.SSH_PRIVATE_KEY }}"
           rsync -avz --delete ./scripts/pullAndStartGcApp.sh ${{ secrets.DEPLOY_USER }}@${{ secrets.SERVER_IP }}:/Workspace
           ssh -o StrictHostKeyChecking=no ${{ secrets.DEPLOY_USER }}@${{ secrets.SERVER_IP }} './pullAndStartGcApp.sh'
