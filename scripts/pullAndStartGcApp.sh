@@ -12,7 +12,7 @@ git pull
 
 # Build the project with Gradle
 echo "Building the project with Gradle..."
-./gradlew build
+./gradlew clean build
 
 # Function to wait for pong response
 waitForPong() {
