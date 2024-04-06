@@ -10,9 +10,6 @@ cd ~/Workspace/grow-control
 echo "Pulling the latest changes from the repository..."
 git pull
 
-SET JAVA_HOME = /home/franco/.sdkman/candidates/java/current
-echo "Java Home: $JAVA_HOME"
-
 # Build the project with Gradle
 echo "Building the project with Gradle..."
 ./gradlew clean build
