@@ -13,16 +13,16 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-#      - name: Setup SSH
-#        uses: webfactory/ssh-agent@v0.9.0
-#        with:
-#          ssh-private-key: ${{ secrets.DEPLOY_KEY }}
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.DEPLOY_KEY }}
 
       - name: Deploy to Server
         run: |
           mkdir -p ~/.ssh/ && touch ~/.ssh/known_hosts
           ssh-keyscan ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
-          eval $(ssh-agent)
-          ssh-add - <<< "${{ secrets.SSH_PRIVATE_KEY }}"
+#          eval $(ssh-agent)
+#          ssh-add - <<< "${{ secrets.SSH_PRIVATE_KEY }}"
           rsync -avz --delete ./scripts/pullAndStartGcApp.sh ${{ secrets.DEPLOY_USER }}@${{ secrets.SERVER_IP }}:/Workspace
           ssh -o StrictHostKeyChecking=no ${{ secrets.DEPLOY_USER }}@${{ secrets.SERVER_IP }} './pullAndStartGcApp.sh'
