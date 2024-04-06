@@ -29,7 +29,7 @@ public class PingPongIntegrationTest extends BasicApplicationintegrationTest {
                 String.class
         );
 
-        String expected = "pong";
+        String expected = "pong!";
 
         Assertions.assertEquals(expected, response.getBody());
     }
