@@ -26,7 +26,7 @@ waitForPong() {
         # Use curl to check for 'pong' response
         response=$(curl -s localhost:9080/ping)
 
-        if [ "$response" == "pong" ]; then
+        if [ "$response" == "pong!" ]; then
             echo "Received 'pong' response from the server."
             return 0
         else
