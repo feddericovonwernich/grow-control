@@ -97,6 +97,9 @@ if screen -list | grep -q "gcappscreen"; then
     docker-compose stop $service_name
     docker-compose rm -f $service_name
 
+    # Try removing the image as well, should always be called like this.
+    docker rmi grow-control_gc-app
+
     # Check that its not running.
     waitForPingStop
 
