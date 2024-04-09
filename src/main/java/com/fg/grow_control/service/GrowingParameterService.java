@@ -12,6 +12,9 @@ public class GrowingParameterService extends BasicService<GrowingParameter, Long
     private GrowingParameterTypeService growingParameterTypeService;
 
     @Autowired
+    private MeasurementDeviceService measurementDeviceService;
+
+    @Autowired
     public GrowingParameterService(GrowingParameterRepository repository) {
         super(repository);
     }
@@ -21,6 +24,9 @@ public class GrowingParameterService extends BasicService<GrowingParameter, Long
 
         if(object.getGrowingParameterType() != null && object.getGrowingParameterType().getId() == null) {
             growingParameterTypeService.createOrUpdate(object.getGrowingParameterType());
+        }
+        if (object.getMeasurementDevice() != null && object.getMeasurementDevice().getId() == null){
+            measurementDeviceService.createOrUpdate(object.getMeasurementDevice());
         }
 
         return super.createOrUpdate(object);

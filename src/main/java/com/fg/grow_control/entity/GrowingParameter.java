@@ -28,12 +28,12 @@ public class GrowingParameter {
     @JoinColumn(name = "id_growing_parameter_type")
     private GrowingParameterType growingParameterType;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @Singular
-    private List<GrowingParameterValueTime> growingParameterValueTimes;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @Singular
     private List<OptimalGrowingParameter> optimalGrowingParameters;
 
+
+    @OneToOne(mappedBy = "growingParameter")
+    private MeasurementDevice measurementDevice;
 }
