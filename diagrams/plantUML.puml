@@ -38,7 +38,7 @@ class GrowingEvent {
       - Timestamp date
       - GrowStage growStage
       - GrowingEventType growingEventType
-  }
+}
 
 class GrowingEventType {
       - Long id
@@ -52,19 +52,12 @@ class GrowingParameter {
       - GrowingParameterType growingParameterType
       - List<GrowingParameterValueTime> growingParameterValueTimes
       - List<OptimalGrowingParameter> optimalGrowingParameters
- }
+}
 
 class GrowingParameterType {
     - Long id
     - String name
 }
-
-class GrowingParameterValueTime {
-      - Long id
-      - Long value
-      - Date date
-      - GrowingParameter growingParameter
-  }
 
 class GrowStage {
         - Long id
@@ -74,24 +67,25 @@ class GrowStage {
         - GrowCycle growCycle
         - List<GrowingEvent> growingEvents
         - List<GrowingParameter> growingParameters
-    }
+}
 
 class GrowStageType {
     - Long id
     - String name
-    }
+}
 
 class MeasurementDevice {
         - Long id
         - GrowingParameterType growingParameterType
-    }
+
+}
 
 class OptimalGrowingParameter {
            - Long id
            - Timestamp date_start
            - Timestamp date_end
            - GrowingParameter growingParameter
-       }
+}
 
 
 
@@ -99,8 +93,8 @@ class OptimalGrowingParameter {
 
 MeasurementDevice --> GrowingParameterType : growingParameterType
 ActionDevice "1" -- "1" MeasurementDevice : watchedMeasurement
+MeasurementDevice "1" -- "1" GrowingParameter : growingParameter
 GrowingParameter "n" -- "1" GrowingParameterType : growingParameterType
-GrowingParameter "1" -- "n" GrowingParameterValueTime : growingParameterValueTimes
 GrowingParameter "1" -- "n" OptimalGrowingParameter : optimalGrowingParameters
 GrowingEvent "n" -- "1" GrowStage : growStage
 GrowingEvent "n" -- "1" GrowingEventType : growingEventType

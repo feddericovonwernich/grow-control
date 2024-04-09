@@ -1,15 +1,9 @@
 package com.fg.grow_control.controller;
 
 import com.fg.grow_control.BasicApplicationintegrationTest;
-import com.fg.grow_control.entity.GrowCycle;
-import com.fg.grow_control.entity.GrowStage;
-import com.fg.grow_control.entity.GrowStageType;
-import com.fg.grow_control.entity.GrowingEvent;
-import com.fg.grow_control.entity.GrowingEventType;
-import com.fg.grow_control.entity.GrowingParameter;
-import com.fg.grow_control.entity.GrowingParameterType;
-import com.fg.grow_control.entity.GrowingParameterValueTime;
-import com.fg.grow_control.entity.OptimalGrowingParameter;
+import com.fg.grow_control.entity.*;
+import com.fg.grow_control.repository.MeasurementDeviceRepository;
+import com.fg.grow_control.service.MeasurementDeviceService;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.junit.jupiter.api.Assertions;
@@ -40,19 +34,18 @@ public class GrowCycleControllerIntegrationTest extends BasicApplicationintegrat
                 .name("TestType")
                 .build();
 
-        GrowingParameterValueTime growingParameterValueTime = GrowingParameterValueTime.builder()
-                .value(1000L)
-                .date(java.sql.Timestamp.valueOf(LocalDateTime.now()))
-                .build();
-
         OptimalGrowingParameter optimalGrowingParameter = OptimalGrowingParameter.builder()
                 .date_start(java.sql.Timestamp.valueOf(LocalDateTime.now()))
                 .date_end(java.sql.Timestamp.valueOf(LocalDateTime.now()))
                 .build();
 
-        GrowingParameter growingParameter = GrowingParameter.builder()
+        MeasurementDevice measurementDevice= MeasurementDevice.builder()
                 .growingParameterType(growingParameterType)
-                .growingParameterValueTime(growingParameterValueTime)
+                .build();
+
+        GrowingParameter growingParameter = GrowingParameter.builder()
+                .measurementDevice(measurementDevice)
+                .growingParameterType(growingParameterType)
                 .optimalGrowingParameter(optimalGrowingParameter)
                 .value(1000L)
                 .build();
