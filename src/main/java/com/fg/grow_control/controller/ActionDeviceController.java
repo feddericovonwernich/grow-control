@@ -44,57 +44,74 @@ public class ActionDeviceController extends BasicController<ActionDevice, Long, 
         this.deviceTriggerService = deviceTriggerService;
     }
 
+
     @GetMapping("/actionStatus/{id}")
     public ResponseEntity<Boolean> shouldTrigger(@PathVariable Long id) {
         try {
+            log.debug("Getting action device by ID: {}", id);
             ActionDevice actionDevice = service.getById(id);
             MeasurementDevice measurementDevice = actionDevice.getWatchedMeasurement();
             DeviceReading latestDeviceReading = deviceReadingService.getLastReadingForDevice(measurementDevice);
             DeviceTrigger latestDeviceTrigger = deviceTriggerService.getLastTriggerForDevice(actionDevice);
+            log.info("Evaluating triggering condition for device ID: {}", id);
             // Check if it's triggering.
             if (!isTriggering(latestDeviceTrigger)) {
+                log.debug("Device is not currently triggering.");
                 // If it's not triggering, check if we should trigger.
                 if (actionDevice.getActivationThreshold() < actionDevice.getDeactivationThreshold()) {
-                    // Current needs to go up if triggered.
+                    log.debug("Activation condition based on threshold comparison.");
+                    // Current needs to go up to be triggered.
                     if (latestDeviceReading.getReading().longValue() < actionDevice.getActivationThreshold()) {
+                        log.info("Triggering device due to reading lower than activation threshold.");
                         // Need to trigger
                         createTrigger(actionDevice, latestDeviceReading);
                         return ResponseEntity.ok(true);
                     }
                 } else {
-                    // Current needs to go down if triggered.
+                    log.debug("Deactivation condition based on threshold comparison.");
+                    // Current needs to go down to be triggered.
                     if (latestDeviceReading.getReading().longValue() > actionDevice.getActivationThreshold()) {
+                        log.info("Triggering device due to reading higher than activation threshold.");
                         // Need to trigger
                         createTrigger(actionDevice, latestDeviceReading);
                         return ResponseEntity.ok(true);
                     }
                 }
+                log.info("No triggering condition met for device ID: {}", id);
                 // Keep not triggering.
                 return ResponseEntity.ok(false);
             } else {
+                log.debug("Device is currently triggering. Evaluating stop condition.");
                 // If it's triggering, check if we should stop.
                 if (actionDevice.getActivationThreshold() < actionDevice.getDeactivationThreshold()) {
-                    // Current needs to go up if triggered.
+                    log.debug("Stop condition check based on threshold comparison.");
+                    // Current needs to go up to stop triggering.
                     if (latestDeviceReading.getReading().longValue() > actionDevice.getDeactivationThreshold()) {
+                        log.info("Stopping device trigger due to reading higher than deactivation threshold.");
                         // Need to stop triggering
                         completeTrigger(latestDeviceTrigger);
                         return ResponseEntity.ok(false);
                     }
                 } else {
-                    // Current needs to go down if triggered.
+                    log.debug("Deactivation condition check for currently triggering device.");
+                    // Current needs to go down to stop triggering.
                     if (latestDeviceReading.getReading().longValue() < actionDevice.getDeactivationThreshold()) {
+                        log.info("Stopping device trigger due to reading lower than deactivation threshold.");
                         // Need to stop triggering
                         completeTrigger(latestDeviceTrigger);
                         return ResponseEntity.ok(false);
                     }
                 }
+                log.info("Continuing trigger for device ID: {}", id);
                 // Keep triggering.
                 return ResponseEntity.ok(true);
             }
         } catch (EntityNotFoundException e) {
+            log.error("Device not found for ID: {}", id, e);
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
 
     private void completeTrigger(DeviceTrigger latestDeviceTrigger) {
         latestDeviceTrigger.setCompleted(true);
