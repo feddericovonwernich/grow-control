@@ -12,16 +12,16 @@ services:
     networks:
       - gc_network
 
-  gc-app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    ports:
-      - "9080:8080"
-    networks:
-      - gc_network
-    depends_on:
-      - gc_mysql
+  #gc-app:
+  #  build:
+  #    context: .
+  #    dockerfile: Dockerfile
+  #  ports:
+  #    - "9080:8080"
+  #  networks:
+  #    - gc_network
+  #  depends_on:
+  #    - gc_mysql
 
 networks:
   gc_network:
