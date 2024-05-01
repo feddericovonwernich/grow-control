@@ -3,7 +3,8 @@ package com.fg.grow_control.controller;
 import com.fg.grow_control.entity.GrowStage;
 import com.fg.grow_control.repository.GrowStageRepository;
 import com.fg.grow_control.service.GrowStageService;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/growStage")

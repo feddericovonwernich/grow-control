@@ -1,4 +1,4 @@
-package com.fg.grow_control.service;
+package com.fg.grow_control.service.assistant;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

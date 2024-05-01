@@ -13,7 +13,7 @@ import org.testcontainers.containers.MySQLContainer;
 
 @SpringBootTest(classes = GrowControlApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ContextConfiguration(initializers = {BasicApplicationintegrationTest.Initializer.class})
-public class BasicApplicationintegrationTest {
+public class  BasicApplicationintegrationTest {
 
 	@LocalServerPort
 	protected int port;
@@ -39,7 +39,8 @@ public class BasicApplicationintegrationTest {
 					"spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver",
 					"spring.jpa.show-sql=true",
 					"spring.jpa.hibernate.ddl-auto=update",
-					"spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQLDialect"
+					"spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQLDialect",
+					"assistant.enabled=false"
 			).applyTo(configurableApplicationContext.getEnvironment());
 		}
 	}

@@ -44,7 +44,7 @@ public class BasicController<T, ID, R extends JpaRepository<T, ID>, S extends Ba
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable ID id) {
         try {
-            service.deletebyId(id);
+            service.deleteById(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (EntityNotFoundException ex) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

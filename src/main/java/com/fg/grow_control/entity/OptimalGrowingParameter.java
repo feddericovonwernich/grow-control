@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.sql.Timestamp;
-import java.util.Date;
 
 @Entity
 @Getter
@@ -12,6 +11,7 @@ import java.util.Date;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class OptimalGrowingParameter {
 
     @Id

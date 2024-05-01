@@ -1,14 +1,14 @@
-package com.fg.grow_control.service;
+package com.fg.grow_control.service.assistant;
 
 import com.theokanning.openai.service.OpenAiService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.beans.factory.annotation.Value;
 
 @Configuration
 public class ServiceConfiguration {
 
-    @Value("${openia.apikey}")
+    @Value("${assistant.openia.apikey}")
     private String openIaApiKey;
 
     @Bean

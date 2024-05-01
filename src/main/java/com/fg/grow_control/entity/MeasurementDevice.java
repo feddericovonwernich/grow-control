@@ -1,10 +1,7 @@
 package com.fg.grow_control.entity;
 
-import com.fg.grow_control.service.MeasurementDeviceService;
 import jakarta.persistence.*;
 import lombok.*;
-
-import java.awt.*;
 
 @Entity
 @Getter
@@ -12,6 +9,7 @@ import java.awt.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class MeasurementDevice {
 
     @Id
@@ -21,8 +19,6 @@ public class MeasurementDevice {
     @ManyToOne
     @JoinColumn(name = "id_growing_parameter_type")
     private GrowingParameterType growingParameterType;
-
-
 
     @OneToOne
     private GrowingParameter growingParameter;
