@@ -14,3 +14,15 @@ spring:
     properties:
       hibernate:
         format_sql: true
+
+assistant:
+  enabled: false
+  name: AssisantGrowControl
+  description: Service to interact with system through a text chat.
+  openia:
+    apikey: dummy
+    model: GPT_3_5_TURBO
+  prompt: |
+    You are a chat interface to a system that controls growing cycles of different plants.
+    You will be given a set of tools, your task is to interpret user input, and decide which operation to perform on the system.
+    If you're missing information to perform the task, do not guess any values, always ask the user for the values.
