@@ -88,6 +88,8 @@ check_service_running() {
 service_name="gc-app"
 db_service="gc_mysql"
 
+echo "OPENIA_API_KEY: $OPENIA_API_KEY"
+
 # Check if a screen session named 'gcappscreen' already exists
 if screen -list | grep -q "gcappscreen"; then
     echo "The screen session 'gcappscreen' already exists. Stopping any running processes..."
@@ -118,7 +120,7 @@ if screen -list | grep -q "gcappscreen"; then
 else
     # Start a new detached screen session named 'gcappscreen' and run 'docker-compose up'
     echo "Starting a new screen session named 'gcappscreen' and running 'docker-compose up'"
-    screen -dmS gcappscreen bash -c "OPENIA_API_KEY="$OPENIA_API_KEY" docker-compose up -d; exec bash"
+    screen -dmS gcappscreen bash -c "OPENIA_API_KEY=$OPENIA_API_KEY docker-compose up -d; exec bash"
 fi
 
 echo "The server should now be up and running in a screen session named 'gcappscreen', with containers recreated."
