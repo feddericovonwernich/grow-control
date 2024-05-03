@@ -16,6 +16,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    environment:
+      - ASSISTANT_OPENIA_APIKEY
     ports:
       - "9080:8080"
     networks:
