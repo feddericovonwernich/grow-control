@@ -1,5 +1,7 @@
 FROM openjdk:17.0.2-jdk
 
+ARG OPENIA_API_KEY
+
 WORKDIR /usr/src/app
 
 COPY ./build/libs/grow_control-0.0.1-SNAPSHOT.jar .
