@@ -115,7 +115,7 @@ public class StandardOpenIAAssistantService implements AssistantService {
 
         processActions(retrievedRun, thread, run);
 
-        if (assistantFailed.get()) {
+        if (assistantFailed.get() != null && assistantFailed.get()) {
             return "Request was sent, but assistant failed to process it.";
         }
 
