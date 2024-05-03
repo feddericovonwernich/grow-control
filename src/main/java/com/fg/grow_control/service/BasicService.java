@@ -34,7 +34,7 @@ public class BasicService<T, ID, R extends JpaRepository<T, ID>> {
     }
 
     @Transactional
-    public void deletebyId(ID id) throws EntityNotFoundException {
+    public void deleteById(ID id) throws EntityNotFoundException {
         Optional<T> response = repository.findById(id);
         if (response.isPresent()) {
             repository.delete(response.get());

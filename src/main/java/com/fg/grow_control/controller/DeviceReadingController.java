@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/readings")
 public class DeviceReadingController {
 
-    Logger log = LoggerFactory.getLogger(DeviceReadingController.class);
+    private static final Logger log = LoggerFactory.getLogger(DeviceReadingController.class);
 
     @Autowired
     private DeviceReadingService deviceReadingService;

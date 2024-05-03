@@ -32,9 +32,7 @@ public class ActionDeviceControllerIntegrationTest extends BasicApplicationinteg
     private DeviceReadingService deviceReadingService;
 
     @Autowired
-    ActionDeviceController actionDeviceController;
-
-    BasicService basicService;
+    private ActionDeviceController actionDeviceController;
 
     @Test
     public void testCreateActionDevice() {
