@@ -112,7 +112,7 @@ if screen -list | grep -q "gcappscreen"; then
     fi
 
     echo "Building the $service_name service..."
-    OPENIA_API_KEY=$OPENIA_API_KEY docker-compose build $service_name
+    docker-compose build $service_name --build-arg OPENIA_API_KEY="$OPENIA_API_KEY"
 
     # Start up the services defined in your docker-compose.yml file
     # Recreate the specified service without starting dependencies
@@ -121,9 +121,12 @@ if screen -list | grep -q "gcappscreen"; then
 
     echo "Attached to 'gcappscreen' and updated the gc-app service..."
 else
+    echo "Building the $service_name service..."
+    docker-compose build $service_name --build-arg OPENIA_API_KEY="$OPENIA_API_KEY"
+
     # Start a new detached screen session named 'gcappscreen' and run 'docker-compose up'
     echo "Starting a new screen session named 'gcappscreen' and running 'docker-compose up'"
-    screen -dmS gcappscreen bash -c "OPENIA_API_KEY=$OPENIA_API_KEY docker-compose up -d; exec bash"
+    screen -dmS gcappscreen bash -c "docker-compose up -d; exec bash"
 fi
 
 echo "The server should now be up and running in a screen session named 'gcappscreen', with containers recreated."
