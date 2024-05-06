@@ -156,6 +156,7 @@ public class StandardOpenIAAssistantService implements AssistantService {
             processActions(retrievedRun, thread, run);
         }
         if (retrievedRun.getStatus().equals("failed")) {
+            log.error(retrievedRun.getLastError().getMessage());
             assistantFailed.set(true);
         }
     }
