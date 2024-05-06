@@ -89,6 +89,7 @@ service_name="gc-app"
 db_service="gc_mysql"
 
 echo "ASSISTANT_OPENIA_APIKEY: $ASSISTANT_OPENIA_APIKEY"
+echo "TELEGRAM_BOT_KEY: " $TELEGRAM_BOT_KEY
 
 # Check if a screen session named 'gcappscreen' already exists
 if screen -list | grep -q "gcappscreen"; then
@@ -111,9 +112,6 @@ if screen -list | grep -q "gcappscreen"; then
         docker-compose up -d $db_service
     fi
 
-    #echo "Building the $service_name service..."
-    #docker-compose build $service_name --build-arg OPENIA_API_KEY_ARG="$OPENIA_API_KEY"
-
     # Start up the services defined in your docker-compose.yml file
     # Recreate the specified service without starting dependencies
     echo "Recreating and starting the $service_name service in detached mode..."
@@ -121,9 +119,6 @@ if screen -list | grep -q "gcappscreen"; then
 
     echo "Attached to 'gcappscreen' and updated the gc-app service..."
 else
-    #echo "Building the $service_name service..."
-    #docker-compose build $service_name --build-arg OPENIA_API_KEY_ARG="$OPENIA_API_KEY"
-
     # Start a new detached screen session named 'gcappscreen' and run 'docker-compose up'
     echo "Starting a new screen session named 'gcappscreen' and running 'docker-compose up'"
     screen -dmS gcappscreen bash -c "docker-compose up -d; exec bash"

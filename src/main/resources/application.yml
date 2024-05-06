@@ -16,7 +16,7 @@ spring:
         format_sql: true
 
 assistant:
-  enabled: true
+  enabled: false
   name: AssisantGrowControl
   description: Service to interact with system through a text chat.
   openia:

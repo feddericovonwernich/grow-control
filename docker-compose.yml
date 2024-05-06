@@ -18,6 +18,7 @@ services:
       dockerfile: Dockerfile
     environment:
       - ASSISTANT_OPENIA_APIKEY
+      - TELEGRAM_BOT_KEY
     ports:
       - "9080:8080"
     networks:
