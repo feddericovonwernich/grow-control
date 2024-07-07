@@ -29,4 +29,5 @@ assistant:
 
 telegram:
   bot:
+    enabled: false
     key: dummy

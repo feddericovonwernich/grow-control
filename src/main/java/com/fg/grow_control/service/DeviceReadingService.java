@@ -1,25 +1,21 @@
 package com.fg.grow_control.service;
 
+import io.github.feddericovonwernich.spring_ai.function_calling_service.annotations.AssistantToolProvider;
+import io.github.feddericovonwernich.spring_ai.function_calling_service.annotations.FunctionDefinition;
 import com.fg.grow_control.dto.DeviceReadingDTO;
 import com.fg.grow_control.entity.DeviceReading;
 import com.fg.grow_control.entity.MeasurementDevice;
 import com.fg.grow_control.repository.DeviceReadingRepository;
-import com.fg.grow_control.service.assistant.AssistantToolProvider;
-import com.fg.grow_control.service.assistant.FunctionDefinition;
-import com.fg.grow_control.service.assistant.ToolParameterAware;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.sql.Timestamp;
-import java.util.Collections;
 import java.util.List;
 
 @Component
 @AssistantToolProvider
-public class DeviceReadingService extends BasicService<DeviceReading, Long, DeviceReadingRepository> implements ToolParameterAware {
+public class DeviceReadingService extends BasicService<DeviceReading, Long, DeviceReadingRepository> {
 
     @Autowired
     private MeasurementDeviceService measurementDeviceService;
@@ -142,32 +138,4 @@ public class DeviceReadingService extends BasicService<DeviceReading, Long, Devi
     public void deleteById(Long id) throws EntityNotFoundException {
         super.deleteById(id);
     }
-
-    @Override
-    public List<Object> getParametersForFunction(String functionName, String parametersString) {
-        switch (functionName) {
-            case "DeviceReadingService_getById", "DeviceReadingService_deleteById":
-                Long id = ToolParameterAware.getIdParameter(parametersString);
-                return Collections.singletonList(id);
-
-            case "DeviceReadingService_createOrUpdate":
-                Gson gson = new Gson();
-                JsonObject jsonObj = gson.fromJson(parametersString, JsonObject.class);
-                JsonObject deviceReadingObj = jsonObj.getAsJsonObject("deviceReading");
-                return Collections.singletonList(gson.fromJson(deviceReadingObj, DeviceReading.class));
-
-            case "DeviceReadingService_getLastReadingForDevice":
-                // TODO Surprisingly this may work.. but should refactor.
-                Gson gson2 = new Gson();
-                JsonObject jsonObj2 = gson2.fromJson(parametersString, JsonObject.class);
-                JsonObject measurementDeviceObj = jsonObj2.getAsJsonObject("measurementDevice");
-                Long deviceId = measurementDeviceObj.get("id").getAsLong();
-                MeasurementDevice measurementDevice = measurementDeviceService.getById(deviceId);
-                return Collections.singletonList(measurementDevice);
-
-            default:
-                return Collections.emptyList();
-        }
-    }
-
 }

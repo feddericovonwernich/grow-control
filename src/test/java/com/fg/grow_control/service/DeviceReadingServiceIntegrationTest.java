@@ -4,7 +4,6 @@ import com.fg.grow_control.BasicApplicationintegrationTest;
 import com.fg.grow_control.entity.DeviceReading;
 import com.fg.grow_control.entity.GrowingParameterType;
 import com.fg.grow_control.entity.MeasurementDevice;
-import com.fg.grow_control.repository.DeviceReadingRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 

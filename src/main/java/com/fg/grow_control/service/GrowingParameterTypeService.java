@@ -1,22 +1,18 @@
 package com.fg.grow_control.service;
 
+import io.github.feddericovonwernich.spring_ai.function_calling_service.annotations.AssistantToolProvider;
+import io.github.feddericovonwernich.spring_ai.function_calling_service.annotations.FunctionDefinition;
 import com.fg.grow_control.entity.GrowingParameterType;
 import com.fg.grow_control.repository.GrowingParameterTypeRepository;
-import com.fg.grow_control.service.assistant.AssistantToolProvider;
-import com.fg.grow_control.service.assistant.FunctionDefinition;
-import com.fg.grow_control.service.assistant.ToolParameterAware;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
 
 @Service
 @AssistantToolProvider
-public class GrowingParameterTypeService extends BasicService<GrowingParameterType, Long, GrowingParameterTypeRepository>  implements ToolParameterAware {
+public class GrowingParameterTypeService extends BasicService<GrowingParameterType, Long, GrowingParameterTypeRepository> {
 
     @Autowired
     public GrowingParameterTypeService(GrowingParameterTypeRepository repository) {
@@ -93,23 +89,4 @@ public class GrowingParameterTypeService extends BasicService<GrowingParameterTy
     public void deleteById(Long id) throws EntityNotFoundException {
         super.deleteById(id);
     }
-
-
-    @Override
-    public List<Object> getParametersForFunction(String functionName, String parametersString) {
-        Gson gson = new Gson();
-        JsonObject jsonObj = gson.fromJson(parametersString, JsonObject.class);
-        switch (functionName) {
-            case "GrowingParameterTypeService_createOrUpdate":
-                return Collections.singletonList(gson.fromJson(jsonObj.getAsJsonObject("growingParameterType"), GrowingParameterType.class));
-
-            case "GrowingParameterTypeService_getByID", "GrowingParameterTypeService_deleteById":
-                Long id = jsonObj.get("id").getAsLong();
-                return Collections.singletonList(id);
-
-            default:
-                return Collections.emptyList();
-        }
-    }
-
 }

@@ -40,7 +40,8 @@ public class  BasicApplicationintegrationTest {
 					"spring.jpa.show-sql=true",
 					"spring.jpa.hibernate.ddl-auto=update",
 					"spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQLDialect",
-					"assistant.enabled=false"
+					"assistant.enabled=false",
+					"telegram.bot.enabled=false"
 			).applyTo(configurableApplicationContext.getEnvironment());
 		}
 	}

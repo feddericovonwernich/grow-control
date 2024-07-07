@@ -1,21 +1,17 @@
 package com.fg.grow_control.service;
 
+import io.github.feddericovonwernich.spring_ai.function_calling_service.annotations.AssistantToolProvider;
+import io.github.feddericovonwernich.spring_ai.function_calling_service.annotations.FunctionDefinition;
 import com.fg.grow_control.entity.ActionDevice;
 import com.fg.grow_control.repository.ActionDeviceRepository;
-import com.fg.grow_control.service.assistant.AssistantToolProvider;
-import com.fg.grow_control.service.assistant.FunctionDefinition;
-import com.fg.grow_control.service.assistant.ToolParameterAware;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Component;
 
-import java.util.Collections;
 import java.util.List;
 
 @Component
 @AssistantToolProvider
-public class ActionDeviceService extends BasicService<ActionDevice, Long, ActionDeviceRepository> implements ToolParameterAware {
+public class ActionDeviceService extends BasicService<ActionDevice, Long, ActionDeviceRepository> {
 
     public ActionDeviceService(ActionDeviceRepository repository) {
         super(repository);
@@ -91,22 +87,4 @@ public class ActionDeviceService extends BasicService<ActionDevice, Long, Action
     public void deleteById(Long id) throws EntityNotFoundException {
         super.deleteById(id);
     }
-
-    @Override
-    public List<Object> getParametersForFunction(String functionName, String parametersString) {
-        Gson gson = new Gson();
-        JsonObject jsonObj = gson.fromJson(parametersString, JsonObject.class);
-        switch (functionName) {
-            case "ActionDeviceService_getByID", "ActionDeviceService_deleteById":
-                Long id = ToolParameterAware.getIdParameter(parametersString);
-                return Collections.singletonList(id);
-            case "ActionDeviceService_createOrUpdate":
-                JsonObject actionDeviceObj = jsonObj.getAsJsonObject("actionDevice");
-                ActionDevice actionDevice = gson.fromJson(actionDeviceObj, ActionDevice.class);
-                return Collections.singletonList(actionDevice);
-            default:
-                return Collections.emptyList();
-        }
-    }
-
 }

@@ -1,22 +1,18 @@
 package com.fg.grow_control.service;
 
+import io.github.feddericovonwernich.spring_ai.function_calling_service.annotations.AssistantToolProvider;
+import io.github.feddericovonwernich.spring_ai.function_calling_service.annotations.FunctionDefinition;
 import com.fg.grow_control.entity.GrowingEvent;
 import com.fg.grow_control.repository.GrowingEventRepository;
-import com.fg.grow_control.service.assistant.AssistantToolProvider;
-import com.fg.grow_control.service.assistant.FunctionDefinition;
-import com.fg.grow_control.service.assistant.ToolParameterAware;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
 
 @Service
 @AssistantToolProvider
-public class GrowingEventService extends BasicService<GrowingEvent, Long, GrowingEventRepository> implements ToolParameterAware {
+public class GrowingEventService extends BasicService<GrowingEvent, Long, GrowingEventRepository> {
 
     @Autowired
     private GrowingEventTypeService growingEventTypeService;
@@ -108,21 +104,4 @@ public class GrowingEventService extends BasicService<GrowingEvent, Long, Growin
     public void deleteById(Long id) throws EntityNotFoundException {
         super.deleteById(id);
     }
-
-    @Override
-    public List<Object> getParametersForFunction(String functionName, String parametersString) {
-        switch (functionName) {
-            case "GrowingEventService_getById", "GrowingEventService_deleteById":
-                Long id = ToolParameterAware.getIdParameter(parametersString);
-                return Collections.singletonList(id);
-            case "GrowingEventService_createOrUpdate":
-                Gson gson = new Gson();
-                JsonObject jsonObj = gson.fromJson(parametersString, JsonObject.class);
-                JsonObject growingEventObj = jsonObj.getAsJsonObject("growingEvent");
-                return Collections.singletonList(gson.fromJson(growingEventObj, GrowingEvent.class));
-            default:
-                return Collections.emptyList();
-        }
-    }
-
 }

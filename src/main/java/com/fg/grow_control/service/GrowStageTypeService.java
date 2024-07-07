@@ -1,21 +1,17 @@
 package com.fg.grow_control.service;
 
+import io.github.feddericovonwernich.spring_ai.function_calling_service.annotations.AssistantToolProvider;
+import io.github.feddericovonwernich.spring_ai.function_calling_service.annotations.FunctionDefinition;
 import com.fg.grow_control.entity.GrowStageType;
 import com.fg.grow_control.repository.GrowStageTypeRepository;
-import com.fg.grow_control.service.assistant.AssistantToolProvider;
-import com.fg.grow_control.service.assistant.FunctionDefinition;
-import com.fg.grow_control.service.assistant.ToolParameterAware;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
 
 @Service
 @AssistantToolProvider
-public class GrowStageTypeService extends BasicService<GrowStageType, Long, GrowStageTypeRepository> implements ToolParameterAware {
+public class GrowStageTypeService extends BasicService<GrowStageType, Long, GrowStageTypeRepository> {
 
     @Autowired
     public GrowStageTypeService(GrowStageTypeRepository repository) {
@@ -87,25 +83,6 @@ public class GrowStageTypeService extends BasicService<GrowStageType, Long, Grow
                 """)
     public void deleteById(Long id) {
         super.deleteById(id);
-    }
-
-    @Override
-    public List<Object> getParametersForFunction(String functionName, String parametersString) {
-        Gson gson = new Gson();
-        JsonObject jsonObj = gson.fromJson(parametersString, JsonObject.class);
-
-        switch (functionName) {
-            case "GrowStageTypeService_getById", "GrowStageTypeService_deleteById":
-                Long id = jsonObj.get("id").getAsLong();
-                return Collections.singletonList(id);
-
-            case "GrowStageTypeService_createOrUpdate":
-                GrowStageType growStageType = gson.fromJson(jsonObj.getAsJsonObject("growStageType"), GrowStageType.class);
-                return Collections.singletonList(growStageType);
-
-            default:
-                return Collections.emptyList();
-        }
     }
 
 }

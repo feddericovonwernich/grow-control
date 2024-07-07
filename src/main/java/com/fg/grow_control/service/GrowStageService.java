@@ -1,22 +1,18 @@
 package com.fg.grow_control.service;
 
+import io.github.feddericovonwernich.spring_ai.function_calling_service.annotations.AssistantToolProvider;
+import io.github.feddericovonwernich.spring_ai.function_calling_service.annotations.FunctionDefinition;
 import com.fg.grow_control.entity.GrowStage;
 import com.fg.grow_control.repository.GrowStageRepository;
-import com.fg.grow_control.service.assistant.AssistantToolProvider;
-import com.fg.grow_control.service.assistant.FunctionDefinition;
-import com.fg.grow_control.service.assistant.ToolParameterAware;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
 
 @Service
 @AssistantToolProvider
-public class GrowStageService extends BasicService<GrowStage, Long, GrowStageRepository> implements ToolParameterAware {
+public class GrowStageService extends BasicService<GrowStage, Long, GrowStageRepository> {
 
     @Autowired
     private GrowStageTypeService growStageTypeService;
@@ -143,28 +139,6 @@ public class GrowStageService extends BasicService<GrowStage, Long, GrowStageRep
             """)
     public void deleteById(Long id) throws EntityNotFoundException {
         super.deleteById(id);
-    }
-
-    @Override
-    public List<Object> getParametersForFunction (String functionName, String parametersString){
-        switch (functionName) {
-            case "GrowStageService_getById", "GrowStageService_deleteById":
-                // Extract ID parameter for functions 'getById' and 'deleteById'
-                Long id = ToolParameterAware.getIdParameter(parametersString);
-                return Collections.singletonList(id);
-
-            case "GrowStageService_createOrUpdate":
-                // Parse growStage object for 'createOrUpdate' function
-                Gson gson = new Gson();
-                JsonObject jsonObj = gson.fromJson(parametersString, JsonObject.class);
-                JsonObject growStageObj = jsonObj.getAsJsonObject("growStage");
-                GrowStage growStage = gson.fromJson(growStageObj, GrowStage.class);
-                return Collections.singletonList(growStage);
-
-            default:
-                // Return empty list for unrecognized function names
-                return Collections.emptyList();
-        }
     }
 
 }

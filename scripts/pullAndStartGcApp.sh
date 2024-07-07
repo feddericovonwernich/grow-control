@@ -6,9 +6,20 @@ mkdir -p ~/Workspace/grow-control
 # Navigate into the directory
 cd ~/Workspace/grow-control
 
-# Pull the latest changes from the repository
-echo "Pulling the latest changes from the repository..."
-git pull
+# Start the agent.
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/id_ed25519_fedderico
+
+# Check if it's a git repository
+if [ -d ".git" ]; then
+  # Pull the latest changes from the repository
+  echo "Pulling the latest changes from the repository..."
+  git pull
+else
+  # Clone the repository if it's not a git repository
+  echo "Cloning the repository..."
+  git clone git@github.com:feddericovonwernich/grow-control.git .
+fi
 
 # Build the project with Gradle
 echo "Building the project with Gradle..."

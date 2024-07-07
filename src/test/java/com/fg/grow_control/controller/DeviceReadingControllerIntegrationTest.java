@@ -4,14 +4,15 @@ import com.fg.grow_control.BasicApplicationintegrationTest;
 import com.fg.grow_control.dto.DeviceReadingDTO;
 import com.fg.grow_control.entity.GrowingParameterType;
 import com.fg.grow_control.entity.MeasurementDevice;
-import com.fg.grow_control.service.GrowingParameterTypeService;
 import com.fg.grow_control.service.MeasurementDeviceService;
 import com.google.gson.Gson;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.*;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 
 public class DeviceReadingControllerIntegrationTest extends BasicApplicationintegrationTest {
 

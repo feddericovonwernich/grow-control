@@ -7,7 +7,6 @@ import com.fg.grow_control.entity.ActionDevice;
 import com.fg.grow_control.entity.GrowingParameterType;
 import com.fg.grow_control.entity.MeasurementDevice;
 import com.fg.grow_control.service.ActionDeviceService;
-import com.fg.grow_control.service.BasicService;
 import com.fg.grow_control.service.DeviceReadingService;
 import com.fg.grow_control.service.MeasurementDeviceService;
 import com.google.gson.Gson;

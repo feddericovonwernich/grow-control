@@ -1,23 +1,19 @@
 package com.fg.grow_control.service;
 
+import io.github.feddericovonwernich.spring_ai.function_calling_service.annotations.AssistantToolProvider;
+import io.github.feddericovonwernich.spring_ai.function_calling_service.annotations.FunctionDefinition;
 import com.fg.grow_control.entity.MeasurementDevice;
 import com.fg.grow_control.repository.MeasurementDeviceRepository;
-import com.fg.grow_control.service.assistant.AssistantToolProvider;
-import com.fg.grow_control.service.assistant.FunctionDefinition;
-import com.fg.grow_control.service.assistant.ToolParameterAware;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collections;
 import java.util.List;
 
 @Component
 @AssistantToolProvider
-public class MeasurementDeviceService extends BasicService<MeasurementDevice, Long, MeasurementDeviceRepository> implements ToolParameterAware {
+public class MeasurementDeviceService extends BasicService<MeasurementDevice, Long, MeasurementDeviceRepository> {
 
     @Autowired
     private GrowingParameterTypeService growingParameterTypeService;
@@ -80,8 +76,8 @@ public class MeasurementDeviceService extends BasicService<MeasurementDevice, Lo
                   "required": ["id"]
                 }
             """)
-    public MeasurementDevice getById(Long aLong) throws EntityNotFoundException {
-        return super.getById(aLong);
+    public MeasurementDevice getById(Long id) throws EntityNotFoundException {
+        return super.getById(id);
     }
 
     @Override
@@ -108,24 +104,6 @@ public class MeasurementDeviceService extends BasicService<MeasurementDevice, Lo
                     """)
     public void deleteById(Long aLong) throws EntityNotFoundException {
         super.deleteById(aLong);
-    }
-
-    @Override
-    public List<Object> getParametersForFunction(String functionName, String parametersString) {
-        switch (functionName) {
-            case "MeasurementDeviceService_getById", "MeasurementDeviceService_deleteById":
-                Long id = ToolParameterAware.getIdParameter(parametersString);
-                return Collections.singletonList(id);
-
-            case "MeasurementDeviceService_createOrUpdate":
-                Gson gson = new Gson();
-                JsonObject jsonObj = gson.fromJson(parametersString, JsonObject.class);
-                MeasurementDevice measurementDevice = gson.fromJson(jsonObj.get("measurementDevice"), MeasurementDevice.class);
-                return Collections.singletonList(createOrUpdate(measurementDevice));
-
-            default:
-                return Collections.emptyList();
-        }
     }
 
 }

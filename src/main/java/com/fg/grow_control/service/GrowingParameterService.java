@@ -1,22 +1,18 @@
 package com.fg.grow_control.service;
 
+import io.github.feddericovonwernich.spring_ai.function_calling_service.annotations.AssistantToolProvider;
+import io.github.feddericovonwernich.spring_ai.function_calling_service.annotations.FunctionDefinition;
 import com.fg.grow_control.entity.GrowingParameter;
 import com.fg.grow_control.repository.GrowingParameterRepository;
-import com.fg.grow_control.service.assistant.AssistantToolProvider;
-import com.fg.grow_control.service.assistant.FunctionDefinition;
-import com.fg.grow_control.service.assistant.ToolParameterAware;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
 
 @Service
 @AssistantToolProvider
-public class GrowingParameterService extends BasicService<GrowingParameter, Long, GrowingParameterRepository> implements ToolParameterAware {
+public class GrowingParameterService extends BasicService<GrowingParameter, Long, GrowingParameterRepository> {
 
     @Autowired
     private GrowingParameterTypeService growingParameterTypeService;
@@ -122,23 +118,4 @@ public class GrowingParameterService extends BasicService<GrowingParameter, Long
     public void deleteById(Long id) throws EntityNotFoundException {
         super.deleteById(id);
     }
-
-    @Override
-    public List<Object> getParametersForFunction(String functionName, String parametersString) {
-        Gson gson = new Gson();
-        JsonObject jsonObj = gson.fromJson(parametersString, JsonObject.class);
-
-        switch (functionName) {
-            case "GrowingParameterService_getById", "GrowingParameterService_deleteById":
-                Long id = jsonObj.get("id").getAsLong();
-                return Collections.singletonList(id);
-            case "GrowingParameterService_createOrUpdate":
-                JsonObject growingParameterObj = jsonObj.getAsJsonObject("growingParameter");
-                GrowingParameter growingParameter = gson.fromJson(growingParameterObj, GrowingParameter.class);
-                return Collections.singletonList(growingParameter);
-            default:
-                return Collections.emptyList();
-        }
-    }
-
 }

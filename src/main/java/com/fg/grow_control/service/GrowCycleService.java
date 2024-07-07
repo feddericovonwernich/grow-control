@@ -1,22 +1,18 @@
 package com.fg.grow_control.service;
 
+import io.github.feddericovonwernich.spring_ai.function_calling_service.annotations.AssistantToolProvider;
+import io.github.feddericovonwernich.spring_ai.function_calling_service.annotations.FunctionDefinition;
 import com.fg.grow_control.entity.GrowCycle;
 import com.fg.grow_control.repository.GrowCycleRepository;
-import com.fg.grow_control.service.assistant.AssistantToolProvider;
-import com.fg.grow_control.service.assistant.FunctionDefinition;
-import com.fg.grow_control.service.assistant.ToolParameterAware;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
 
 @Service
 @AssistantToolProvider
-public class GrowCycleService extends BasicService<GrowCycle, Long, GrowCycleRepository> implements ToolParameterAware {
+public class GrowCycleService extends BasicService<GrowCycle, Long, GrowCycleRepository> {
 
     @Autowired
     private GrowStageService growStageService;
@@ -114,22 +110,6 @@ public class GrowCycleService extends BasicService<GrowCycle, Long, GrowCycleRep
                 """)
     public void deleteById(Long id) throws EntityNotFoundException {
         super.deleteById(id);
-    }
-
-    @Override
-    public List<Object> getParametersForFunction(String functionName, String parametersString) {
-        switch (functionName) {
-            case "GrowCycleService_getByID", "GrowCycleService_deleteById":
-                Long id = ToolParameterAware.getIdParameter(parametersString);
-                return Collections.singletonList(id);
-            case "GrowCycleService_createOrUpdate":
-                Gson gson = new Gson();
-                JsonObject jsonObj = gson.fromJson(parametersString, JsonObject.class);
-                GrowCycle growCycle = gson.fromJson(jsonObj.getAsJsonObject("growCycle"), GrowCycle.class);
-                return Collections.singletonList(growCycle);
-            default:
-                return Collections.emptyList();
-        }
     }
 
 }

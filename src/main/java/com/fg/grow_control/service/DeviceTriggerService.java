@@ -1,22 +1,18 @@
 package com.fg.grow_control.service;
 
+import io.github.feddericovonwernich.spring_ai.function_calling_service.annotations.AssistantToolProvider;
+import io.github.feddericovonwernich.spring_ai.function_calling_service.annotations.FunctionDefinition;
 import com.fg.grow_control.entity.ActionDevice;
 import com.fg.grow_control.entity.DeviceTrigger;
 import com.fg.grow_control.repository.DeviceTriggerRepository;
-import com.fg.grow_control.service.assistant.AssistantToolProvider;
-import com.fg.grow_control.service.assistant.FunctionDefinition;
-import com.fg.grow_control.service.assistant.ToolParameterAware;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Component;
 
-import java.util.Collections;
 import java.util.List;
 
 @Component
 @AssistantToolProvider
-public class DeviceTriggerService extends BasicService<DeviceTrigger, Long, DeviceTriggerRepository> implements ToolParameterAware {
+public class DeviceTriggerService extends BasicService<DeviceTrigger, Long, DeviceTriggerRepository> {
 
     public DeviceTriggerService(DeviceTriggerRepository repository) {
         super(repository);
@@ -116,32 +112,6 @@ public class DeviceTriggerService extends BasicService<DeviceTrigger, Long, Devi
             """)
     public void deleteById(Long id) throws EntityNotFoundException {
         super.deleteById(id);
-    }
-
-    @Override
-    public List<Object> getParametersForFunction (String functionName, String parametersString){
-        Gson gson = new Gson();
-        switch (functionName) {
-            case "DeviceTriggerService_getById":
-            case "DeviceTriggerService_deleteById": {
-                Long id = ToolParameterAware.getIdParameter(parametersString);
-                return Collections.singletonList(id);
-            }
-            case "DeviceTriggerService_createOrUpdate": {
-                JsonObject jsonObj = gson.fromJson(parametersString, JsonObject.class);
-                JsonObject detailsObj = jsonObj.getAsJsonObject("deviceTrigger");
-                // Assuming createOrUpdate method requires specific object types per functionName
-                return Collections.singletonList(gson.fromJson(detailsObj, DeviceTrigger.class));
-            }
-            case "DeviceTriggerService_getLastTriggerForDevice": {
-                JsonObject jsonObj = gson.fromJson(parametersString, JsonObject.class);
-                JsonObject actionDeviceObj = jsonObj.getAsJsonObject("actionDevice");
-                ActionDevice actionDevice = gson.fromJson(actionDeviceObj, ActionDevice.class);
-                return Collections.singletonList(actionDevice);
-            }
-            default:
-                return Collections.emptyList();
-        }
     }
 
 }

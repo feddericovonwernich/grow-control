@@ -2,8 +2,6 @@ package com.fg.grow_control.controller;
 
 import com.fg.grow_control.BasicApplicationintegrationTest;
 import com.fg.grow_control.entity.*;
-import com.fg.grow_control.repository.MeasurementDeviceRepository;
-import com.fg.grow_control.service.MeasurementDeviceService;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.junit.jupiter.api.Assertions;

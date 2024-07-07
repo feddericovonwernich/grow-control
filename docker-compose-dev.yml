@@ -1,0 +1,17 @@
+version: '3'
+services:
+  gc_mysql:
+    image: mysql:5.7
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: grow-control
+      MYSQL_USER: gcapp
+      MYSQL_PASSWORD: gcpass
+    networks:
+      - gc_network
+
+networks:
+  gc_network:
+    driver: bridge
