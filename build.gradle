@@ -40,10 +40,6 @@ dependencies {
 
 	implementation 'org.hibernate:hibernate-core:6.2.9.Final'
 
-	implementation 'org.telegram:telegrambots-longpolling:7.2.1'
-
-	implementation 'org.telegram:telegrambots-client:7.2.1'
-
 	implementation 'io.github.feddericovonwernich:spring-ai-function-calling-service:0.0.1'
 
 	implementation 'io.github.feddericovonwernich:spring-ai-telegram-bot:0.0.1-SNAPSHOT'
