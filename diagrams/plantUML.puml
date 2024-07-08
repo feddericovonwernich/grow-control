@@ -1,107 +1,99 @@
 @startuml
-
-'TABLES'
-
 class ActionDevice {
-    - Long id
-    - MeasurementDevice watchedMeasurement
-    - Integer activationThreshold
-    - Integer deactivationThreshold
+    Long id
+    MeasurementDevice watchedMeasurement
+    Integer activationThreshold
+    Integer deactivationThreshold
 }
 
 class DeviceReading {
-    - Long id
-    - MeasurementDevice measurementDevice
-    - Double reading
-    - Timestamp timestamp
+    Long id
+    MeasurementDevice measurementDevice
+    Double reading
+    Timestamp timestamp
 }
 
 class DeviceTrigger {
-    - Long id
-    - ActionDevice triggeredDevice
-    - Long triggerValue
-    - Timestamp triggerTime
-    - boolean completed
+    Long id
+    ActionDevice triggeredDevice
+    Long triggerValue
+    Timestamp triggerTime
+    boolean completed
 }
 
 class GrowCycle {
-    - Long id
-    - String description
-    - Timestamp date_start
-    - Timestamp date_end
-    - List<GrowStage> growStages
+    Long id
+    String description
+    Timestamp date_start
+    Timestamp date_end
 }
 
 class GrowingEvent {
-      - Long id
-      - String description
-      - Timestamp date
-      - GrowStage growStage
-      - GrowingEventType growingEventType
+    Long id
+    String description
+    Timestamp date
 }
 
 class GrowingEventType {
-      - Long id
-      - String name
+    Long id
+    String name
 }
 
 class GrowingParameter {
-      - Long id
-      - Long value
-      - GrowStage growStage
-      - GrowingParameterType growingParameterType
-      - List<GrowingParameterValueTime> growingParameterValueTimes
-      - List<OptimalGrowingParameter> optimalGrowingParameters
+    Long id
+    Long value
 }
 
 class GrowingParameterType {
-    - Long id
-    - String name
+    Long id
+    String name
 }
 
 class GrowStage {
-        - Long id
-        - String durationUnit
-        - Long durationValue
-        - GrowStageType growStageType
-        - GrowCycle growCycle
-        - List<GrowingEvent> growingEvents
-        - List<GrowingParameter> growingParameters
+    Long id
+    String durationUnit
+    Long durationValue
 }
 
 class GrowStageType {
-    - Long id
-    - String name
+    Long id
+    String name
 }
 
 class MeasurementDevice {
-        - Long id
-        - GrowingParameterType growingParameterType
-
+    Long id
 }
 
 class OptimalGrowingParameter {
-           - Long id
-           - Timestamp date_start
-           - Timestamp date_end
-           - GrowingParameter growingParameter
+    Long id
+    Timestamp date_start
+    Timestamp date_end
 }
 
+class GrowingParameterValueTime {
+    Long id
+    Timestamp timestamp
+    Long value
+}
 
+GrowCycle "1" -- "0..*" GrowStage : contains
+GrowStage "1" -- "1" GrowStageType : has
+GrowStage "0..*" -- "1" GrowCycle : belongs to
+GrowStage "0..*" -- "0..*" GrowingEvent : has
+GrowStage "0..*" -- "0..*" GrowingParameter : has
+GrowingEvent "1" -- "1" GrowingEventType : is a
+GrowingEvent "0..*" -- "1" GrowStage : occurs in
+GrowingParameter "1" -- "1" GrowingParameterType : is a
+GrowingParameter "0..*" -- "0..*" GrowingParameterValueTime : has
+GrowingParameter "0..*" -- "0..*" OptimalGrowingParameter : has
+GrowingParameter "0..*" -- "1" GrowStage : belongs to
+MeasurementDevice "1" -- "1" GrowingParameterType : measures
+ActionDevice "1" -- "1" MeasurementDevice : watches
+DeviceReading "1" -- "1" MeasurementDevice : from
+DeviceTrigger "1" -- "1" ActionDevice : triggers
+OptimalGrowingParameter "1" -- "1" GrowingParameter : for
+GrowingParameterValueTime "1" -- "1" GrowingParameter : for
 
-'RELACIONES'
-
-MeasurementDevice --> GrowingParameterType : growingParameterType
-ActionDevice "1" -- "1" MeasurementDevice : watchedMeasurement
-MeasurementDevice "1" -- "1" GrowingParameter : growingParameter
-GrowingParameter "n" -- "1" GrowingParameterType : growingParameterType
-GrowingParameter "1" -- "n" OptimalGrowingParameter : optimalGrowingParameters
-GrowingEvent "n" -- "1" GrowStage : growStage
-GrowingEvent "n" -- "1" GrowingEventType : growingEventType
-GrowStage "n" -- "1" GrowStageType : growStageType
-GrowStage "1" -- "n" GrowingParameter : growingParameters
-GrowCycle "1" -- "n" GrowStage : growStages
-DeviceReading "n" -- "1" MeasurementDevice : measurementDevice
-DeviceTrigger "n" -- "1" ActionDevice : triggeredDevice
-
+MeasurementDevice "1" -- "0..*" DeviceReading : generates
+ActionDevice "0..*" -- "0..*" DeviceTrigger : triggers
 @enduml
