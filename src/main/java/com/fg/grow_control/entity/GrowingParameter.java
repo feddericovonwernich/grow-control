@@ -30,7 +30,7 @@ public class GrowingParameter {
     private GrowingParameterType growingParameterType;
 
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.EAGER)
     @Singular
     private List<OptimalGrowingParameter> optimalGrowingParameters;
 

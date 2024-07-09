@@ -23,14 +23,14 @@ public class GrowCycle {
     private String description;
 
     @Column(nullable = false)
-    @Temporal(TemporalType.TIMESTAMP)  // Indica que es un campo de fecha y hora
+    @Temporal(TemporalType.TIMESTAMP)
     private Timestamp date_start;
 
     @Column(nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Timestamp date_end;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.EAGER)
     @Singular
     private List<GrowStage> growStages;
 

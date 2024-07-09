@@ -32,11 +32,11 @@ public class GrowStage {
     @JoinColumn(name = "id_grow_cycle")
     private GrowCycle growCycle;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.EAGER)
     @Singular
     private List<GrowingEvent> growingEvents;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.EAGER)
     @Singular
     private List<GrowingParameter> growingParameters;
 
