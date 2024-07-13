@@ -38,18 +38,18 @@ public class MeasurementDeviceService extends BasicService<MeasurementDevice, Lo
 
     @Override
     @FunctionDefinition(name = "MeasurementDeviceService_getById", description = "Retrieves a MeasurementDevice object with the given Id.",
-            parameters = """
-                {
-                  "type": "object",
-                  "properties": {
+        parameters = """
+            {
+                "type": "object",
+                "properties": {
                     "id": {
-                      "type": "number",
-                      "description": "The ID of the object to retrieve."
+                        "type": "number",
+                        "description": "The ID of the object to retrieve."
                     }
-                  },
-                  "required": ["id"]
-                }
-            """)
+                },
+                "required": ["id"]
+            }
+        """)
     public MeasurementDevice getById(Long id) throws EntityNotFoundException {
         return super.getById(id);
     }
@@ -64,18 +64,18 @@ public class MeasurementDeviceService extends BasicService<MeasurementDevice, Lo
     @Override
     @Transactional
     @FunctionDefinition(name = "MeasurementDeviceService_deleteById", description = "Deletes a MeasurementDevice object with the given Id.",
-            parameters = """
-                        {
-                          "type": "object",
-                          "properties": {
-                            "id": {
-                              "type": "number",
-                              "description": "The ID of the object to delete."
-                            }
-                          },
-                          "required": ["id"]
-                        }
-                    """)
+        parameters = """
+            {
+                "type": "object",
+                "properties": {
+                    "id": {
+                      "type": "number",
+                      "description": "The ID of the object to delete."
+                    }
+                },
+                "required": ["id"]
+            }
+        """)
     public void deleteById(Long aLong) throws EntityNotFoundException {
         super.deleteById(aLong);
     }

@@ -45,4 +45,5 @@ public class DeviceTrigger {
     @RequiredField
     @FieldDescription(description = "Whether the trigger is completed or not")
     private boolean completed;
+
 }

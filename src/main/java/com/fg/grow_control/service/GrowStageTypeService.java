@@ -29,17 +29,17 @@ public class GrowStageTypeService extends BasicService<GrowStageType, Long, Grow
 
     @Override
     @FunctionDefinition(name = "GrowStageTypeService_getById", description = "Retrieves a GrowStageType object by its ID.", parameters = """
-                    {
-                      "type": "object",
-                      "properties": {
-                        "id": {
-                          "type": "number",
-                          "description": "The ID of the GrowStageType object to retrieve."
-                        }
-                      },
-                      "required": ["id"]
+            {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "number",
+                        "description": "The ID of the GrowStageType object to retrieve."
                     }
-                """)
+                },
+                "required": ["id"]
+            }
+        """)
     public GrowStageType getById(Long id) {
         return super.getById(id);
     }
@@ -52,17 +52,17 @@ public class GrowStageTypeService extends BasicService<GrowStageType, Long, Grow
 
     @Override
     @FunctionDefinition(name = "GrowStageTypeService_deleteById", description = "Deletes a GrowStageType object by its ID.", parameters = """
-                    {
-                      "type": "object",
-                      "properties": {
-                        "id": {
-                          "type": "number",
-                          "description": "The ID of the GrowStageType object to delete."
-                        }
-                      },
-                      "required": ["id"]
+            {
+                "type": "object",
+                "properties": {
+                    "id": {
+                      "type": "number",
+                      "description": "The ID of the GrowStageType object to delete."
                     }
-                """)
+                },
+                "required": ["id"]
+            }
+        """)
     public void deleteById(Long id) {
         super.deleteById(id);
     }

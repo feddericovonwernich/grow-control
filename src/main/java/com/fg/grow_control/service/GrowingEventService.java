@@ -18,6 +18,9 @@ public class GrowingEventService extends BasicService<GrowingEvent, Long, Growin
     private GrowingEventTypeService growingEventTypeService;
 
     @Autowired
+    private EventScheduleService eventScheduleService;
+
+    @Autowired
     public GrowingEventService(GrowingEventRepository repository) {
         super(repository);
     }
@@ -27,8 +30,13 @@ public class GrowingEventService extends BasicService<GrowingEvent, Long, Growin
             description = "Creates or updates a GrowingEvent object.",
             parameterClass = GrowingEvent.class)
     public GrowingEvent createOrUpdate(GrowingEvent object) {
+
         if (object.getGrowingEventType() != null && object.getGrowingEventType().getId() == null) {
             growingEventTypeService.createOrUpdate(object.getGrowingEventType());
+        }
+
+        if (object.getEventSchedule() != null && object.getEventSchedule().getId() == null) {
+            eventScheduleService.createOrUpdate(object.getEventSchedule());
         }
 
         return super.createOrUpdate(object);

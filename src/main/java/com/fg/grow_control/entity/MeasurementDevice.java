@@ -31,5 +31,5 @@ public class MeasurementDevice {
     @OneToOne
     @FieldDescription(description = "Associated growing parameter")
     @Reference
-    private GrowingParameter growingParameter;
+    private MeasuredGrowingParameter growingParameter;
 }

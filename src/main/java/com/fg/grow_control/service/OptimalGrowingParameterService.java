@@ -15,6 +15,9 @@ import java.util.List;
 public class OptimalGrowingParameterService extends BasicService<OptimalGrowingParameter, Long, OptimalGrowingParameterRepository> {
 
     @Autowired
+    private RangeScheduleService rangeScheduleService;
+
+    @Autowired
     public OptimalGrowingParameterService(OptimalGrowingParameterRepository repository) {
         super(repository);
     }
@@ -24,22 +27,25 @@ public class OptimalGrowingParameterService extends BasicService<OptimalGrowingP
             description = "Creates or updates an OptimalGrowingParameter object.",
             parameterClass = OptimalGrowingParameter.class)
     public OptimalGrowingParameter createOrUpdate(OptimalGrowingParameter optimalGrowingParameter) {
+        if (optimalGrowingParameter.getRangeSchedule().getId() == null) {
+            rangeScheduleService.createOrUpdate(optimalGrowingParameter.getRangeSchedule());
+        }
         return super.createOrUpdate(optimalGrowingParameter);
     }
 
     @Override
     @FunctionDefinition(name = "OptimalGrowingParameterService_getById", description = "Retrieves an OptimalGrowingParameter object by its Id.", parameters = """
-                {
-                  "type": "object",
-                  "properties": {
+            {
+                "type": "object",
+                "properties": {
                     "id": {
                       "type": "number",
                       "description": "The ID of the OptimalGrowingParameter object to retrieve."
                     }
-                  },
-                  "required": ["id"]
-                }
-            """)
+                },
+                "required": ["id"]
+            }
+        """)
     public OptimalGrowingParameter getById(Long id) throws EntityNotFoundException {
         return super.getById(id);
     }
@@ -52,17 +58,17 @@ public class OptimalGrowingParameterService extends BasicService<OptimalGrowingP
 
     @Override
     @FunctionDefinition(name = "OptimalGrowingParameterService_deleteById", description = "Deletes an OptimalGrowingParameter object by its Id.", parameters = """
-                {
-                  "type": "object",
-                  "properties": {
+            {
+                "type": "object",
+                "properties": {
                     "id": {
                       "type": "number",
                       "description": "The ID of the OptimalGrowingParameter object to delete."
                     }
-                  },
-                  "required": ["id"]
-                }
-            """)
+                },
+                "required": ["id"]
+            }
+        """)
     public void deleteById(Long id) throws EntityNotFoundException {
         super.deleteById(id);
     }

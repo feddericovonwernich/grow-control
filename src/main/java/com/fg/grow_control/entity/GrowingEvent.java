@@ -1,10 +1,14 @@
 package com.fg.grow_control.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fg.grow_control.entity.schedule.EventSchedule;
 import io.github.feddericovonwernich.spring_ai.function_calling_service.annotations.*;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
+
+import static jakarta.persistence.CascadeType.ALL;
 
 @Entity
 @Getter
@@ -27,12 +31,12 @@ public class GrowingEvent {
     @RequiredField
     private String description;
 
-    @Convert(converter = SimpleTimestampConverter.class)
-    @Column(nullable = false)
-    @JdbcTypeCode(SqlTypes.VARCHAR)
-    @FieldDescription(description = "Timestamp of the growing event occurrence")
+    @OneToOne(cascade = ALL)
+    @JoinColumn(name = "event_schedule_id", referencedColumnName = "id")
+    @JsonProperty("eventSchedule")
     @RequiredField
-    private SimpleTimestamp date;
+    @FieldDescription(description = "The schedule for this GrowingEvent, marks when this event should happen.")
+    EventSchedule eventSchedule;
 
     @ManyToOne
     @JoinColumn(name = "id_grow_stage")

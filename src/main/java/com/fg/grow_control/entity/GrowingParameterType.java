@@ -20,7 +20,7 @@ public class GrowingParameterType {
     @ReferenceField
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     @FieldDescription(description = "Name of the GrowingParameterType")
     @RequiredField
     private String name;

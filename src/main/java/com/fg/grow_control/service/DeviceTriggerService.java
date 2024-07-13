@@ -45,17 +45,17 @@ public class DeviceTriggerService extends BasicService<DeviceTrigger, Long, Devi
 
     @Override
     @FunctionDefinition(name = "DeviceTriggerService_getById", description = "Retrieves a DeviceTrigger object by its Id.", parameters = """
-                    {
-                      "type": "object",
-                      "properties": {
-                        "id": {
-                          "type": "number",
-                          "description": "The ID of the DeviceTrigger object to retrieve."
-                        }
-                      },
-                      "required": ["id"]
+            {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "number",
+                        "description": "The ID of the DeviceTrigger object to retrieve."
                     }
-            """)
+                },
+                "required": ["id"]
+            }
+        """)
     public DeviceTrigger getById(Long id) throws EntityNotFoundException {
         return super.getById(id);
     }
@@ -68,17 +68,17 @@ public class DeviceTriggerService extends BasicService<DeviceTrigger, Long, Devi
 
     @Override
     @FunctionDefinition(name = "DeviceTriggerService_deleteById", description = "Deletes a DeviceTrigger object by its Id.", parameters = """
-                    {
-                      "type": "object",
-                      "properties": {
-                        "id": {
-                          "type": "number",
-                          "description": "The ID of the DeviceTrigger object to delete."
-                        }
-                      },
-                      "required": ["id"]
+            {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "number",
+                        "description": "The ID of the DeviceTrigger object to delete."
                     }
-            """)
+                },
+                "required": ["id"]
+            }
+        """)
     public void deleteById(Long id) throws EntityNotFoundException {
         super.deleteById(id);
     }
