@@ -11,8 +11,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 
-import java.time.LocalDateTime;
-
 public class GrowCycleControllerIntegrationTest extends BasicApplicationintegrationTest {
 
     @Test
@@ -32,16 +30,18 @@ public class GrowCycleControllerIntegrationTest extends BasicApplicationintegrat
                 .name("TestType")
                 .build();
 
+        // TODO Fill these with schedules.
+
         OptimalGrowingParameter optimalGrowingParameter = OptimalGrowingParameter.builder()
-                .date_start(SimpleTimestamp.fromSqlTimestamp(java.sql.Timestamp.valueOf(LocalDateTime.now())))
-                .date_end(SimpleTimestamp.fromSqlTimestamp(java.sql.Timestamp.valueOf(LocalDateTime.now())))
+//                .date_start(SimpleTimestamp.fromSqlTimestamp(java.sql.Timestamp.valueOf(LocalDateTime.now())))
+//                .date_end(SimpleTimestamp.fromSqlTimestamp(java.sql.Timestamp.valueOf(LocalDateTime.now())))
                 .build();
 
         MeasurementDevice measurementDevice= MeasurementDevice.builder()
                 .growingParameterType(growingParameterType)
                 .build();
 
-        GrowingParameter growingParameter = GrowingParameter.builder()
+        MeasuredGrowingParameter growingParameter = MeasuredGrowingParameter.builder()
                 .measurementDevice(measurementDevice)
                 .growingParameterType(growingParameterType)
                 .optimalGrowingParameter(optimalGrowingParameter)
@@ -50,12 +50,12 @@ public class GrowCycleControllerIntegrationTest extends BasicApplicationintegrat
         GrowingEvent growingEvent = GrowingEvent.builder()
                 .growingEventType(growingEventType)
                 .description("TestDescription")
-                .date(SimpleTimestamp.fromSqlTimestamp(java.sql.Timestamp.valueOf(LocalDateTime.now())))
+//                .date(SimpleTimestamp.fromSqlTimestamp(java.sql.Timestamp.valueOf(LocalDateTime.now())))
                 .build();
 
         GrowStage growStage = GrowStage.builder()
-                .durationUnit("days")
-                .durationValue(10L)
+//                .durationUnit("days")
+//                .durationValue(10L)
                 .growStageType(growStageType)
                 .growingParameter(growingParameter)
                 .growingEvent(growingEvent)
@@ -63,8 +63,8 @@ public class GrowCycleControllerIntegrationTest extends BasicApplicationintegrat
 
         GrowCycle growCycleWithStage = GrowCycle.builder()
                 .description("Test description")
-                .date_start(SimpleTimestamp.fromSqlTimestamp(java.sql.Timestamp.valueOf(LocalDateTime.now())))
-                .date_end(SimpleTimestamp.fromSqlTimestamp(java.sql.Timestamp.valueOf(LocalDateTime.now())))
+//                .date_start(SimpleTimestamp.fromSqlTimestamp(java.sql.Timestamp.valueOf(LocalDateTime.now())))
+//                .date_end(SimpleTimestamp.fromSqlTimestamp(java.sql.Timestamp.valueOf(LocalDateTime.now())))
                 .growStage(growStage)
                 .build();
 

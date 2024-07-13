@@ -27,17 +27,17 @@ public class ActionDeviceService extends BasicService<ActionDevice, Long, Action
 
     @Override
     @FunctionDefinition(name = "ActionDeviceService_getById", description = "Retrieves an ActionDevice object by its Id.", parameters = """
-                    {
-                      "type": "object",
-                      "properties": {
-                        "id": {
-                          "type": "number",
-                          "description": "The ID of the ActionDevice object to retrieve."
-                        }
-                      },
-                      "required": ["id"]
+            {
+                "type": "object",
+                "properties": {
+                    "id": {
+                      "type": "number",
+                      "description": "The ID of the ActionDevice object to retrieve."
                     }
-            """)
+                },
+                "required": ["id"]
+            }
+        """)
     public ActionDevice getById(Long id) throws EntityNotFoundException {
         return super.getById(id);
     }
@@ -50,17 +50,17 @@ public class ActionDeviceService extends BasicService<ActionDevice, Long, Action
 
     @Override
     @FunctionDefinition(name = "ActionDeviceService_deleteById", description = "Deletes an ActionDevice object by its Id.", parameters = """
-                    {
-                      "type": "object",
-                      "properties": {
-                        "id": {
-                          "type": "number",
-                          "description": "The ID of the ActionDevice object to delete."
-                        }
-                      },
-                      "required": ["id"]
+            {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "number",
+                        "description": "The ID of the ActionDevice object to delete."
                     }
-            """)
+                },
+                "required": ["id"]
+            }
+        """)
     public void deleteById(Long id) throws EntityNotFoundException {
         super.deleteById(id);
     }

@@ -1,10 +1,9 @@
 package com.fg.grow_control.entity;
 
+import com.fg.grow_control.entity.schedule.RangeSchedule;
 import io.github.feddericovonwernich.spring_ai.function_calling_service.annotations.*;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.type.SqlTypes;
 
 import java.util.List;
 
@@ -29,19 +28,11 @@ public class GrowCycle {
     @RequiredField
     private String description;
 
-    @Convert(converter = SimpleTimestampConverter.class)
-    @Column(nullable = false)
-    @JdbcTypeCode(SqlTypes.VARCHAR)
-    @FieldDescription(description = "The start date and time of the grow cycle")
+    @FieldDescription(description = "The schedule for this GrowCycle, marks when the cycle will start and end.")
+    @OneToOne
+    @JoinColumn(name = "range_schedule_id", referencedColumnName = "id")
     @RequiredField
-    private SimpleTimestamp date_start;
-
-    @Convert(converter = SimpleTimestampConverter.class)
-    @Column(nullable = false)
-    @JdbcTypeCode(SqlTypes.VARCHAR)
-    @FieldDescription(description = "The end date and time of the grow cycle")
-    @RequiredField
-    private SimpleTimestamp date_end;
+    RangeSchedule rangeSchedule;
 
     @OneToMany(fetch = FetchType.EAGER)
     @Singular

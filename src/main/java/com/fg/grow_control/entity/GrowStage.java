@@ -1,7 +1,9 @@
 package com.fg.grow_control.entity;
 
 import io.github.feddericovonwernich.spring_ai.function_calling_service.annotations.*;
+import com.fg.grow_control.entity.schedule.RangeSchedule;
 import jakarta.persistence.*;
+import jakarta.persistence.OneToOne;
 import lombok.*;
 
 import java.util.List;
@@ -22,15 +24,9 @@ public class GrowStage {
     @ReferenceField
     private Long id;
 
-    @Column(nullable = false)
-    @FieldDescription(description = "Type of duration unit, e.g. 'Hour', 'Day'")
-    @RequiredField
-    private String durationUnit;
-
-    @Column(nullable = false)
-    @FieldDescription(description = "Value of the duration in the specified unit")
-    @RequiredField
-    private Long durationValue;
+    @OneToOne
+    @JoinColumn(name = "range_schedule_id", referencedColumnName = "id")
+    RangeSchedule rangeSchedule;
 
     @ManyToOne
     @JoinColumn(name = "id_grow_stage_type")
@@ -52,6 +48,6 @@ public class GrowStage {
     @OneToMany(fetch = FetchType.EAGER)
     @Singular
     @Ignore
-    private List<GrowingParameter> growingParameters;
+    private List<MeasuredGrowingParameter> growingParameters;
 
 }

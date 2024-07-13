@@ -14,7 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @ToString
 @ParameterClass
-public class GrowingParameter {
+public class MeasuredGrowingParameter {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,4 +44,5 @@ public class GrowingParameter {
     @OneToOne(mappedBy = "growingParameter")
     @Ignore
     private MeasurementDevice measurementDevice;
+
 }

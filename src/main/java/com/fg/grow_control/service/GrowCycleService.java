@@ -18,6 +18,9 @@ public class GrowCycleService extends BasicService<GrowCycle, Long, GrowCycleRep
     private GrowStageService growStageService;
 
     @Autowired
+    private RangeScheduleService rangeScheduleService;
+
+    @Autowired
     public GrowCycleService(GrowCycleRepository repository) {
         super(repository);
     }
@@ -35,22 +38,26 @@ public class GrowCycleService extends BasicService<GrowCycle, Long, GrowCycleRep
             });
         }
 
+        if (growCycle.getRangeSchedule() != null && growCycle.getRangeSchedule().getId() == null) {
+            rangeScheduleService.createOrUpdate(growCycle.getRangeSchedule());
+        }
+
         return super.createOrUpdate(growCycle);
     }
 
     @Override
     @FunctionDefinition(name = "GrowCycleService_getById", description = "Retrieves a GrowCycle by its Id.", parameters = """
-                    {
-                      "type": "object",
-                      "properties": {
-                        "id": {
-                          "type": "number",
-                          "description": "The ID of the GrowCycle to retrieve."
-                        }
-                      },
-                      "required": ["id"]
+            {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "number",
+                        "description": "The ID of the GrowCycle to retrieve."
                     }
-                """)
+                },
+                "required": ["id"]
+            }
+        """)
     public GrowCycle getById(Long id) throws EntityNotFoundException {
         return super.getById(id);
     }
@@ -63,17 +70,17 @@ public class GrowCycleService extends BasicService<GrowCycle, Long, GrowCycleRep
 
     @Override
     @FunctionDefinition(name = "GrowCycleService_deleteById", description = "Deletes a GrowCycle by its Id.", parameters = """
-                    {
-                      "type": "object",
-                      "properties": {
-                        "id": {
-                          "type": "number",
-                          "description": "The ID of the GrowCycle to delete."
-                        }
-                      },
-                      "required": ["id"]
+            {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "number",
+                        "description": "The ID of the GrowCycle to delete."
                     }
-                """)
+                },
+                "required": ["id"]
+            }
+        """)
     public void deleteById(Long id) throws EntityNotFoundException {
         super.deleteById(id);
     }

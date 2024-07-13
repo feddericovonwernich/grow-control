@@ -29,17 +29,17 @@ public class GrowingParameterTypeService extends BasicService<GrowingParameterTy
 
     @Override
     @FunctionDefinition(name = "GrowingParameterTypeService_getByID", description = "Retrieves a GrowingParameterType object by its Id.", parameters = """
-                {
-                  "type": "object",
-                  "properties": {
+            {
+                "type": "object",
+                "properties": {
                     "id": {
-                      "type": "number",
-                      "description": "The ID of the GrowingParameterType to retrieve."
+                        "type": "number",
+                        "description": "The ID of the GrowingParameterType to retrieve."
                     }
-                  },
-                  "required": ["id"]
-                }
-            """)
+                },
+                "required": ["id"]
+            }
+        """)
     public GrowingParameterType getById(Long id) throws EntityNotFoundException {
         return super.getById(id);
     }
@@ -55,18 +55,18 @@ public class GrowingParameterTypeService extends BasicService<GrowingParameterTy
 
     @Override
     @FunctionDefinition(name = "GrowingParameterTypeService_deleteById", description = "Deletes a GrowingParameterType object by its Id.",
-            parameters = """
-                        {
-                          "type": "object",
-                          "properties": {
-                            "id": {
-                              "type": "number",
-                              "description": "The ID of the GrowingParameterType to delete."
-                            }
-                          },
-                          "required": ["id"]
+        parameters = """
+                {
+                    "type": "object",
+                    "properties": {
+                        "id": {
+                            "type": "number",
+                            "description": "The ID of the GrowingParameterType to delete."
                         }
-                    """)
+                    },
+                    "required": ["id"]
+                }
+            """)
     public void deleteById(Long id) throws EntityNotFoundException {
         super.deleteById(id);
     }
