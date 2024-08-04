@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 public class PingPongIntegrationTest extends BasicApplicationintegrationTest {
@@ -32,6 +33,21 @@ public class PingPongIntegrationTest extends BasicApplicationintegrationTest {
         String expected = "pong!";
 
         Assertions.assertEquals(expected, response.getBody());
+    }
+
+    @Test
+    void testPingSecuredEndpoint() {
+
+        HttpEntity<String> entity = new HttpEntity<>(null, new HttpHeaders());
+
+        ResponseEntity<String> response = restTemplate.exchange(
+            createURLWithPort("/ping-secured"),
+            HttpMethod.GET,
+            entity,
+            String.class
+        );
+
+        Assertions.assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
     }
 
 }
