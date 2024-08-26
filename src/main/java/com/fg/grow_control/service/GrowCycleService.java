@@ -23,43 +23,9 @@ public class GrowCycleService extends BasicService<GrowCycle, Long, GrowCycleRep
     }
 
     @Override
-    @FunctionDefinition(name = "GrowCycleService_createOrUpdate", description = "Creates or updates a GrowCycle object.", parameters = """
-                        {
-                          "type": "object",
-                          "properties": {
-                            "growCycle": {
-                              "type": "object",
-                              "properties": {
-                                "id": {
-                                  "type": "number",
-                                  "description": "The unique identifier of the GrowCycle. Null if new."
-                                },
-                                "description": {
-                                  "type": "string",
-                                  "description": "The description of the GrowCycle."
-                                },
-                                "date_start": {
-                                  "type": "string",
-                                  "description": "The start date of the GrowCycle."
-                                },
-                                "date_end": {
-                                  "type": "string",
-                                  "description": "The end date of the GrowCycle."
-                                },
-                                "growStages": {
-                                  "type": "array",
-                                  "items": {
-                                    "type": "object"
-                                  },
-                                  "description": "The stages of the GrowCycle."
-                                }
-                              },
-                              "required": ["description", "date_start", "date_end"]
-                            }
-                          },
-                          "required": ["growCycle"]
-                        }
-                """)
+    @FunctionDefinition(name = "GrowCycleService_createOrUpdate",
+            description = "Creates or updates a GrowCycle object.",
+            parameterClass = GrowCycle.class)
     public GrowCycle createOrUpdate(GrowCycle growCycle) {
         if (growCycle.getGrowStages() != null && !growCycle.getGrowStages().isEmpty()) {
             growCycle.getGrowStages().forEach(growStage -> {

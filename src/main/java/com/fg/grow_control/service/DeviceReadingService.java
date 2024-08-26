@@ -39,24 +39,9 @@ public class DeviceReadingService extends BasicService<DeviceReading, Long, Devi
     }
 
 
-    @FunctionDefinition(name = "DeviceReadingService_getLastReadingForDevice", description = "Retrieves the last reading for a specified MeasurementDevice.", parameters = """
-                {
-                  "type": "object",
-                  "properties": {
-                    "measurementDevice": {
-                      "type": "object",
-                      "properties": {
-                        "id": {
-                          "type": "number",
-                          "description": "The unique identifier of the MeasurementDevice."
-                        }
-                      },
-                      "required": ["id"]
-                    }
-                  },
-                  "required": ["measurementDevice"]
-                }
-            """)
+    @FunctionDefinition(name = "DeviceReadingService_getLastReadingForDevice",
+            description = "Retrieves the last reading for a specified MeasurementDevice.",
+            parameterClass = MeasurementDevice.class)
     public DeviceReading getLastReadingForDevice(MeasurementDevice measurementDevice) {
         // Utilizing custom repository method to find the last DeviceReading for a given MeasurementDevice
         return repository.findTopByMeasurementDeviceOrderByIdDesc(measurementDevice)
@@ -65,36 +50,6 @@ public class DeviceReadingService extends BasicService<DeviceReading, Long, Devi
     }
 
     @Override
-    @FunctionDefinition(name = "DeviceReadingService_createOrUpdate", description = "Creates or updates a DeviceReading object.", parameters = """
-                    {
-                      "type": "object",
-                      "properties": {
-                        "deviceReading": {
-                          "type": "object",
-                          "properties": {
-                            "id": {
-                              "type": "number",
-                              "description": "The unique identifier of the DeviceReading. Null if new."
-                            },
-                            "measurementDeviceId": {
-                              "type": "number",
-                              "description": "The ID of the MeasurementDevice associated with this reading."
-                            },
-                            "reading": {
-                              "type": "number",
-                              "description": "The value of the reading."
-                            },
-                            "timestamp": {
-                              "type": "string",
-                              "description": "The timestamp of the reading."
-                            }
-                          },
-                          "required": ["measurementDeviceId", "reading", "timestamp"]
-                        }
-                      },
-                      "required": ["deviceReading"]
-                    }
-            """)
     public DeviceReading createOrUpdate(DeviceReading deviceReading) {
         return super.createOrUpdate(deviceReading);
     }
@@ -123,19 +78,8 @@ public class DeviceReadingService extends BasicService<DeviceReading, Long, Devi
     }
 
     @Override
-    @FunctionDefinition(name = "DeviceReadingService_deleteById", description = "Deletes a DeviceReading object by its Id.", parameters = """
-                    {
-                      "type": "object",
-                      "properties": {
-                        "id": {
-                          "type": "number",
-                          "description": "The ID of the DeviceReading object to delete."
-                        }
-                      },
-                      "required": ["id"]
-                    }
-            """)
     public void deleteById(Long id) throws EntityNotFoundException {
         super.deleteById(id);
     }
+
 }

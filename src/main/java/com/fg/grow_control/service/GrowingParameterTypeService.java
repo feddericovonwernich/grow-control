@@ -20,28 +20,9 @@ public class GrowingParameterTypeService extends BasicService<GrowingParameterTy
     }
 
     @Override
-    @FunctionDefinition(name = "GrowingParameterTypeService_createOrUpdate", description = "Creates or updates a GrowingParameterType object.", parameters = """
-                {
-                  "type": "object",
-                  "properties": {
-                    "growingParameterType": {
-                      "type": "object",
-                      "properties": {
-                        "id": {
-                          "type": "number",
-                          "description": "The unique identifier of the GrowingParameterType. Null if new."
-                        },
-                        "name": {
-                          "type": "string",
-                          "description": "The name of the GrowingParameterType."
-                        }
-                      },
-                      "required": ["name"]
-                    }
-                  },
-                  "required": ["growingParameterType"]
-                }
-            """)
+    @FunctionDefinition(name = "GrowingParameterTypeService_createOrUpdate",
+            description = "Creates or updates a GrowingParameterType object.",
+            parameterClass = GrowingParameterType.class)
     public GrowingParameterType createOrUpdate(GrowingParameterType growingParameterType) {
         return super.createOrUpdate(growingParameterType);
     }

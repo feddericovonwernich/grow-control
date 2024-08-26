@@ -29,54 +29,9 @@ public class GrowStageService extends BasicService<GrowStage, Long, GrowStageRep
         }
 
     @Override
-    @FunctionDefinition(name = "GrowStageService_createOrUpdate", description = "Creates or updates a GrowStage object.", parameters = """
-                {
-                  "type": "object",
-                  "properties": {
-                    "growStage": {
-                      "type": "object",
-                      "properties": {
-                        "id": {
-                          "type": "number",
-                          "description": "The unique identifier of the GrowStage. Null if new."
-                        },
-                        "durationUnit": {
-                          "type": "string",
-                          "description": "The unit of duration for the GrowStage."
-                        },
-                        "durationValue": {
-                          "type": "number",
-                          "description": "The value of duration for the GrowStage."
-                        },
-                        "growStageType": {
-                          "$ref": "#/definitions/GrowStageType",
-                          "description": "The type of GrowStage."
-                        },
-                        "growCycle": {
-                          "$ref": "#/definitions/GrowCycle",
-                          "description": "The cycle that this GrowStage belongs to."
-                        },
-                        "growingEvents": {
-                          "type": "array",
-                          "items": {
-                            "$ref": "#/definitions/GrowingEvent"
-                          },
-                          "description": "The events associated with this GrowStage."
-                        },
-                        "growingParameters": {
-                          "type": "array",
-                          "items": {
-                            "$ref": "#/definitions/GrowingParameter"
-                          },
-                          "description": "The parameters associated with this GrowStage."
-                        }
-                      },
-                      "required": ["durationUnit", "durationValue", "growStageType"]
-                    }
-                  },
-                  "required": ["growStage"]
-                }
-            """)
+    @FunctionDefinition(name = "GrowStageService_createOrUpdate",
+            description = "Creates or updates a GrowStage object.",
+            parameterClass = GrowStage.class)
     public GrowStage createOrUpdate(GrowStage object) {
         if (object.getGrowStageType() != null && object.getGrowStageType().getId() == null) {
             growStageTypeService.createOrUpdate(object.getGrowStageType());

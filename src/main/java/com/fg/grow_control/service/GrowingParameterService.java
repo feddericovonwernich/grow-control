@@ -21,59 +21,30 @@ public class GrowingParameterService extends BasicService<GrowingParameter, Long
     private MeasurementDeviceService measurementDeviceService;
 
     @Autowired
+    private OptimalGrowingParameterService optimalGrowingParameterService;
+
+    @Autowired
     public GrowingParameterService(GrowingParameterRepository repository) {
         super(repository);
     }
 
     @Override
-    @FunctionDefinition(name = "GrowingParameterService_createOrUpdate", description = "Creates or updates a GrowingParameter object.", parameters = """
-                    {
-                      "type": "object",
-                      "properties": {
-                        "growingParameter": {
-                          "type": "object",
-                          "properties": {
-                            "id": {
-                              "type": "number",
-                              "description": "The unique identifier of the GrowingParameter. Null if new."
-                            },
-                            "value": {
-                              "type": "number",
-                              "description": "The value of the growing parameter."
-                            },
-                            "growStage": {
-                              "type": "object",
-                              "properties": {
-                                "id": {
-                                  "type": "number",
-                                  "description": "ID of the GrowStage associated."
-                                }
-                              },
-                              "required": ["id"]
-                            },
-                            "growingParameterType": {
-                              "type": "object",
-                              "properties": {
-                                "id": {
-                                  "type": "number",
-                                  "description": "ID of the GrowingParameterType associated."
-                                }
-                              },
-                              "required": ["id"]
-                            }
-                          },
-                          "required": ["value", "growStage", "growingParameterType"]
-                        }
-                      },
-                      "required": ["growingParameter"]
-                    }
-            """)
+    @FunctionDefinition(name = "GrowingParameterService_createOrUpdate",
+            description = "Creates or updates a GrowingParameter object.",
+            parameterClass = GrowingParameter.class )
     public GrowingParameter createOrUpdate(GrowingParameter growingParameter) {
         if(growingParameter.getGrowingParameterType() != null && growingParameter.getGrowingParameterType().getId() == null) {
             growingParameterTypeService.createOrUpdate(growingParameter.getGrowingParameterType());
         }
         if (growingParameter.getMeasurementDevice() != null && growingParameter.getMeasurementDevice().getId() == null){
             measurementDeviceService.createOrUpdate(growingParameter.getMeasurementDevice());
+        }
+        if (growingParameter.getOptimalGrowingParameters() != null && !growingParameter.getOptimalGrowingParameters().isEmpty()) {
+            growingParameter.getOptimalGrowingParameters().forEach(optimalGrowingParameter -> {
+                if (optimalGrowingParameter.getId() == null) {
+                    optimalGrowingParameterService.createOrUpdate(optimalGrowingParameter);
+                }
+            });
         }
 
         return super.createOrUpdate(growingParameter);
