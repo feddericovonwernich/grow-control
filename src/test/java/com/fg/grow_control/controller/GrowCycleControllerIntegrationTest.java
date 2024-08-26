@@ -33,8 +33,8 @@ public class GrowCycleControllerIntegrationTest extends BasicApplicationintegrat
                 .build();
 
         OptimalGrowingParameter optimalGrowingParameter = OptimalGrowingParameter.builder()
-                .date_start(java.sql.Timestamp.valueOf(LocalDateTime.now()))
-                .date_end(java.sql.Timestamp.valueOf(LocalDateTime.now()))
+                .date_start(SimpleTimestamp.fromSqlTimestamp(java.sql.Timestamp.valueOf(LocalDateTime.now())))
+                .date_end(SimpleTimestamp.fromSqlTimestamp(java.sql.Timestamp.valueOf(LocalDateTime.now())))
                 .build();
 
         MeasurementDevice measurementDevice= MeasurementDevice.builder()
@@ -45,13 +45,12 @@ public class GrowCycleControllerIntegrationTest extends BasicApplicationintegrat
                 .measurementDevice(measurementDevice)
                 .growingParameterType(growingParameterType)
                 .optimalGrowingParameter(optimalGrowingParameter)
-                .value(1000L)
                 .build();
 
         GrowingEvent growingEvent = GrowingEvent.builder()
                 .growingEventType(growingEventType)
                 .description("TestDescription")
-                .date(java.sql.Timestamp.valueOf(LocalDateTime.now()))
+                .date(SimpleTimestamp.fromSqlTimestamp(java.sql.Timestamp.valueOf(LocalDateTime.now())))
                 .build();
 
         GrowStage growStage = GrowStage.builder()
@@ -64,8 +63,8 @@ public class GrowCycleControllerIntegrationTest extends BasicApplicationintegrat
 
         GrowCycle growCycleWithStage = GrowCycle.builder()
                 .description("Test description")
-                .date_start(java.sql.Timestamp.valueOf(LocalDateTime.now()))
-                .date_end(java.sql.Timestamp.valueOf(LocalDateTime.now()))
+                .date_start(SimpleTimestamp.fromSqlTimestamp(java.sql.Timestamp.valueOf(LocalDateTime.now())))
+                .date_end(SimpleTimestamp.fromSqlTimestamp(java.sql.Timestamp.valueOf(LocalDateTime.now())))
                 .growStage(growStage)
                 .build();
 

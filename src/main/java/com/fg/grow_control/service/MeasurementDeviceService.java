@@ -24,35 +24,9 @@ public class MeasurementDeviceService extends BasicService<MeasurementDevice, Lo
     }
 
     @Override
-    @FunctionDefinition(name = "MeasurementDeviceService_createOrUpdate", description = "Creates or updates a MeasurementDevice object.",
-            parameters = """
-                        {
-                          "type": "object",
-                          "properties": {
-                            "measurementDevice": {
-                              "type": "object",
-                              "properties": {
-                                "id": {
-                                  "type": "number",
-                                  "description": "The unique identifier of the MeasurementDevice. Null if new."
-                                },
-                                "growingParameterType": {
-                                  "type": "object",
-                                  "properties": {
-                                    "id": {
-                                      "type": "number",
-                                      "description": "The ID of the GrowingParameterType associated with this device."
-                                    }
-                                  },
-                                  "required": []
-                                }
-                              },
-                              "required": ["growingParameterType"]
-                            }
-                          },
-                          "required": ["measurementDevice"]
-                        }
-                    """)
+    @FunctionDefinition(name = "MeasurementDeviceService_createOrUpdate",
+            description = "Creates or updates a MeasurementDevice object.",
+            parameterClass = MeasurementDevice.class)
     public MeasurementDevice createOrUpdate(MeasurementDevice measurementDevice) {
 
         if (measurementDevice.getGrowingParameterType().getId() == null) {

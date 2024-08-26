@@ -36,40 +36,9 @@ public class DeviceTriggerService extends BasicService<DeviceTrigger, Long, Devi
     }
 
     @Override
-    @FunctionDefinition(name = "DeviceTriggerService_createOrUpdate", description = "Creates or updates a DeviceTrigger object.", parameters = """
-                    {
-                      "type": "object",
-                      "properties": {
-                        "deviceTrigger": {
-                          "type": "object",
-                          "properties": {
-                            "id": {
-                              "type": "number",
-                              "description": "The unique identifier of the DeviceTrigger. Null if new."
-                            },
-                            "triggeredDevice": {
-                              "type": "object",
-                              "description": "The ActionDevice that has triggered this event."
-                            },
-                            "triggerValue": {
-                              "type": "number",
-                              "description": "The value at which the trigger is activated."
-                            },
-                            "triggerTime": {
-                              "type": "string",
-                              "description": "The timestamp of when the trigger occurred."
-                            },
-                            "completed": {
-                              "type": "boolean",
-                              "description": "Whether the action associated with the trigger has been completed."
-                            }
-                          },
-                          "required": ["triggeredDevice", "triggerValue", "triggerTime", "completed"]
-                        }
-                      },
-                      "required": ["deviceTrigger"]
-                    }
-            """)
+    @FunctionDefinition(name = "DeviceTriggerService_createOrUpdate",
+            description = "Creates or updates a DeviceTrigger object.",
+            parameterClass = DeviceTrigger.class)
     public DeviceTrigger createOrUpdate(DeviceTrigger deviceTrigger) {
         return super.createOrUpdate(deviceTrigger);
     }

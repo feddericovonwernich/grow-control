@@ -18,32 +18,9 @@ public class ActionDeviceService extends BasicService<ActionDevice, Long, Action
     }
 
     @Override
-    @FunctionDefinition(name = "ActionDeviceService_createOrUpdate", description = "Creates or updates an ActionDevice object.", parameters = """
-                    {
-                      "type": "object",
-                      "properties": {
-                        "actionDevice": {
-                          "type": "object",
-                          "properties": {
-                            "id": {
-                              "type": "number",
-                              "description": "The unique identifier of the ActionDevice. Null if new."
-                            },
-                            "activationThreshold": {
-                              "type": "number",
-                              "description": "The activation threshold value."
-                            },
-                            "deactivationThreshold": {
-                              "type": "number",
-                              "description": "The deactivation threshold value."
-                            }
-                          },
-                          "required": ["activationThreshold", "deactivationThreshold"]
-                        }
-                      },
-                      "required": ["actionDevice"]
-                    }
-            """)
+    @FunctionDefinition(name = "ActionDeviceService_createOrUpdate",
+            description = "Creates or updates an ActionDevice object.",
+            parameterClass = ActionDevice.class)
     public ActionDevice createOrUpdate(ActionDevice actionDevice) {
         return super.createOrUpdate(actionDevice);
     }

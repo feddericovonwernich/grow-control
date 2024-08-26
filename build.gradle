@@ -40,7 +40,7 @@ dependencies {
 
 	implementation 'org.hibernate:hibernate-core:6.2.9.Final'
 
-	implementation 'io.github.feddericovonwernich:spring-ai-function-calling-service:0.0.2-SNAPSHOT'
+	implementation 'io.github.feddericovonwernich:spring-ai-function-calling-service:0.0.4-SNAPSHOT'
 
 	implementation 'io.github.feddericovonwernich:spring-ai-telegram-bot:0.0.1-SNAPSHOT'
 

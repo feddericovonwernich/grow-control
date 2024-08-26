@@ -23,40 +23,9 @@ public class GrowingEventService extends BasicService<GrowingEvent, Long, Growin
     }
 
     @Override
-    @FunctionDefinition(name = "GrowingEventService_createOrUpdate", description = "Creates or updates a GrowingEvent object.", parameters = """
-                {
-                  "type": "object",
-                  "properties": {
-                    "growingEvent": {
-                      "type": "object",
-                      "properties": {
-                        "id": {
-                          "type": "number",
-                          "description": "The unique identifier of the GrowingEvent. Null if new."
-                        },
-                        "description": {
-                          "type": "string",
-                          "description": "A description of the growing event."
-                        },
-                        "date": {
-                          "type": "string",
-                          "description": "The date of the growing event."
-                        },
-                        "growStage": {
-                          "type": "number",
-                          "description": "The ID of the GrowStage associated with this event."
-                        },
-                        "growingEventType": {
-                          "type": "number",
-                          "description": "The ID of the GrowingEventType associated with this event."
-                        }
-                      },
-                      "required": ["description", "date", "growStage", "growingEventType"]
-                    }
-                  },
-                  "required": ["growingEvent"]
-                }
-            """)
+    @FunctionDefinition(name = "GrowingEventService_createOrUpdate",
+            description = "Creates or updates a GrowingEvent object.",
+            parameterClass = GrowingEvent.class)
     public GrowingEvent createOrUpdate(GrowingEvent object) {
         if (object.getGrowingEventType() != null && object.getGrowingEventType().getId() == null) {
             growingEventTypeService.createOrUpdate(object.getGrowingEventType());

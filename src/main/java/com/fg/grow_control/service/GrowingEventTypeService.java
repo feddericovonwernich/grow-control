@@ -22,28 +22,9 @@ public class GrowingEventTypeService extends BasicService<GrowingEventType, Long
 
     @Override
     @Transactional
-    @FunctionDefinition(name = "GrowingEventTypeService_createOrUpdate", description = "Creates or updates a GrowingEventType object.", parameters = """
-                {
-                  "type": "object",
-                  "properties": {
-                    "growingEventType": {
-                      "type": "object",
-                      "properties": {
-                        "id": {
-                          "type": "number",
-                          "description": "The unique identifier of the GrowingEventType. Null if new."
-                        },
-                        "name": {
-                          "type": "string",
-                          "description": "The name of the GrowingEventType."
-                        }
-                      },
-                      "required": ["name"]
-                    }
-                  },
-                  "required": ["growingEventType"]
-                }
-            """)
+    @FunctionDefinition(name = "GrowingEventTypeService_createOrUpdate",
+            description = "Creates or updates a GrowingEventType object.",
+            parameterClass = GrowingEventType.class)
     public GrowingEventType createOrUpdate(GrowingEventType growingEventType) {
         return super.createOrUpdate(growingEventType);
     }

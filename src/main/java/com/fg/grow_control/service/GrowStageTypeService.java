@@ -1,5 +1,6 @@
 package com.fg.grow_control.service;
 
+import com.fg.grow_control.entity.GrowStage;
 import io.github.feddericovonwernich.spring_ai.function_calling_service.annotations.AssistantToolProvider;
 import io.github.feddericovonwernich.spring_ai.function_calling_service.annotations.FunctionDefinition;
 import com.fg.grow_control.entity.GrowStageType;
@@ -19,28 +20,9 @@ public class GrowStageTypeService extends BasicService<GrowStageType, Long, Grow
     }
 
     @Override
-    @FunctionDefinition(name = "GrowStageTypeService_createOrUpdate", description = "Creates or updates a GrowStageType object.", parameters = """
-                    {
-                      "type": "object",
-                      "properties": {
-                        "growStageType": {
-                          "type": "object",
-                          "properties": {
-                            "id": {
-                              "type": "number",
-                              "description": "The unique identifier of the GrowStageType. Null if new."
-                            },
-                            "name": {
-                              "type": "string",
-                              "description": "The name of the GrowStageType."
-                            }
-                          },
-                          "required": ["name"]
-                        }
-                      },
-                      "required": ["growStageType"]
-                    }
-                """)
+    @FunctionDefinition(name = "GrowStageTypeService_createOrUpdate",
+            description = "Creates or updates a GrowStageType object.",
+            parameterClass = GrowStageType.class)
     public GrowStageType createOrUpdate(GrowStageType growStageType) {
         return super.createOrUpdate(growStageType);
     }

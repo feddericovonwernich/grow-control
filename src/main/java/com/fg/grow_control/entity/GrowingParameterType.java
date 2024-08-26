@@ -2,6 +2,7 @@ package com.fg.grow_control.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import io.github.feddericovonwernich.spring_ai.function_calling_service.annotations.*;
 
 @Entity
 @Getter
@@ -10,13 +11,18 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
+@ParameterClass
 public class GrowingParameterType {
 
     @Id
     @GeneratedValue(strategy =GenerationType.IDENTITY)
+    @FieldDescription(description = "Unique identifier for GrowingParameterType")
+    @ReferenceField
     private Long id;
 
     @Column(nullable = false)
+    @FieldDescription(description = "Name of the GrowingParameterType")
+    @RequiredField
     private String name;
 
 }

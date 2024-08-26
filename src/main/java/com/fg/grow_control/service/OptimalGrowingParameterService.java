@@ -20,36 +20,9 @@ public class OptimalGrowingParameterService extends BasicService<OptimalGrowingP
     }
 
     @Override
-    @FunctionDefinition(name = "OptimalGrowingParameterService_createOrUpdate", description = "Creates or updates an OptimalGrowingParameter object.", parameters = """
-                    {
-                      "type": "object",
-                      "properties": {
-                        "optimalGrowingParameter": {
-                          "type": "object",
-                          "properties": {
-                            "id": {
-                              "type": "number",
-                              "description": "The unique identifier of the OptimalGrowingParameter. Null if new."
-                            },
-                            "date_start": {
-                              "type": "string",
-                              "description": "The start date of the optimal growing parameter period."
-                            },
-                            "date_end": {
-                              "type": "string",
-                              "description": "The end date of the optimal growing parameter period."
-                            },
-                            "growingParameter": {
-                              "type": "number",
-                              "description": "ID of the GrowingParameter associated."
-                            }
-                          },
-                          "required": ["date_start", "date_end", "growingParameter"]
-                        }
-                      },
-                      "required": ["optimalGrowingParameter"]
-                    }
-            """)
+    @FunctionDefinition(name = "OptimalGrowingParameterService_createOrUpdate",
+            description = "Creates or updates an OptimalGrowingParameter object.",
+            parameterClass = OptimalGrowingParameter.class)
     public OptimalGrowingParameter createOrUpdate(OptimalGrowingParameter optimalGrowingParameter) {
         return super.createOrUpdate(optimalGrowingParameter);
     }

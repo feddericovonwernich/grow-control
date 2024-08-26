@@ -1,9 +1,6 @@
 package com.fg.grow_control.controller;
 
-import com.fg.grow_control.entity.ActionDevice;
-import com.fg.grow_control.entity.DeviceReading;
-import com.fg.grow_control.entity.DeviceTrigger;
-import com.fg.grow_control.entity.MeasurementDevice;
+import com.fg.grow_control.entity.*;
 import com.fg.grow_control.repository.ActionDeviceRepository;
 import com.fg.grow_control.service.ActionDeviceService;
 import com.fg.grow_control.service.DeviceReadingService;
@@ -20,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.sql.Timestamp;
 
+import static com.fg.grow_control.entity.SimpleTimestamp.fromSqlTimestamp;
 import static org.slf4j.LoggerFactory.getLogger;
 
 @RestController
@@ -121,7 +119,7 @@ public class ActionDeviceController extends BasicController<ActionDevice, Long, 
     private void createTrigger(ActionDevice actionDevice, DeviceReading latestDeviceReading) {
         DeviceTrigger deviceTrigger = DeviceTrigger.builder()
                 .triggeredDevice(actionDevice)
-                .triggerTime(new Timestamp(System.currentTimeMillis()))
+                .triggerTime(fromSqlTimestamp(new Timestamp(System.currentTimeMillis())))
                 .triggerValue(latestDeviceReading.getReading().longValue())
                 .completed(false)
                 .build();
