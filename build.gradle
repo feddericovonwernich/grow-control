@@ -38,6 +38,8 @@ dependencies {
 
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+
 	implementation 'org.hibernate:hibernate-core:6.2.9.Final'
 
 	implementation 'io.github.feddericovonwernich:spring-ai-function-calling-service:0.0.4-SNAPSHOT'
@@ -65,6 +67,8 @@ dependencies {
 	// Test dependencies.
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+	testImplementation 'org.springframework.security:spring-security-test'
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-web'
 
