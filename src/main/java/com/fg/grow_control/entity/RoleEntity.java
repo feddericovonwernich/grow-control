@@ -3,6 +3,7 @@ package com.fg.grow_control.entity;
 import java.util.*;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 @Entity
@@ -18,6 +19,7 @@ public class RoleEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank
     @Column(name = "role_name")
     private String roleName;
 

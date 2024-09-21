@@ -88,7 +88,7 @@ GrowingParameter "0..*" -- "0..*" GrowingParameterValueTime : has
 GrowingParameter "0..*" -- "0..*" OptimalGrowingParameter : has
 GrowingParameter "0..*" -- "1" GrowStage : belongs to
 MeasurementDevice "1" -- "1" GrowingParameterType : measures
-ActionDevice "1" -- "1" MeasurementDevice : watches
+ActionDevice "1" -- "1" MeasurementDevice : watchedMeasurement
 DeviceReading "1" -- "1" MeasurementDevice : from
 DeviceTrigger "1" -- "1" ActionDevice : triggers
 OptimalGrowingParameter "1" -- "1" GrowingParameter : for
