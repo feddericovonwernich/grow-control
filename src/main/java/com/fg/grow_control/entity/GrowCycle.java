@@ -4,7 +4,6 @@ import com.fg.grow_control.entity.schedule.RangeSchedule;
 import io.github.feddericovonwernich.spring_ai.function_calling_service.annotations.*;
 import jakarta.persistence.*;
 import lombok.*;
-
 import java.util.List;
 
 @Entity

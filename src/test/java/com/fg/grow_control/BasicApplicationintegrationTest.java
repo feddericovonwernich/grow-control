@@ -10,6 +10,9 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.testcontainers.containers.MySQLContainer;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 
 @SpringBootTest(classes = GrowControlApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ContextConfiguration(initializers = {BasicApplicationintegrationTest.Initializer.class})
@@ -50,4 +53,13 @@ public class  BasicApplicationintegrationTest {
 		return "http://localhost:" + port + uri;
 	}
 
+	//this method are here because is necessary in another tests
+	protected String appendCurrentDateTime(String input) {
+		// Definir el formato de la fecha y hora
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss");
+		String timestamp = LocalDateTime.now().format(formatter);
+
+		// Concatenar el input con la fecha y hora
+		return input + "_" + timestamp;
+	}
 }

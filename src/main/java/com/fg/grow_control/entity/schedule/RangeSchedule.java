@@ -53,4 +53,6 @@ public class RangeSchedule {
     @FieldDescription(description = "Value associated with the ChronoUnits. REQUIRED if type is RELATIVE. MUST BE NULL if type is FIXED.")
     private Double unitValue;
 
+    // TODO Is this missing Direction, and OffsetReference? Need to think about this.
+
 }

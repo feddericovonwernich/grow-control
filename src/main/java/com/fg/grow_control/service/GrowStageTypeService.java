@@ -1,6 +1,5 @@
 package com.fg.grow_control.service;
 
-import com.fg.grow_control.entity.GrowStage;
 import io.github.feddericovonwernich.spring_ai.function_calling_service.annotations.AssistantToolProvider;
 import io.github.feddericovonwernich.spring_ai.function_calling_service.annotations.FunctionDefinition;
 import com.fg.grow_control.entity.GrowStageType;
@@ -9,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AssistantToolProvider
@@ -67,4 +67,7 @@ public class GrowStageTypeService extends BasicService<GrowStageType, Long, Grow
         super.deleteById(id);
     }
 
+    public Optional<GrowStageType> findByName(String stringForTestRegisterReading) {
+        return repository.findByName(stringForTestRegisterReading);
+    }
 }

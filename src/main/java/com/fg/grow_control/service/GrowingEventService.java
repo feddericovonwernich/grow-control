@@ -1,5 +1,6 @@
 package com.fg.grow_control.service;
 
+import com.fg.grow_control.entity.GrowingEventType;
 import io.github.feddericovonwernich.spring_ai.function_calling_service.annotations.AssistantToolProvider;
 import io.github.feddericovonwernich.spring_ai.function_calling_service.annotations.FunctionDefinition;
 import com.fg.grow_control.entity.GrowingEvent;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AssistantToolProvider
@@ -80,5 +82,9 @@ public class GrowingEventService extends BasicService<GrowingEvent, Long, Growin
             """)
     public void deleteById(Long id) throws EntityNotFoundException {
         super.deleteById(id);
+    }
+
+    public Optional<GrowingEvent> findByEventTypeAndDescription(GrowingEventType growingEventType, String descriptionStringForTestUpdateEventScheduleGrowingEvent) {
+        return repository.findByGrowingEventTypeAndDescription(growingEventType,descriptionStringForTestUpdateEventScheduleGrowingEvent);
     }
 }

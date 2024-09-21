@@ -5,8 +5,6 @@ import com.fg.grow_control.entity.schedule.EventSchedule;
 import io.github.feddericovonwernich.spring_ai.function_calling_service.annotations.*;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.type.SqlTypes;
 
 import static jakarta.persistence.CascadeType.ALL;
 

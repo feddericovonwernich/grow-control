@@ -1,7 +1,6 @@
 package com.fg.grow_control.entity;
 
 import java.util.*;
-
 import jakarta.persistence.*;
 import lombok.*;
 

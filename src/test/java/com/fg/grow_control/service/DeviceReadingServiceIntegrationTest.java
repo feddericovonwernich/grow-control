@@ -6,8 +6,10 @@ import com.fg.grow_control.entity.GrowingParameterType;
 import com.fg.grow_control.entity.MeasurementDevice;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -15,22 +17,40 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 public class DeviceReadingServiceIntegrationTest extends BasicApplicationintegrationTest {
 
     @Autowired
-    DeviceReadingService deviceReadingService;
+    private DeviceReadingService deviceReadingService;
+
     @Autowired
-    MeasurementDeviceService measurementDeviceService;
+    private GrowingParameterTypeService growingParameterTypeService;
+
+    @Autowired
+    private MeasurementDeviceService measurementDeviceService;
 
     @Test
     public void testDeviceReadingProcess() {
-        GrowingParameterType growingParameterType = GrowingParameterType.builder()
-                .name("Temperature")
-                .build();
+        Optional<GrowingParameterType> existingGrowingParameterType = growingParameterTypeService.findByName("StringForTestDeviceReadingProcess");
+        GrowingParameterType growingParameterType;
 
-        // First, create a measurement device and save it
-        MeasurementDevice newDevice = MeasurementDevice.builder()
-                .growingParameterType(growingParameterType) // Assuming someGrowingParameterType is predefined or fetched from somewhere
-                .build();
+        if (existingGrowingParameterType.isPresent()) {
+            growingParameterType = existingGrowingParameterType.get();
+        } else {
+            growingParameterType = GrowingParameterType.builder()
+                    .name("StringForTestDeviceReadingProcess")
+                    .build();
+            growingParameterType = growingParameterTypeService.createOrUpdate(growingParameterType);
+        }
 
-        MeasurementDevice savedDevice = measurementDeviceService.createOrUpdate(newDevice);
+        // Verificar si ya existe el MeasurementDevice antes de crearlo
+        Optional<MeasurementDevice> existingDevice = measurementDeviceService.findByGrowingParameterTypeName("StringForTestDeviceReadingProcess");
+        MeasurementDevice device;
+
+        if (existingDevice.isPresent()) {
+            device = existingDevice.get();
+        } else {
+            device = MeasurementDevice.builder()
+                    .growingParameterType(growingParameterType)
+                    .build();
+            device = measurementDeviceService.createOrUpdate(device);
+        }
 
         Timestamp lastTimestamp = null;
         // Then, create many DeviceReading objects and save them
@@ -38,7 +58,7 @@ public class DeviceReadingServiceIntegrationTest extends BasicApplicationintegra
         for (int i = 0; i < 5; i++) {
             lastTimestamp = new Timestamp(System.currentTimeMillis());
             DeviceReading newReading = DeviceReading.builder()
-                    .measurementDevice(savedDevice)
+                    .measurementDevice(device    )
                     .reading(Math.random() * 100) // Assuming random readings for simplicity
                     .timestamp(lastTimestamp)
                     .build();
@@ -46,10 +66,10 @@ public class DeviceReadingServiceIntegrationTest extends BasicApplicationintegra
         }
 
         // Fetch the latest reading for the given device and assert it is as expected
-        DeviceReading latestReading = deviceReadingService.getLastReadingForDevice(savedDevice);
+        DeviceReading latestReading = deviceReadingService.getLastReadingForDevice(device);
 
         assertNotNull(latestReading, "Latest reading should not be null");
-        assertEquals(savedDevice.getId(), latestReading.getMeasurementDevice().getId(), "The latest reading should be for the saved device");
+        assertEquals(device.getId(), latestReading.getMeasurementDevice().getId(), "The latest reading should be for the saved device");
         assertEquals(lastTimestamp, latestReading.getTimestamp());
     }
 }

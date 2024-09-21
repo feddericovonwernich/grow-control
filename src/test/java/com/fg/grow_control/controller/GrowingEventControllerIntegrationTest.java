@@ -5,7 +5,9 @@ import com.fg.grow_control.entity.*;
 import com.fg.grow_control.entity.schedule.Direction;
 import com.fg.grow_control.entity.schedule.EventSchedule;
 import com.fg.grow_control.entity.schedule.ScheduleType;
+import com.fg.grow_control.service.EventScheduleService;
 import com.fg.grow_control.service.GrowingEventService;
+import com.fg.grow_control.service.GrowingEventTypeService;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.junit.jupiter.api.*;
@@ -24,25 +26,30 @@ public class GrowingEventControllerIntegrationTest extends BasicApplicationinteg
     @Autowired
     GrowingEventService growingEventService;
 
+    @Autowired
+    private EventScheduleService eventScheduleService;
+
+    @Autowired
+    private GrowingEventTypeService growingEventTypeService;
+
     @Test
     @Order(1)
     public void testCreateGrowingEvent() {
-
         GrowingEventType growingEventType = GrowingEventType.builder()
-                .name("TestType")
+                .name(appendCurrentDateTime("StringForTestCreateGrowingEventTestType"))
                 .build();
 
         EventSchedule eventSchedule = EventSchedule.builder()
-                .date(SimpleTimestamp.fromSqlTimestamp(java.sql.Timestamp.valueOf(LocalDateTime.now())))
                 .type(ScheduleType.FIXED)
-                .direction(Direction.AFTER)
-                .units(ChronoUnit.DAYS)
-                .unitValue(2.0)
+                .date(SimpleTimestamp.fromSqlTimestamp(java.sql.Timestamp.valueOf(LocalDateTime.now())))
+                .direction(null) //will be null for fixed type
+                .units(null)
+                .unitValue(null)
                 .build();
 
         GrowingEvent growingEvent = GrowingEvent.builder()
                 .growingEventType(growingEventType)
-                .description("TestDescription")
+                .description("testDescription")
                 .eventSchedule(eventSchedule)
                 .build();
 
@@ -72,26 +79,105 @@ public class GrowingEventControllerIntegrationTest extends BasicApplicationinteg
 
     @Test
     @Order(2)
-    public void updateEventScheduleThrowGrowingEvent() {
+    public void updateEventScheduleThroughGrowingEvent_FixedType() {
 
-        // Get the growing event with the schedule we want to change.
-        GrowingEvent growingEvent = growingEventService.getById(1L);
+        LocalDateTime currentDateTime = LocalDateTime.now();
 
-        // Get the schedule.
-        EventSchedule eventSchedule = growingEvent.getEventSchedule();
+        GrowingEventType growingEventType = GrowingEventType.builder()
+                .name(appendCurrentDateTime("updateEventScheduleThroughGrowingEvent_FixedType"))
+                .build();
 
-        // Set null these extra properties.
-        eventSchedule.setDirection(null);
-        eventSchedule.setUnits(null);
-        eventSchedule.setUnitValue(null);
+        growingEventType = growingEventTypeService.createOrUpdate(growingEventType);
 
-        // Save the event
+        EventSchedule eventScheduleFixed = EventSchedule.builder()
+                .type(ScheduleType.FIXED)
+                .date(SimpleTimestamp.fromSqlTimestamp(java.sql.Timestamp.valueOf(LocalDateTime.now())))
+                .direction(null)
+                .units(null)
+                .unitValue(null)
+                .build();
+
+        GrowingEvent growingEvent = GrowingEvent.builder()
+                .growingEventType(growingEventType)
+                .description("testDescription")
+                .eventSchedule(eventScheduleFixed)
+                .build();
+
+        growingEvent= growingEventService.createOrUpdate(growingEvent);
+
+        // Obtener el EventSchedule del evento y modificarlo
+        EventSchedule scheduleToUpdate = growingEvent.getEventSchedule();
+        SimpleTimestamp newDate = SimpleTimestamp.fromSqlTimestamp(java.sql.Timestamp.valueOf(currentDateTime.plusDays(10)));
+        scheduleToUpdate.setDate(newDate);
+        growingEvent.setEventSchedule(scheduleToUpdate);
+
+        // Guardar el evento con los cambios
+        growingEvent=growingEventService.createOrUpdate(growingEvent);
+
+        // Verificar que los cambios se guardaron correctamente
+        GrowingEvent updatedGrowingEvent = growingEventService.getById(growingEvent.getId());
+
+        // Comparar campos individuales sino falla
+        Assertions.assertEquals(newDate.getDay(), updatedGrowingEvent.getEventSchedule().getDate().getDay(), "El día no fue actualizado correctamente");
+        Assertions.assertEquals(newDate.getMonth(), updatedGrowingEvent.getEventSchedule().getDate().getMonth(), "El mes no fue actualizado correctamente");
+        Assertions.assertEquals(newDate.getYear(), updatedGrowingEvent.getEventSchedule().getDate().getYear(), "El año no fue actualizado correctamente");
+        Assertions.assertEquals(newDate.getHour(), updatedGrowingEvent.getEventSchedule().getDate().getHour(), "La hora no fue actualizada correctamente");
+        Assertions.assertEquals(newDate.getMinutes(), updatedGrowingEvent.getEventSchedule().getDate().getMinutes(), "Los minutos no fueron actualizados correctamente");
+        Assertions.assertEquals(newDate.getSeconds(), updatedGrowingEvent.getEventSchedule().getDate().getSeconds(), "Los segundos no fueron actualizados correctamente");
+        Assertions.assertNull(updatedGrowingEvent.getEventSchedule().getDirection(), "La dirección no es null");
+        Assertions.assertNull(updatedGrowingEvent.getEventSchedule().getUnits(), "Las unidades no son null");
+        Assertions.assertNull(updatedGrowingEvent.getEventSchedule().getUnitValue(), "El valor de la unidad no es null");
+    }
+
+    @Test
+    @Order(3)
+    public void updateEventScheduleThroughGrowingEvent_RelativeType() {
+
+        // Crear un GrowingEventType para el test
+        GrowingEventType growingEventType = GrowingEventType.builder()
+                .name(appendCurrentDateTime("updateEventScheduleThroughGrowingEvent_RelativeType"))
+                .build();
+
+        growingEventType = growingEventTypeService.createOrUpdate(growingEventType);
+
+        // Crear un EventSchedule con tipo RELATIVE
+        EventSchedule eventSchedule = EventSchedule.builder()
+                .type(ScheduleType.RELATIVE)
+                .direction(Direction.BEFORE)  // Valores relevantes para RELATIVE
+                .units(ChronoUnit.WEEKS)
+                .unitValue(2.0)
+                .date(null)  // Date debe ser null para RELATIVE
+                .build();
+
+        GrowingEvent growingEvent = GrowingEvent.builder()
+                .growingEventType(growingEventType)
+                .description("testDescription")
+                .eventSchedule(eventSchedule)
+                .build();
+
+        growingEvent = growingEventService.createOrUpdate(growingEvent);
+
+        // Obtener el EventSchedule del evento y modificarlo
+        EventSchedule scheduleToUpdate = growingEvent.getEventSchedule();
+        scheduleToUpdate.setDirection(Direction.AFTER);  // Cambiar dirección
+        scheduleToUpdate.setUnits(ChronoUnit.DAYS);      // Cambiar unidades
+        scheduleToUpdate.setUnitValue(5.0);              // Cambiar valor de la unidad
+        scheduleToUpdate.setDate(null);                  // Asegurarse de que date sigue siendo null para RELATIVE
+        growingEvent.setEventSchedule(scheduleToUpdate);
+
+        // Guardar el evento con los cambios
         growingEventService.createOrUpdate(growingEvent);
 
-        // Fetch it again just to make sure.
-        GrowingEvent growingEvent1 = growingEventService.getById(1L);
+        // Verificar que los cambios se guardaron correctamente
+        GrowingEvent updatedEvent = growingEventService.getById(growingEvent.getId());
 
-        Assertions.assertNull(growingEvent1.getEventSchedule().getDirection());
+        // Aserciones específicas para RELATIVE: verificar direction, units y unitValue
+        Assertions.assertEquals(Direction.AFTER, updatedEvent.getEventSchedule().getDirection(), "La dirección no fue actualizada correctamente");
+        Assertions.assertEquals(ChronoUnit.DAYS, updatedEvent.getEventSchedule().getUnits(), "Las unidades no fueron actualizadas correctamente");
+        Assertions.assertEquals(5.0, updatedEvent.getEventSchedule().getUnitValue(), "El valor de la unidad no fue actualizado correctamente");
 
+        // Verificar que la fecha sigue siendo null para un tipo RELATIVE
+        Assertions.assertNull(updatedEvent.getEventSchedule().getDate(), "La fecha debería ser null para un tipo RELATIVE");
     }
+
 }
