@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AssistantToolProvider
@@ -69,5 +70,9 @@ public class GrowingParameterTypeService extends BasicService<GrowingParameterTy
             """)
     public void deleteById(Long id) throws EntityNotFoundException {
         super.deleteById(id);
+    }
+
+    public Optional<GrowingParameterType> findByName(String testType) {
+        return repository.findByName(testType);
     }
 }

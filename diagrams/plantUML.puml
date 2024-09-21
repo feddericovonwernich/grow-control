@@ -1,99 +1,166 @@
 @startuml
+
+'1-The following classes are in order.'
+
+class EventSchedule {
+    - Long id
+    - ScheduleType type
+    - SimpleTimestamp date
+    - ChronoUnit units
+    - Double unitValue
+    - Direction direction
+    - OffsetReference reference
+}
+
+class RangeSchedule {
+    - Long id
+    - ScheduleType type
+    - SimpleTimestamp start
+    - SimpleTimestamp end
+    - ChronoUnit units
+    - Double unitValue
+}
+
 class ActionDevice {
-    Long id
-    MeasurementDevice watchedMeasurement
-    Integer activationThreshold
-    Integer deactivationThreshold
+    - Long id
+    - MeasurementDevice watchedMeasurement
+    - Integer activationThreshold
+    - Integer deactivationThreshold
 }
 
 class DeviceReading {
-    Long id
-    MeasurementDevice measurementDevice
-    Double reading
-    Timestamp timestamp
+    - Long id
+    - MeasurementDevice measurementDevice
+    - Double reading
+    - Timestamp timestamp
 }
 
 class DeviceTrigger {
-    Long id
-    ActionDevice triggeredDevice
-    Long triggerValue
-    Timestamp triggerTime
-    boolean completed
+    - Long id
+    - ActionDevice triggeredDevice
+    - Long triggerValue
+    - SimpleTimestamp triggerTime
+    - boolean completed
 }
 
 class GrowCycle {
-    Long id
-    String description
-    Timestamp date_start
-    Timestamp date_end
+    - Long id
+    - String description
+    - RangeSchedule rangeSchedule
+    - List<GrowStage> growStages
 }
 
 class GrowingEvent {
-    Long id
-    String description
-    Timestamp date
+    - Long id
+    - String description
+    - EventSchedule eventSchedule
+    - GrowStage growStage
+    - GrowingEventType growingEventType
 }
 
 class GrowingEventType {
-    Long id
-    String name
-}
-
-class GrowingParameter {
-    Long id
-    Long value
+    - Long id
+    - String name
 }
 
 class GrowingParameterType {
-    Long id
-    String name
+    - Long id
+    - String name
 }
 
 class GrowStage {
-    Long id
-    String durationUnit
-    Long durationValue
+    - Long id
+    - RangeSchedule rangeSchedule
+    - GrowStageType growStageType
+    - GrowCycle growCycle
+    - List<GrowingEvent> growingEvents
+    - List<MeasuredGrowingParameter> growingParameters
 }
 
 class GrowStageType {
-    Long id
-    String name
+    - Long id
+    - String name
+}
+
+class MeasuredGrowingParameter {
+    - Long id
+    - GrowStage growStage
+    - GrowingParameterType growingParameterType
+    - List<OptimalGrowingParameter> optimalGrowingParameters
+    - MeasurementDevice measurementDevice
 }
 
 class MeasurementDevice {
-    Long id
+    - Long id
+    - GrowingParameterType growingParameterType
+    - MeasuredGrowingParameter growingParameter
 }
 
 class OptimalGrowingParameter {
     Long id
-    Timestamp date_start
-    Timestamp date_end
+    RangeSchedule rangeSchedule
+    MeasuredGrowingParameter measuredGrowingParameter
+    Double optimalValue
 }
 
-class GrowingParameterValueTime {
-    Long id
-    Timestamp timestamp
-    Long value
+class PermissionEntity {
+    - Long id
+    - String name
 }
 
-GrowCycle "1" -- "0..*" GrowStage : contains
-GrowStage "1" -- "1" GrowStageType : has
-GrowStage "0..*" -- "1" GrowCycle : belongs to
-GrowStage "0..*" -- "0..*" GrowingEvent : has
-GrowStage "0..*" -- "0..*" GrowingParameter : has
-GrowingEvent "1" -- "1" GrowingEventType : is a
-GrowingEvent "0..*" -- "1" GrowStage : occurs in
-GrowingParameter "1" -- "1" GrowingParameterType : is a
-GrowingParameter "0..*" -- "0..*" GrowingParameterValueTime : has
-GrowingParameter "0..*" -- "0..*" OptimalGrowingParameter : has
-GrowingParameter "0..*" -- "1" GrowStage : belongs to
-MeasurementDevice "1" -- "1" GrowingParameterType : measures
-ActionDevice "1" -- "1" MeasurementDevice : watches
-DeviceReading "1" -- "1" MeasurementDevice : from
-DeviceTrigger "1" -- "1" ActionDevice : triggers
-OptimalGrowingParameter "1" -- "1" GrowingParameter : for
-GrowingParameterValueTime "1" -- "1" GrowingParameter : for
+class RoleEntity {
+    - Long id
+    - String roleName
+    - Set<PermissionEntity> permissionList
+}
 
-MeasurementDevice "1" -- "0..*" DeviceReading : generates
-ActionDevice "0..*" -- "0..*" DeviceTrigger : triggers
+class SimpleTimestamp {
+    - Integer day
+    - Integer month
+    - Integer year
+    - Integer hour
+    - Integer minutes
+    - Integer seconds
+}
+
+class UserEntity {
+    - Long id
+    - String username
+    - String password
+    - boolean isEnabled
+    - boolean accountNoExpired
+    - boolean accountNoLocked
+    - boolean credentialNoExpired
+    - Set<RoleEntity> roles
+}
+
+
+
+'The following relationships are in order.'
+
+EventSchedule --> SimpleTimestamp : «uses»
+RangeSchedule --> SimpleTimestamp : «uses»
+ActionDevice --> MeasurementDevice : «OneToOne»
+DeviceReading --> MeasurementDevice : «ManyToOne»
+DeviceTrigger --> ActionDevice : «ManyToOne»
+DeviceTrigger --> SimpleTimestamp : «uses»
+GrowCycle --> RangeSchedule : «OneToOne»
+GrowCycle --> GrowStage : «OneToMany»
+GrowingEvent --> EventSchedule : «OneToOne»
+GrowingEvent --> GrowStage : «ManyToOne»
+GrowingEvent --> GrowingEventType : «ManyToOne»
+GrowStage --> RangeSchedule : «OneToOne»
+GrowStage --> GrowStageType : «ManyToOne»
+GrowStage --> GrowCycle : «ManyToOne»
+GrowStage --> GrowingEvent : «OneToMany»
+GrowStage --> MeasuredGrowingParameter : «OneToMany»
+MeasuredGrowingParameter --> GrowStage : «ManyToOne»
+MeasuredGrowingParameter --> GrowingParameterType : «ManyToOne»
+MeasuredGrowingParameter --> OptimalGrowingParameter : «OneToMany»
+MeasuredGrowingParameter --> MeasurementDevice : «OneToOne»
+MeasurementDevice --> GrowingParameterType : «ManyToOne»
+MeasurementDevice --> MeasuredGrowingParameter : «OneToOne»
+RoleEntity --> PermissionEntity : «ManyToMany»
+UserEntity --> RoleEntity : «ManyToMany»
+
 @enduml

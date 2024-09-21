@@ -1,5 +1,6 @@
 package com.fg.grow_control.entity;
 
+
 import io.github.feddericovonwernich.spring_ai.function_calling_service.annotations.*;
 import jakarta.persistence.*;
 import lombok.*;

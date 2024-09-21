@@ -15,11 +15,8 @@ public class MeasurementDeviceControllerIntegrationTest extends BasicApplication
 
     @Test
     public void testCreateOrUpdateMeasurementDevice() {
-
-        // Set up a new MeasurementDevice instance for the test
-
         GrowingParameterType growingParameterType = GrowingParameterType.builder()
-                .name("Temperature")
+                .name(appendCurrentDateTime("StringForTestCreateGrowingParameterType"))
                 .build();
 
         MeasurementDevice measurementDevice = MeasurementDevice.builder()
@@ -44,5 +41,4 @@ public class MeasurementDeviceControllerIntegrationTest extends BasicApplication
         // Assert the status code to ensure it is in the 2XX success range
         Assertions.assertTrue(response.getStatusCode().is2xxSuccessful());
     }
-
 }

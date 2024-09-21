@@ -1,5 +1,6 @@
 package com.fg.grow_control.service;
 
+import com.fg.grow_control.entity.MeasurementDevice;
 import io.github.feddericovonwernich.spring_ai.function_calling_service.annotations.AssistantToolProvider;
 import io.github.feddericovonwernich.spring_ai.function_calling_service.annotations.FunctionDefinition;
 import com.fg.grow_control.entity.ActionDevice;
@@ -8,6 +9,7 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 @AssistantToolProvider
@@ -63,5 +65,9 @@ public class ActionDeviceService extends BasicService<ActionDevice, Long, Action
         """)
     public void deleteById(Long id) throws EntityNotFoundException {
         super.deleteById(id);
+    }
+
+    public Optional<ActionDevice> getActionDeviceByMeasurementDevice(MeasurementDevice measurementDevice) {
+        return repository.findByWatchedMeasurement(measurementDevice);
     }
 }

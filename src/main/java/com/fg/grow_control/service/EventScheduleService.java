@@ -1,11 +1,14 @@
 package com.fg.grow_control.service;
 
+import com.fg.grow_control.entity.SimpleTimestamp;
 import com.fg.grow_control.entity.schedule.EventSchedule;
+import com.fg.grow_control.entity.schedule.ScheduleType;
 import com.fg.grow_control.repository.EventScheduleRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 // TODO Create Function annotations.
@@ -34,4 +37,7 @@ public class EventScheduleService extends BasicService<EventSchedule, Long, Even
         super.deleteById(aLong);
     }
 
+    public Optional<EventSchedule> findByDateAndType(SimpleTimestamp simpleTimestamp, ScheduleType scheduleType) {
+        return repository.findByDateAndType(simpleTimestamp,scheduleType);
+    }
 }

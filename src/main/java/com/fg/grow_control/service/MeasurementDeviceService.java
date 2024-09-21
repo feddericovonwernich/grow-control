@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 @AssistantToolProvider
@@ -80,4 +81,7 @@ public class MeasurementDeviceService extends BasicService<MeasurementDevice, Lo
         super.deleteById(aLong);
     }
 
+    public Optional<MeasurementDevice> findByGrowingParameterTypeName(String typeName) throws EntityNotFoundException{
+        return repository.findByGrowingParameterTypeName(typeName);
+    }
 }

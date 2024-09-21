@@ -5,7 +5,9 @@ import com.fg.grow_control.entity.*;
 import com.fg.grow_control.entity.schedule.Direction;
 import com.fg.grow_control.entity.schedule.EventSchedule;
 import com.fg.grow_control.entity.schedule.ScheduleType;
+import com.fg.grow_control.service.EventScheduleService;
 import com.fg.grow_control.service.GrowingEventService;
+import com.fg.grow_control.service.GrowingEventTypeService;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.junit.jupiter.api.*;
@@ -14,9 +16,11 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.Optional;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class GrowingEventControllerIntegrationTest extends BasicApplicationintegrationTest {
@@ -24,12 +28,17 @@ public class GrowingEventControllerIntegrationTest extends BasicApplicationinteg
     @Autowired
     GrowingEventService growingEventService;
 
+    @Autowired
+    private EventScheduleService eventScheduleService;
+
+    @Autowired
+    private GrowingEventTypeService growingEventTypeService;
+
     @Test
     @Order(1)
     public void testCreateGrowingEvent() {
-
         GrowingEventType growingEventType = GrowingEventType.builder()
-                .name("TestType")
+                .name(appendCurrentDateTime("StringForTestCreateGrowingEventTestType"))
                 .build();
 
         EventSchedule eventSchedule = EventSchedule.builder()
@@ -42,7 +51,7 @@ public class GrowingEventControllerIntegrationTest extends BasicApplicationinteg
 
         GrowingEvent growingEvent = GrowingEvent.builder()
                 .growingEventType(growingEventType)
-                .description("TestDescription")
+                .description("testDescription")
                 .eventSchedule(eventSchedule)
                 .build();
 
@@ -72,26 +81,42 @@ public class GrowingEventControllerIntegrationTest extends BasicApplicationinteg
 
     @Test
     @Order(2)
-    public void updateEventScheduleThrowGrowingEvent() {
+    public void updateEventScheduleThroughGrowingEvent() {
+        GrowingEventType growingEventType = GrowingEventType.builder()
+                .name(appendCurrentDateTime("updateEventScheduleThroughGrowingEvent"))
+                .build();
 
-        // Get the growing event with the schedule we want to change.
-        GrowingEvent growingEvent = growingEventService.getById(1L);
+        growingEventType = growingEventTypeService.createOrUpdate(growingEventType);
 
-        // Get the schedule.
-        EventSchedule eventSchedule = growingEvent.getEventSchedule();
+        EventSchedule eventSchedule = EventSchedule.builder()
+                .date(SimpleTimestamp.fromSqlTimestamp(java.sql.Timestamp.valueOf(LocalDateTime.now())))
+                .type(ScheduleType.FIXED)
+                .direction(Direction.AFTER)
+                .units(ChronoUnit.DAYS)
+                .unitValue(2.0)
+                .build();
 
-        // Set null these extra properties.
-        eventSchedule.setDirection(null);
-        eventSchedule.setUnits(null);
-        eventSchedule.setUnitValue(null);
+        GrowingEvent growingEvent = GrowingEvent.builder()
+                .growingEventType(growingEventType)
+                .description("testDescription")
+                .eventSchedule(eventSchedule)
+                .build();
 
-        // Save the event
+        growingEvent = growingEventService.createOrUpdate(growingEvent);
+
+        // Obtener el EventSchedule del evento y modificarlo
+        EventSchedule scheduleToUpdate = growingEvent.getEventSchedule();
+        scheduleToUpdate.setDirection(null);
+        scheduleToUpdate.setUnits(null);
+        scheduleToUpdate.setUnitValue(null);
+
+        // Guardar el evento con los cambios
         growingEventService.createOrUpdate(growingEvent);
 
-        // Fetch it again just to make sure.
-        GrowingEvent growingEvent1 = growingEventService.getById(1L);
-
-        Assertions.assertNull(growingEvent1.getEventSchedule().getDirection());
-
+        // Verificar que los cambios se guardaron correctamente
+        GrowingEvent updatedEvent = growingEventService.getById(growingEvent.getId());
+        Assertions.assertNull(updatedEvent.getEventSchedule().getDirection(), "La dirección no fue actualizada a null correctamente");
+        Assertions.assertNull(updatedEvent.getEventSchedule().getUnits(), "Las unidades no fueron actualizadas a null correctamente");
+        Assertions.assertNull(updatedEvent.getEventSchedule().getUnitValue(), "El valor de la unidad no fue actualizado a null correctamente");
     }
 }
