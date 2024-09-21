@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fg.grow_control.entity.schedule.EventSchedule;
 import io.github.feddericovonwernich.spring_ai.function_calling_service.annotations.*;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import static jakarta.persistence.CascadeType.ALL;
@@ -24,6 +26,7 @@ public class GrowingEvent {
     @FieldDescription(description = "Identity field for GrowingEvent")
     private Long id;
 
+    @NotBlank
     @Column(nullable = false)
     @FieldDescription(description = "Description of the growing event")
     @RequiredField

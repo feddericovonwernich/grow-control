@@ -4,6 +4,7 @@ import io.github.feddericovonwernich.spring_ai.function_calling_service.annotati
 import io.github.feddericovonwernich.spring_ai.function_calling_service.annotations.ParameterClass;
 import io.github.feddericovonwernich.spring_ai.function_calling_service.annotations.RequiredField;
 import jakarta.persistence.Embeddable;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.sql.Timestamp;
@@ -21,26 +22,32 @@ public class SimpleTimestamp {
 
     @RequiredField
     @FieldDescription(description = "The day of the month")
+    @NotNull
     Integer day;
 
     @RequiredField
     @FieldDescription(description = "The month of the year")
+    @NotNull
     Integer month;
 
     @RequiredField
     @FieldDescription(description = "The year")
+    @NotNull
     Integer year;
 
     @RequiredField
     @FieldDescription(description = "The hour of the day")
+    @NotNull
     Integer hour;
 
     @RequiredField
     @FieldDescription(description = "The minute of the hour")
+    @NotNull
     Integer minutes;
 
     @RequiredField
     @FieldDescription(description = "The second of the minute")
+    @NotNull
     Integer seconds;
 
     public static SimpleTimestamp fromSqlTimestamp(java.sql.Timestamp timestamp) {

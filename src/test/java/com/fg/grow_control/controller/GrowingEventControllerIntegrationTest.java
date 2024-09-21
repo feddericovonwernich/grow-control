@@ -44,9 +44,9 @@ public class GrowingEventControllerIntegrationTest extends BasicApplicationinteg
         EventSchedule eventSchedule = EventSchedule.builder()
                 .date(SimpleTimestamp.fromSqlTimestamp(java.sql.Timestamp.valueOf(LocalDateTime.now())))
                 .type(ScheduleType.FIXED)
-                .direction(Direction.AFTER)
-                .units(ChronoUnit.DAYS)
-                .unitValue(2.0)
+                .direction(null)
+                .units(null)
+                .unitValue(null)
                 .build();
 
         GrowingEvent growingEvent = GrowingEvent.builder()

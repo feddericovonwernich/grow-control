@@ -2,6 +2,7 @@ package com.fg.grow_control.entity;
 
 import java.util.*;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 @Entity
@@ -17,10 +18,12 @@ public class UserEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank
     @Column(unique = true)
     private String username;
-    
+
     @Column(nullable = false)
+    @NotBlank
     private String password;
 
     @Column(name = "is_enabled")

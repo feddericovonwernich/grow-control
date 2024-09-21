@@ -1,6 +1,7 @@
 package com.fg.grow_control.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.sql.Timestamp;
@@ -22,6 +23,7 @@ public class DeviceReading {
     @JoinColumn(name = "id_measurement_device")
     private MeasurementDevice measurementDevice;
 
+    @NotNull
     @Column(nullable = false)
     private Double reading;
 
