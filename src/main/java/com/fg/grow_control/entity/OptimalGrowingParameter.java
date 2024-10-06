@@ -1,10 +1,9 @@
 package com.fg.grow_control.entity;
 
+import com.fg.grow_control.entity.schedule.RangeSchedule;
 import io.github.feddericovonwernich.spring_ai.function_calling_service.annotations.*;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.type.SqlTypes;
 
 @Entity
 @Getter
@@ -22,25 +21,22 @@ public class OptimalGrowingParameter {
     @FieldDescription(description = "Unique identifier for each OptimalGrowingParameter")
     private Long id;
 
-    @Convert(converter = SimpleTimestampConverter.class)
-    @Column(nullable = false)
-    @JdbcTypeCode(SqlTypes.VARCHAR)
+    @OneToOne
+    @JoinColumn(name = "range_schedule_id", referencedColumnName = "id")
     @RequiredField
-    @FieldDescription(description = "Start timestamp of the optimal growing parameter")
-    private SimpleTimestamp date_start;
-
-    @Convert(converter = SimpleTimestampConverter.class)
-    @Column(nullable = false)
-    @JdbcTypeCode(SqlTypes.VARCHAR)
-    @RequiredField
-    @FieldDescription(description = "End timestamp of the optimal growing parameter")
-    private SimpleTimestamp date_end;
+    @FieldDescription(description = "The schedule for this GrowingParameter, marks when the this optimal value is desired.")
+    private RangeSchedule rangeSchedule;
 
     @ManyToOne
     @JoinColumn(name = "id_growing_parameter")
     @RequiredField
     @Reference
     @FieldDescription(description = "Reference to the growing parameter")
-    private GrowingParameter growingParameter;
+    private MeasuredGrowingParameter growingParameter;
+
+    @Column(nullable = false)
+    @RequiredField
+    @FieldDescription(description = "This is the value we're aiming to have during the scheduled period of time.")
+    private Double optimalValue;
 
 }

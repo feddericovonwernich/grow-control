@@ -1,5 +1,6 @@
 package com.fg.grow_control.service;
 
+import com.fg.grow_control.entity.GrowingEventType;
 import io.github.feddericovonwernich.spring_ai.function_calling_service.annotations.AssistantToolProvider;
 import io.github.feddericovonwernich.spring_ai.function_calling_service.annotations.FunctionDefinition;
 import com.fg.grow_control.entity.GrowingEvent;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AssistantToolProvider
@@ -16,6 +18,9 @@ public class GrowingEventService extends BasicService<GrowingEvent, Long, Growin
 
     @Autowired
     private GrowingEventTypeService growingEventTypeService;
+
+    @Autowired
+    private EventScheduleService eventScheduleService;
 
     @Autowired
     public GrowingEventService(GrowingEventRepository repository) {
@@ -27,8 +32,13 @@ public class GrowingEventService extends BasicService<GrowingEvent, Long, Growin
             description = "Creates or updates a GrowingEvent object.",
             parameterClass = GrowingEvent.class)
     public GrowingEvent createOrUpdate(GrowingEvent object) {
+
         if (object.getGrowingEventType() != null && object.getGrowingEventType().getId() == null) {
             growingEventTypeService.createOrUpdate(object.getGrowingEventType());
+        }
+
+        if (object.getEventSchedule() != null && object.getEventSchedule().getId() == null) {
+            eventScheduleService.createOrUpdate(object.getEventSchedule());
         }
 
         return super.createOrUpdate(object);
@@ -72,5 +82,9 @@ public class GrowingEventService extends BasicService<GrowingEvent, Long, Growin
             """)
     public void deleteById(Long id) throws EntityNotFoundException {
         super.deleteById(id);
+    }
+
+    public Optional<GrowingEvent> findByEventTypeAndDescription(GrowingEventType growingEventType, String descriptionStringForTestUpdateEventScheduleGrowingEvent) {
+        return repository.findByGrowingEventTypeAndDescription(growingEventType,descriptionStringForTestUpdateEventScheduleGrowingEvent);
     }
 }

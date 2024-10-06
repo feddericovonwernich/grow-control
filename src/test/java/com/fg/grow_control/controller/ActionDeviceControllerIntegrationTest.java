@@ -1,14 +1,9 @@
 package com.fg.grow_control.controller;
 
-
 import com.fg.grow_control.BasicApplicationintegrationTest;
 import com.fg.grow_control.dto.DeviceReadingDTO;
-import com.fg.grow_control.entity.ActionDevice;
-import com.fg.grow_control.entity.GrowingParameterType;
-import com.fg.grow_control.entity.MeasurementDevice;
-import com.fg.grow_control.service.ActionDeviceService;
-import com.fg.grow_control.service.DeviceReadingService;
-import com.fg.grow_control.service.MeasurementDeviceService;
+import com.fg.grow_control.entity.*;
+import com.fg.grow_control.service.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.junit.jupiter.api.Assertions;
@@ -19,10 +14,15 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 
+import java.util.Optional;
+
 public class ActionDeviceControllerIntegrationTest extends BasicApplicationintegrationTest {
 
     @Autowired
     private MeasurementDeviceService measurementDeviceService;
+
+    @Autowired
+    GrowStageService growStageService;
 
     @Autowired
     private ActionDeviceService actionDeviceService;
@@ -31,16 +31,23 @@ public class ActionDeviceControllerIntegrationTest extends BasicApplicationinteg
     private DeviceReadingService deviceReadingService;
 
     @Autowired
+    GrowStageTypeService growStageTypeService;
+
+    @Autowired
     private ActionDeviceController actionDeviceController;
+
+    @Autowired
+    MeasuredGrowingParameterService measuredGrowingParameterService;
 
     @Test
     public void testCreateActionDevice() {
-        MeasurementDevice measurementDevice = createMeasurementDevice();
 
-        // Create an instance of ActionDevice with specified thresholds
+        //all measurement devices will be different to ensure the creation of a new action device everytime
+        MeasurementDevice measurementDevice = createMeasurementDevice(appendCurrentDateTime("StringForTestCreateActionDevice"));
+
         ActionDevice actionDevice = ActionDevice.builder()
-                .activationThreshold(50) // Threshold for activation
-                .deactivationThreshold(20) // Threshold for deactivation
+                .activationThreshold(50)
+                .deactivationThreshold(20)
                 .watchedMeasurement(measurementDevice)
                 .build();
 
@@ -87,45 +94,96 @@ public class ActionDeviceControllerIntegrationTest extends BasicApplicationinteg
 
         // Make the PUT request and capture the response
         ResponseEntity<ActionDevice> responseUpdate = restTemplate.exchange(url, HttpMethod.POST, entity, ActionDevice.class);
+        System.out.println("Response Body as String: " + responseUpdate.getBody());
 
         // Validate the response to ensure it's successful
-        Assertions.assertTrue(response.getStatusCode().is2xxSuccessful(),
+        Assertions.assertTrue(responseUpdate.getStatusCode().is2xxSuccessful(),
                 "HTTP request to update ActionDevice was not successful. Response: " + response.getBody());
-
 
         // Assert that the updated values of activation and deactivation thresholds are properly reflected in the response
         Assertions.assertEquals(60, responseUpdate.getBody().getActivationThreshold(),
                 "The activation threshold in the response did not match the expected updated value.");
+
         Assertions.assertEquals(40, responseUpdate.getBody().getDeactivationThreshold(),
                 "The deactivation threshold in the response did not match the expected updated value.");
 
     }
 
-    private MeasurementDevice createMeasurementDevice() {
+
+
+    private MeasurementDevice createMeasurementDevice(String typeName) {
+
         GrowingParameterType growingParameterType = GrowingParameterType.builder()
-                .name("Temperature")
+                .name(typeName)
                 .build();
 
-        MeasurementDevice measurementDevice = MeasurementDevice.builder()
+       // Create and persist the GrowStage instance
+        GrowStageType growStageType = GrowStageType.builder()
+                .name(typeName)
+                .build();
+
+        GrowStage growStage = GrowStage.builder()
+                .growStageType(growStageType)
+                .build();
+
+        // Persist the GrowStage before using it
+        growStage = growStageService.createOrUpdate(growStage);
+
+        // Create and persist the MeasuredGrowingParameter instance before setting it in MeasurementDevice
+        MeasuredGrowingParameter measuredGrowingParameter = MeasuredGrowingParameter.builder()
+                .growStage(growStage) // Now growStage is a persisted entity
                 .growingParameterType(growingParameterType)
                 .build();
 
+        // Persist MeasuredGrowingParameter before using it in MeasurementDevice
+        measuredGrowingParameter = measuredGrowingParameterService.createOrUpdate(measuredGrowingParameter); // Assuming you have a service for this
+
+        // Now create and save the MeasurementDevice instance
+        MeasurementDevice measurementDevice = MeasurementDevice.builder()
+                .growingParameterType(growingParameterType)
+                .growingParameter(measuredGrowingParameter) // Now it's a persisted entity
+                .build();
+
         measurementDevice = measurementDeviceService.createOrUpdate(measurementDevice);
+
         return measurementDevice;
     }
 
-    @Test
+    private MeasurementDevice createOrGetMeasurementDeviceForType(String typeName) {
+
+        // Verificar si un MeasurementDevice con el nombre del tipo ya existe en la base de datos
+        Optional<MeasurementDevice> existingDevice = measurementDeviceService.findByGrowingParameterTypeName(typeName);
+
+        if (existingDevice.isPresent()) {
+            // Si ya existe, devolver el MeasurementDevice encontrado
+            return existingDevice.get();
+        }
+
+        // Si no existe, crear uno nuevo usando el método createMeasurementDevice
+        return createMeasurementDevice(typeName);
+    }
+
+        @Test
     public void testShouldTrigger_DriveValueUp_StopsWhenReached() {
-        MeasurementDevice measurementDevice = createMeasurementDevice();
 
-        // Set up an ActionDevice to monitor values increasing
-        ActionDevice actionDevice = ActionDevice.builder()
-                .activationThreshold(20)
-                .deactivationThreshold(30)
-                .watchedMeasurement(measurementDevice)
-                .build();
+        //here we can use the method called "create or get" because in this test we are evaluating other question.
+        MeasurementDevice measurementDevice = createOrGetMeasurementDeviceForType("StringForTestDriveValueUp");
 
-        actionDevice = actionDeviceService.createOrUpdate(actionDevice);
+        Optional<ActionDevice> existingActionDevice = actionDeviceService.getActionDeviceByMeasurementDevice(measurementDevice);
+        ActionDevice actionDevice;
+        if (existingActionDevice.isPresent()) {
+            // Si ya existe, usar el ActionDevice existente
+            actionDevice = existingActionDevice.get();
+        } else {
+            // Si no existe, crear un nuevo ActionDevice
+            actionDevice = ActionDevice.builder()
+                    .activationThreshold(20)
+                    .deactivationThreshold(30)
+                    .watchedMeasurement(measurementDevice)
+                    .build();
+            actionDevice = actionDeviceService.createOrUpdate(actionDevice);
+        }
+
 
         DeviceReadingDTO preReadingDTO = DeviceReadingDTO.builder()
                 .measurementValue(21.0)
@@ -174,16 +232,24 @@ public class ActionDeviceControllerIntegrationTest extends BasicApplicationinteg
 
     @Test
     public void testShouldTrigger_DriveValueDown_StopsWhenReached() {
-        MeasurementDevice measurementDevice = createMeasurementDevice();
 
-        // Set up an ActionDevice to monitor values decreasing
-        ActionDevice actionDevice = ActionDevice.builder()
-                .activationThreshold(20)
-                .deactivationThreshold(10)
-                .watchedMeasurement(measurementDevice)
-                .build();
+        //here we can use the method called "create or get" because in this test we are evaluating other question.
+        MeasurementDevice measurementDevice = createOrGetMeasurementDeviceForType("StringForTestDriveValueDown");
 
-        actionDevice = actionDeviceService.createOrUpdate(actionDevice);
+        Optional<ActionDevice> existingActionDevice = actionDeviceService.getActionDeviceByMeasurementDevice(measurementDevice);
+        ActionDevice actionDevice;
+        if (existingActionDevice.isPresent()) {
+            // Si ya existe, usar el ActionDevice existente
+            actionDevice = existingActionDevice.get();
+        } else {
+            // Si no existe, crear un nuevo ActionDevice
+            actionDevice = ActionDevice.builder()
+                    .activationThreshold(20)
+                    .deactivationThreshold(10)
+                    .watchedMeasurement(measurementDevice)
+                    .build();
+            actionDevice = actionDeviceService.createOrUpdate(actionDevice);
+        }
 
         DeviceReadingDTO preReadingDTO = DeviceReadingDTO.builder()
                 .measurementValue(19.0)
@@ -229,6 +295,5 @@ public class ActionDeviceControllerIntegrationTest extends BasicApplicationinteg
         // Assert that we should stop triggering as final reading is below deactivation threshold
         Assertions.assertEquals(Boolean.FALSE, responseFinal.getBody(), "Expected to stop triggering as the reading is below the deactivation threshold.");
     }
-
 }
 

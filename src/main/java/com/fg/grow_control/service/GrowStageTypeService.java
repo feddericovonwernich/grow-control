@@ -1,6 +1,5 @@
 package com.fg.grow_control.service;
 
-import com.fg.grow_control.entity.GrowStage;
 import io.github.feddericovonwernich.spring_ai.function_calling_service.annotations.AssistantToolProvider;
 import io.github.feddericovonwernich.spring_ai.function_calling_service.annotations.FunctionDefinition;
 import com.fg.grow_control.entity.GrowStageType;
@@ -9,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AssistantToolProvider
@@ -29,17 +29,17 @@ public class GrowStageTypeService extends BasicService<GrowStageType, Long, Grow
 
     @Override
     @FunctionDefinition(name = "GrowStageTypeService_getById", description = "Retrieves a GrowStageType object by its ID.", parameters = """
-                    {
-                      "type": "object",
-                      "properties": {
-                        "id": {
-                          "type": "number",
-                          "description": "The ID of the GrowStageType object to retrieve."
-                        }
-                      },
-                      "required": ["id"]
+            {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "number",
+                        "description": "The ID of the GrowStageType object to retrieve."
                     }
-                """)
+                },
+                "required": ["id"]
+            }
+        """)
     public GrowStageType getById(Long id) {
         return super.getById(id);
     }
@@ -52,19 +52,22 @@ public class GrowStageTypeService extends BasicService<GrowStageType, Long, Grow
 
     @Override
     @FunctionDefinition(name = "GrowStageTypeService_deleteById", description = "Deletes a GrowStageType object by its ID.", parameters = """
-                    {
-                      "type": "object",
-                      "properties": {
-                        "id": {
-                          "type": "number",
-                          "description": "The ID of the GrowStageType object to delete."
-                        }
-                      },
-                      "required": ["id"]
+            {
+                "type": "object",
+                "properties": {
+                    "id": {
+                      "type": "number",
+                      "description": "The ID of the GrowStageType object to delete."
                     }
-                """)
+                },
+                "required": ["id"]
+            }
+        """)
     public void deleteById(Long id) {
         super.deleteById(id);
     }
 
+    public Optional<GrowStageType> findByName(String stringForTestRegisterReading) {
+        return repository.findByName(stringForTestRegisterReading);
+    }
 }

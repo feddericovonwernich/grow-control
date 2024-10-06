@@ -21,7 +21,10 @@ public class GrowStageService extends BasicService<GrowStage, Long, GrowStageRep
     private GrowingEventService growingEventService;
 
     @Autowired
-    private GrowingParameterService growingParameterService;
+    private MeasuredGrowingParameterService growingParameterService;
+
+    @Autowired
+    private RangeScheduleService rangeScheduleService;
 
     @Autowired
     public GrowStageService(GrowStageRepository repository) {
@@ -33,6 +36,7 @@ public class GrowStageService extends BasicService<GrowStage, Long, GrowStageRep
             description = "Creates or updates a GrowStage object.",
             parameterClass = GrowStage.class)
     public GrowStage createOrUpdate(GrowStage object) {
+
         if (object.getGrowStageType() != null && object.getGrowStageType().getId() == null) {
             growStageTypeService.createOrUpdate(object.getGrowStageType());
         }
@@ -53,22 +57,26 @@ public class GrowStageService extends BasicService<GrowStage, Long, GrowStageRep
             });
         }
 
+        if (object.getRangeSchedule() != null && object.getRangeSchedule().getId() == null) {
+            rangeScheduleService.createOrUpdate(object.getRangeSchedule());
+        }
+
         return super.createOrUpdate(object);
     }
 
     @Override
     @FunctionDefinition(name = "GrowStageService_getById", description = "Retrieves a GrowStage object by its Id.", parameters = """
-                {
-                  "type": "object",
-                  "properties": {
+            {
+                "type": "object",
+                "properties": {
                     "id": {
-                      "type": "number",
-                      "description": "The ID of the GrowStage object to retrieve."
+                        "type": "number",
+                        "description": "The ID of the GrowStage object to retrieve."
                     }
-                  },
-                  "required": ["id"]
-                }
-            """)
+                },
+                "required": ["id"]
+            }
+        """)
     public GrowStage getById(Long id) throws EntityNotFoundException {
         return super.getById(id);
     }
@@ -81,17 +89,17 @@ public class GrowStageService extends BasicService<GrowStage, Long, GrowStageRep
 
     @Override
     @FunctionDefinition(name = "GrowStageService_deleteById", description = "Deletes a GrowStage object by its Id.", parameters = """
-                {
-                  "type": "object",
-                  "properties": {
+            {
+                "type": "object",
+                "properties": {
                     "id": {
-                      "type": "number",
-                      "description": "The ID of the GrowStage object to delete."
+                        "type": "number",
+                        "description": "The ID of the GrowStage object to delete."
                     }
-                  },
-                  "required": ["id"]
-                }
-            """)
+                },
+                "required": ["id"]
+            }
+        """)
     public void deleteById(Long id) throws EntityNotFoundException {
         super.deleteById(id);
     }

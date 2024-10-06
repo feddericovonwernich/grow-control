@@ -20,7 +20,7 @@ public class GrowingEventType {
     @ReferenceField
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     @RequiredField  // Assuming the field is required
     @FieldDescription(description = "Name of the growing event type")
     private String name;

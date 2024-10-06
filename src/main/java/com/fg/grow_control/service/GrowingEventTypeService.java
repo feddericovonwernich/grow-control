@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AssistantToolProvider
@@ -31,17 +32,17 @@ public class GrowingEventTypeService extends BasicService<GrowingEventType, Long
 
     @Override
     @FunctionDefinition(name = "GrowingEventTypeService_getById", description = "Retrieves a GrowingEventType object by its Id.", parameters = """
-                {
-                  "type": "object",
-                  "properties": {
+            {
+                "type": "object",
+                "properties": {
                     "id": {
-                      "type": "number",
-                      "description": "The ID of the GrowingEventType object to retrieve."
+                        "type": "number",
+                        "description": "The ID of the GrowingEventType object to retrieve."
                     }
-                  },
-                  "required": ["id"]
-                }
-            """)
+                },
+                "required": ["id"]
+            }
+        """)
     public GrowingEventType getById(Long id) throws EntityNotFoundException {
         return super.getById(id);
     }
@@ -55,18 +56,22 @@ public class GrowingEventTypeService extends BasicService<GrowingEventType, Long
     @Override
     @Transactional
     @FunctionDefinition(name = "GrowingEventTypeService_deleteById", description = "Deletes a GrowingEventType object by its Id.", parameters = """
-                {
-                  "type": "object",
-                  "properties": {
+            {
+                "type": "object",
+                "properties": {
                     "id": {
-                      "type": "number",
-                      "description": "The ID of the GrowingEventType object to delete."
+                        "type": "number",
+                        "description": "The ID of the GrowingEventType object to delete."
                     }
-                  },
-                  "required": ["id"]
-                }
-            """)
+                },
+                "required": ["id"]
+            }
+        """)
     public void deleteById(Long id) throws EntityNotFoundException {
         super.deleteById(id);
+    }
+
+    public Optional<GrowingEventType> findByName(String name) {
+        return repository.findByName(name);
     }
 }

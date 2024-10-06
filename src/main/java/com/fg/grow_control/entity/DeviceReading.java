@@ -30,5 +30,4 @@ public class DeviceReading {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Timestamp timestamp;
 
-
 }

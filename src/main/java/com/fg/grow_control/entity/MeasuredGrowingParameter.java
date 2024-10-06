@@ -1,5 +1,6 @@
 package com.fg.grow_control.entity;
 
+
 import io.github.feddericovonwernich.spring_ai.function_calling_service.annotations.*;
 import jakarta.persistence.*;
 import lombok.*;
@@ -14,7 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @ToString
 @ParameterClass
-public class GrowingParameter {
+public class MeasuredGrowingParameter {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,4 +45,5 @@ public class GrowingParameter {
     @OneToOne(mappedBy = "growingParameter")
     @Ignore
     private MeasurementDevice measurementDevice;
+
 }

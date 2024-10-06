@@ -1,5 +1,6 @@
 package com.fg.grow_control.service;
 
+import com.fg.grow_control.entity.MeasurementDevice;
 import io.github.feddericovonwernich.spring_ai.function_calling_service.annotations.AssistantToolProvider;
 import io.github.feddericovonwernich.spring_ai.function_calling_service.annotations.FunctionDefinition;
 import com.fg.grow_control.entity.ActionDevice;
@@ -8,6 +9,7 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 @AssistantToolProvider
@@ -27,17 +29,17 @@ public class ActionDeviceService extends BasicService<ActionDevice, Long, Action
 
     @Override
     @FunctionDefinition(name = "ActionDeviceService_getById", description = "Retrieves an ActionDevice object by its Id.", parameters = """
-                    {
-                      "type": "object",
-                      "properties": {
-                        "id": {
-                          "type": "number",
-                          "description": "The ID of the ActionDevice object to retrieve."
-                        }
-                      },
-                      "required": ["id"]
+            {
+                "type": "object",
+                "properties": {
+                    "id": {
+                      "type": "number",
+                      "description": "The ID of the ActionDevice object to retrieve."
                     }
-            """)
+                },
+                "required": ["id"]
+            }
+        """)
     public ActionDevice getById(Long id) throws EntityNotFoundException {
         return super.getById(id);
     }
@@ -50,18 +52,22 @@ public class ActionDeviceService extends BasicService<ActionDevice, Long, Action
 
     @Override
     @FunctionDefinition(name = "ActionDeviceService_deleteById", description = "Deletes an ActionDevice object by its Id.", parameters = """
-                    {
-                      "type": "object",
-                      "properties": {
-                        "id": {
-                          "type": "number",
-                          "description": "The ID of the ActionDevice object to delete."
-                        }
-                      },
-                      "required": ["id"]
+            {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "number",
+                        "description": "The ID of the ActionDevice object to delete."
                     }
-            """)
+                },
+                "required": ["id"]
+            }
+        """)
     public void deleteById(Long id) throws EntityNotFoundException {
         super.deleteById(id);
+    }
+
+    public Optional<ActionDevice> getActionDeviceByMeasurementDevice(MeasurementDevice measurementDevice) {
+        return repository.findByWatchedMeasurement(measurementDevice);
     }
 }

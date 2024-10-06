@@ -1,5 +1,6 @@
 package com.fg.grow_control.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.github.feddericovonwernich.spring_ai.function_calling_service.annotations.FieldDescription;
 import jakarta.persistence.*;
 import lombok.*;
@@ -31,5 +32,6 @@ public class MeasurementDevice {
     @OneToOne
     @FieldDescription(description = "Associated growing parameter")
     @Reference
-    private GrowingParameter growingParameter;
+    @JsonIgnore
+    private MeasuredGrowingParameter growingParameter;
 }

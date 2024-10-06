@@ -2,8 +2,10 @@ package com.fg.grow_control.controller;
 
 import com.fg.grow_control.BasicApplicationintegrationTest;
 import com.fg.grow_control.dto.DeviceReadingDTO;
-import com.fg.grow_control.entity.GrowingParameterType;
-import com.fg.grow_control.entity.MeasurementDevice;
+import com.fg.grow_control.entity.*;
+import com.fg.grow_control.service.GrowStageService;
+import com.fg.grow_control.service.GrowingParameterTypeService;
+import com.fg.grow_control.service.MeasuredGrowingParameterService;
 import com.fg.grow_control.service.MeasurementDeviceService;
 import com.google.gson.Gson;
 import org.junit.jupiter.api.Assertions;
@@ -14,30 +16,28 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 
+import java.util.Optional;
+
 public class DeviceReadingControllerIntegrationTest extends BasicApplicationintegrationTest {
 
     @Autowired
     private MeasurementDeviceService measurementDeviceService;
 
+    @Autowired
+    private MeasuredGrowingParameterService measuredGrowingParameterService;
+
+    @Autowired
+    private GrowStageService growStageService;
+
+    @Autowired
+    private GrowingParameterTypeService growingParameterTypeService;
+
     @Test
     public void testRegisterReading() {
 
-        // Set up
-
-        GrowingParameterType growingParameterType
-                = GrowingParameterType.builder()
-                .name("Humedad")
-                .build();
-
-        MeasurementDevice measurementDevice
-                = MeasurementDevice.builder()
-                .growingParameterType(growingParameterType)
-                .build();
-
-        measurementDevice = measurementDeviceService.createOrUpdate(measurementDevice);
+        MeasurementDevice measurementDevice = createOrGetMeasurementDeviceForType("StringForTestRegisterReading");
 
         // Make request
-
         DeviceReadingDTO deviceReadingDTO = DeviceReadingDTO.builder()
                                                 .deviceId(measurementDevice.getId())
                                                 .measurementValue(50.00)
@@ -60,4 +60,51 @@ public class DeviceReadingControllerIntegrationTest extends BasicApplicationinte
         Assertions.assertTrue(response.getStatusCode().is2xxSuccessful());
     }
 
+    private MeasurementDevice createMeasurementDevice(String typeName) {
+
+        GrowingParameterType growingParameterType = GrowingParameterType.builder()
+                .name(typeName)
+                .build();
+
+        // Create and persist the GrowStage instance
+        GrowStageType growStageType = GrowStageType.builder()
+                .name(typeName)
+                .build();
+
+        GrowStage growStage = GrowStage.builder()
+                .growStageType(growStageType)
+                .build();
+
+        // Persist the GrowStage before using it
+        growStage = growStageService.createOrUpdate(growStage);
+
+        // Create and persist the MeasuredGrowingParameter instance before setting it in MeasurementDevice
+        MeasuredGrowingParameter measuredGrowingParameter = MeasuredGrowingParameter.builder()
+                .growStage(growStage) // Now growStage is a persisted entity
+                .growingParameterType(growingParameterType)
+                .build();
+
+        // Persist MeasuredGrowingParameter before using it in MeasurementDevice
+        measuredGrowingParameter = measuredGrowingParameterService.createOrUpdate(measuredGrowingParameter); // Assuming you have a service for this
+
+        // Now create and save the MeasurementDevice instance
+        MeasurementDevice measurementDevice = MeasurementDevice.builder()
+                .growingParameterType(growingParameterType)
+                .growingParameter(measuredGrowingParameter) // Now it's a persisted entity
+                .build();
+
+        measurementDevice = measurementDeviceService.createOrUpdate(measurementDevice);
+
+        return measurementDevice;
+    }
+
+    private MeasurementDevice createOrGetMeasurementDeviceForType(String typeName) {
+
+        Optional<MeasurementDevice> existingDevice = measurementDeviceService.findByGrowingParameterTypeName(typeName);
+
+        if (existingDevice.isPresent()) {
+            return existingDevice.get();
+        }
+        return createMeasurementDevice(typeName);
+    }
 }
