@@ -2,8 +2,6 @@ package com.fg.grow_control.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import java.util.List;
-import io.github.feddericovonwernich.spring_ai.function_calling_service.annotations.Ignore;
 
 @Entity
 @Getter
@@ -19,9 +17,4 @@ public class Setting {
     private Long id;
 
     private String name;
-
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "setting")
-    @Singular
-    @Ignore
-    private List<GrowCycleSetting> growCycleSettings;
 }

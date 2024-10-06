@@ -11,7 +11,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class ArduinoCodeTemplate {
+public class CodeTemplate {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

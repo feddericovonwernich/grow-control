@@ -37,9 +37,4 @@ public class GrowCycle {
     @Singular
     @Ignore
     private List<GrowStage> growStages;
-
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "growCycle")
-    @Singular
-    @Ignore
-    private List<GrowCycleSetting> growCycleSettings;
 }

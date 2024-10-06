@@ -7,7 +7,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import com.fg.grow_control.dto.DeviceConfigurationRequestDTO;
 import com.fg.grow_control.entity.DeviceType;
-import com.fg.grow_control.service.ArduinoCodeTemplateService;
+import com.fg.grow_control.service.CodeTemplateService;
 
 @RestController
 @RequestMapping("/device-configuration")
@@ -15,22 +15,19 @@ import com.fg.grow_control.service.ArduinoCodeTemplateService;
 public class DeviceConfigurationController {
 
     @Autowired
-    private ArduinoCodeTemplateService arduinoCodeTemplateService;
+    private CodeTemplateService codeTemplateService;
 
     @PostMapping("/generate")
     public ResponseEntity<String> getConfigurationForDevices(@RequestBody DeviceConfigurationRequestDTO request) { 
-        StringBuilder finalCode = new StringBuilder();
 
-        // Obtiene el GrowCycleID y la lista de dispositivos
+        // Obtiene el GrowCycleID y la lista de dispositivos desde el DTO
         Long growCycleId = request.getGrowCycleId();
         List<DeviceType> devices = request.getDevices();
 
-        // Itera sobre la lista de dispositivos y genera el código para cada uno
-        for (DeviceType deviceType : devices) {
-            String code = arduinoCodeTemplateService.generateCodeForDeviceType(deviceType, growCycleId);
-            finalCode.append(code).append("\n\n"); // Concatenar el código de cada dispositivo
-        }
+        // Llama al servicio para generar el código
+        String finalCode = codeTemplateService.generateCodeForDevices(devices, growCycleId);
 
-        return ResponseEntity.ok(finalCode.toString());
+        // Retorna el código generado como respuesta
+        return ResponseEntity.ok(finalCode);
     }
 }

@@ -9,7 +9,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class GrowCycleSetting {
+public class GrowCycleSettingValue {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
