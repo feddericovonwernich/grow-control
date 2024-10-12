@@ -23,6 +23,6 @@ public class CodeTemplate {
     @ElementCollection
     private List<String> templateVars;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
     private DeviceType deviceType;
 }

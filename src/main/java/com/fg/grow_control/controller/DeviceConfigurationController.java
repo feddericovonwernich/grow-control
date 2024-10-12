@@ -10,7 +10,7 @@ import com.fg.grow_control.entity.DeviceType;
 import com.fg.grow_control.service.CodeTemplateService;
 
 @RestController
-@RequestMapping("/device-configuration")
+@RequestMapping("/deviceConfiguration")
 @PreAuthorize("permitAll()")
 public class DeviceConfigurationController {
 
@@ -20,14 +20,13 @@ public class DeviceConfigurationController {
     @PostMapping("/generate")
     public ResponseEntity<String> getConfigurationForDevices(@RequestBody DeviceConfigurationRequestDTO request) { 
 
-        // Obtiene el GrowCycleID y la lista de dispositivos desde el DTO
-        Long growCycleId = request.getGrowCycleId();
-        List<DeviceType> devices = request.getDevices();
+    // Obtiene el GrowCycleID y la lista de dispositivos desde el DTO
+    Long growCycleId = request.getGrowCycleId();
+    List<DeviceType> devices = request.getDevices();
 
-        // Llama al servicio para generar el código
-        String finalCode = codeTemplateService.generateCodeForDevices(devices, growCycleId);
-
-        // Retorna el código generado como respuesta
-        return ResponseEntity.ok(finalCode);
+    // Llama al servicio para generar el código
+    String finalCode = codeTemplateService.generateCodeForDevices(devices, growCycleId);
+        
+    return ResponseEntity.ok(finalCode);
     }
 }

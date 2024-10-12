@@ -10,5 +10,4 @@ public class DeviceReadingDTO {
     private Long deviceId;
 
     private Double measurementValue;
-
 }

@@ -28,17 +28,17 @@ public class CodeTemplateService extends BasicService<CodeTemplate, Long, CodeTe
                 .orElseThrow(() -> new EntityNotFoundException("No template found for device type: " + deviceType.getName()));
 
         // Obtiene el template inicial
-        String generatedCode = codeTemplate.getTemplate();
+        String template = codeTemplate.getTemplate();
         // Reemplaza las variables del template con los valores de configuración
-        for (String var : codeTemplate.getTemplateVars()) {
+        for (String setting : codeTemplate.getTemplateVars()) {
             // Busca el valor de configuración en base al nombre de la variable y al GrowCycleID
-            GrowCycleSettingValue growCycleSettingValue = growCycleSettingValueService.findByGrowCycleIdAndSettingName(growCycleId, var)
-                    .orElseThrow(() -> new EntityNotFoundException("No configuration found for variable: " + var + " in GrowCycle ID: " + growCycleId));
+            GrowCycleSettingValue growCycleSettingValue = growCycleSettingValueService.findByGrowCycleIdAndSettingName(growCycleId, setting)
+                    .orElseThrow(() -> new EntityNotFoundException("No configuration found for variable: " + setting + " in GrowCycle ID: " + growCycleId));
 
             // Reemplaza la variable en el template con el valor real obtenido
-            generatedCode = generatedCode.replace("${" + var + "}", growCycleSettingValue.getValue());
+            template = template.replace("${" + setting + "}", growCycleSettingValue.getValue());
         }
-        return generatedCode;
+        return template;
     }
     
     public String generateCodeForDevices(List<DeviceType> devices, Long growCycleId) throws EntityNotFoundException {

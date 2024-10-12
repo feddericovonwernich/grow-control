@@ -7,7 +7,7 @@ import com.fg.grow_control.repository.CodeTemplateRepository;
 import com.fg.grow_control.service.CodeTemplateService;
 
 @RestController
-@RequestMapping("/ardino-code-template")
+@RequestMapping("/codeTemplate")
 @PreAuthorize("permitAll()")
 public class CodeTemplateController extends BasicController<CodeTemplate, Long, CodeTemplateRepository, CodeTemplateService> {
 
