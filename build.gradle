@@ -61,7 +61,7 @@ dependencies {
 
 	// Runtime dependencies.
 
-	runtimeOnly 'com.mysql:mysql-connector-j:8.0.32'
+	runtimeOnly 'com.mysql:mysql-connector-j:8.2.0'
 
 
 	// Test dependencies.

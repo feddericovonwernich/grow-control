@@ -1,6 +1,8 @@
 package com.fg.grow_control.entity;
 
 import java.util.*;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -24,6 +26,7 @@ public class UserEntity {
     private String password;
 
     @Column(name = "is_enabled")
+    @JsonProperty("isEnabled")
     private boolean isEnabled;
 
     @Column(name = "account_No_Expired")
