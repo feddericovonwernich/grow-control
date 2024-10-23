@@ -5,9 +5,10 @@ import com.fg.grow_control.entity.schedule.EventSchedule;
 import com.fg.grow_control.entity.schedule.ScheduleType;
 import com.fg.grow_control.repository.EventScheduleRepository;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -28,8 +29,8 @@ public class EventScheduleService extends BasicService<EventSchedule, Long, Even
     }
 
     @Override
-    public List<EventSchedule> getAll() {
-        return super.getAll();
+    public Page<EventSchedule> getAll(Pageable pageable) {
+        return super.getAll(pageable);
     }
 
     @Override
