@@ -6,12 +6,12 @@ import com.fg.grow_control.entity.schedule.ScheduleType;
 import com.fg.grow_control.repository.EventScheduleRepository;
 import com.fg.grow_control.validator.EventScheduleValidator;
 import jakarta.persistence.EntityNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.DataBinder;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -50,8 +50,8 @@ public class EventScheduleService extends BasicService<EventSchedule, Long, Even
     }
 
     @Override
-    public List<EventSchedule> getAll() {
-        return super.getAll();
+    public Page<EventSchedule> getAll(Pageable pageable) {
+        return super.getAll(pageable);
     }
 
     @Override

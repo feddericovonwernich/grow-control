@@ -6,9 +6,9 @@ import com.fg.grow_control.entity.GrowStage;
 import com.fg.grow_control.repository.GrowStageRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @AssistantToolProvider
@@ -83,8 +83,8 @@ public class GrowStageService extends BasicService<GrowStage, Long, GrowStageRep
 
     @Override
     @FunctionDefinition(name = "GrowStageService_getAll", description = "Retrieves all GrowStage objects.", parameters = "{}")
-    public List<GrowStage> getAll() {
-        return super.getAll();
+    public Page<GrowStage> getAll(Pageable pageable) {
+        return super.getAll(pageable);
     }
 
     @Override

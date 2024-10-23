@@ -6,9 +6,10 @@ import io.github.feddericovonwernich.spring_ai.function_calling_service.annotati
 import com.fg.grow_control.entity.ActionDevice;
 import com.fg.grow_control.repository.ActionDeviceRepository;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -46,8 +47,8 @@ public class ActionDeviceService extends BasicService<ActionDevice, Long, Action
 
     @Override
     @FunctionDefinition(name = "ActionDeviceService_getAll", description = "Retrieves all ActionDevice objects.", parameters = "{}")
-    public List<ActionDevice> getAll() {
-        return super.getAll();
+    public Page<ActionDevice> getAll(Pageable pageable) {
+        return super.getAll(pageable);
     }
 
     @Override
