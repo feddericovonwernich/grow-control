@@ -1,10 +1,11 @@
 package com.fg.grow_control.service;
 
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Optional;
 
 public class BasicService<T, ID, R extends JpaRepository<T, ID>> {
@@ -29,10 +30,9 @@ public class BasicService<T, ID, R extends JpaRepository<T, ID>> {
         }
     }
 
-    public List<T> getAll() {
-        return repository.findAll();
+    public Page<T> getAll(Pageable pageable) {
+        return repository.findAll(pageable); // Usar el método paginado del repositorio
     }
-
     @Transactional
     public void deleteById(ID id) throws EntityNotFoundException {
         Optional<T> response = repository.findById(id);
