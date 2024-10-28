@@ -7,73 +7,23 @@ import com.fg.grow_control.entity.SimpleTimestamp;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+
+import java.util.Locale;
 
 public class EventScheduleValidatorTest extends BasicApplicationintegrationTest {
 
     @Autowired
     EventScheduleService eventScheduleService;
 
+    @Autowired
+    private MessageSource messageSource;
+
     @Test
     public void testCreateOrUpdate_ValidFixedSchedule() {
-        // create a valid EventSchedule for fixed type
         EventSchedule fixedSchedule = EventSchedule.builder()
                 .type(ScheduleType.FIXED)
                 .date(SimpleTimestamp.builder()
-                        .day(15)
-                        .month(9)
-                        .year(2024)
-                        .hour(12)
-                        .minutes(30)
-                        .seconds(0)
-                        .build())  // El campo date es requerido para FIXED
-                .units(null)  // Otros campos deben ser nulos
-                .unitValue(null)
-                .direction(null)
-                .reference(null)
-                .build();
-
-        // Execute and verify that its not throws exceptions
-        EventSchedule result = eventScheduleService.createOrUpdate(fixedSchedule);
-
-        Assertions.assertNotNull(result);
-    }
-
-    @Test
-    public void testCreateOrUpdate_InvalidFixedSchedule() {
-        // Create a invalid EventSchedule for a fixed type
-        EventSchedule fixedSchedule = EventSchedule.builder()
-                .type(ScheduleType.FIXED)
-                .date(SimpleTimestamp.builder()
-                        .day(15)
-                        .month(9)
-                        .year(2024)
-                        .hour(12)
-                        .minutes(30)
-                        .seconds(0)
-                        .build())  // El campo date es requerido
-                .units(null)  // Todos los otros deben ser nulos
-                .unitValue(5.0) // Esto es incorrecto para FIXED
-                .direction(null)
-                .reference(null)
-                .build();
-
-        // verify that its throws a exception
-        Exception exception = Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            eventScheduleService.createOrUpdate(fixedSchedule);
-        });
-
-        // verify the error message
-        String expectedMessage = "Unit value must be null when schedule type is FIXED.";
-        String actualMessage = exception.getMessage();
-        Assertions.assertTrue(actualMessage.contains(expectedMessage));
-    }
-
-    @Test
-    public void testCreateOrUpdate_InvalidRelativeSchedule() {
-        // create a invalid eventschedule for relative schedule
-        EventSchedule relativeSchedule = EventSchedule.builder()
-                .type(ScheduleType.RELATIVE)
-                .date(SimpleTimestamp.builder() // this is invalid
                         .day(15)
                         .month(9)
                         .year(2024)
@@ -81,20 +31,67 @@ public class EventScheduleValidatorTest extends BasicApplicationintegrationTest 
                         .minutes(30)
                         .seconds(0)
                         .build())
-                .units(null)  // units must be not null
+                .units(null)
+                .unitValue(null)
+                .direction(null)
+                .reference(null)
+                .build();
+
+        EventSchedule result = eventScheduleService.createOrUpdate(fixedSchedule);
+        Assertions.assertNotNull(result);
+    }
+
+    @Test
+    public void testCreateOrUpdate_InvalidFixedSchedule() {
+        EventSchedule fixedSchedule = EventSchedule.builder()
+                .type(ScheduleType.FIXED)
+                .date(SimpleTimestamp.builder()
+                        .day(15)
+                        .month(9)
+                        .year(2024)
+                        .hour(12)
+                        .minutes(30)
+                        .seconds(0)
+                        .build())
+                .units(null)
                 .unitValue(5.0)
                 .direction(null)
                 .reference(null)
                 .build();
 
-        // Verificar que se lance una excepción de validación
-        Exception exception = Assertions.assertThrows(IllegalArgumentException.class, () -> {
+        IllegalArgumentException exception = Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            eventScheduleService.createOrUpdate(fixedSchedule);
+        });
+
+        String errorCode = "error.unitValue.mustBeNull";
+        String expectedMessage = messageSource.getMessage(errorCode, null, Locale.getDefault());
+        Assertions.assertTrue(exception.getMessage().contains(expectedMessage));
+    }
+
+    @Test
+    public void testCreateOrUpdate_InvalidRelativeSchedule() {
+        EventSchedule relativeSchedule = EventSchedule.builder()
+                .type(ScheduleType.RELATIVE)
+                .date(SimpleTimestamp.builder()
+                        .day(15)
+                        .month(9)
+                        .year(2024)
+                        .hour(12)
+                        .minutes(30)
+                        .seconds(0)
+                        .build())
+                .units(null)
+                .unitValue(5.0)
+                .direction(null)
+                .reference(null)
+                .build();
+
+        IllegalArgumentException exception = Assertions.assertThrows(IllegalArgumentException.class, () -> {
             eventScheduleService.createOrUpdate(relativeSchedule);
         });
 
-        // Verificar el mensaje de error esperado
-        String expectedMessage = "Date must be null when schedule type is RELATIVE.";
-        String actualMessage = exception.getMessage();
-        Assertions.assertTrue(actualMessage.contains(expectedMessage));
+        String errorCode = "error.date.mustBeNull";
+        String expectedMessage = messageSource.getMessage(errorCode, null, Locale.getDefault());
+        Assertions.assertTrue(exception.getMessage().contains(expectedMessage));
     }
 }

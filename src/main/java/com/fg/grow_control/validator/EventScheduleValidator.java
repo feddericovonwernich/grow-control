@@ -9,7 +9,6 @@ import org.springframework.validation.Validator;
 @Component
 public class EventScheduleValidator implements Validator {
 
-    // This method checks whether the class to be validated is an EventSchedule.
     @Override
     public boolean supports(Class<?> clazz) {
         return EventSchedule.class.equals(clazz);
@@ -18,42 +17,39 @@ public class EventScheduleValidator implements Validator {
     @Override
     public void validate(Object target, Errors errors) {
         EventSchedule eventSchedule = (EventSchedule) target;
-
         if (eventSchedule.getType() == ScheduleType.FIXED) {
-            // For the FIXED type: Only the "date" field is required, other fields must be null.
+
             if (eventSchedule.getDate() == null) {
-                errors.rejectValue("date", "Date is required when schedule type is FIXED.");
+                errors.rejectValue("date", "error.date.required");
             }
             if (eventSchedule.getUnits() != null) {
-                errors.rejectValue("units", "Units must be null when schedule type is FIXED.");
+                errors.rejectValue("units", "error.units.mustBeNull");
             }
             if (eventSchedule.getUnitValue() != null) {
-                errors.rejectValue("unitValue", "Unit value must be null when schedule type is FIXED.");
+                errors.rejectValue("unitValue", "error.unitValue.mustBeNull");
             }
             if (eventSchedule.getDirection() != null) {
-                errors.rejectValue("direction", "Direction must be null when schedule type is FIXED.");
+                errors.rejectValue("direction", "error.direction.mustBeNull");
             }
             if (eventSchedule.getReference() != null) {
-                errors.rejectValue("reference", "Reference must be null when schedule type is FIXED.");
+                errors.rejectValue("reference", "error.reference.mustBeNull");
             }
 
         } else if (eventSchedule.getType() == ScheduleType.RELATIVE) {
-            // For the RELATIVE type: "units", "unitValue", "direction", and "reference" are required;
-            // "date" must be null.
             if (eventSchedule.getDate() != null) {
-                errors.rejectValue("date", "Date must be null when schedule type is RELATIVE.");
+                errors.rejectValue("date", "error.date.mustBeNull");
             }
             if (eventSchedule.getUnits() == null) {
-                errors.rejectValue("units", "Units are required when schedule type is RELATIVE.");
+                errors.rejectValue("units", "error.units.required");
             }
             if (eventSchedule.getUnitValue() == null) {
-                errors.rejectValue("unitValue", "Unit value is required when schedule type is RELATIVE.");
+                errors.rejectValue("unitValue", "error.unitValue.required");
             }
             if (eventSchedule.getDirection() == null) {
-                errors.rejectValue("direction", "Direction is required when schedule type is RELATIVE.");
+                errors.rejectValue("direction", "error.direction.required");
             }
             if (eventSchedule.getReference() == null) {
-                errors.rejectValue("reference", "Reference is required when schedule type is RELATIVE.");
+                errors.rejectValue("reference", "error.reference.required");
             }
         }
     }

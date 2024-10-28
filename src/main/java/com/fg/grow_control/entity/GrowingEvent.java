@@ -5,7 +5,6 @@ import com.fg.grow_control.entity.schedule.EventSchedule;
 import io.github.feddericovonwernich.spring_ai.function_calling_service.annotations.*;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import static jakarta.persistence.CascadeType.ALL;
