@@ -8,10 +8,11 @@ import com.fg.grow_control.entity.MeasurementDevice;
 import com.fg.grow_control.repository.DeviceReadingRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.sql.Timestamp;
-import java.util.List;
 
 @Component
 @AssistantToolProvider
@@ -73,8 +74,8 @@ public class DeviceReadingService extends BasicService<DeviceReading, Long, Devi
 
     @Override
     @FunctionDefinition(name = "DeviceReadingService_getAll", description = "Retrieves all DeviceReading objects.", parameters = "{}")
-    public List<DeviceReading> getAll() {
-        return super.getAll();
+    public Page<DeviceReading> getAll(Pageable pageable) {
+        return super.getAll(pageable);
     }
 
     @Override
