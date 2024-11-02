@@ -19,32 +19,32 @@ public class AssistantController {
     @Autowired
     private AssistantService assistantService;
 
-    @PostMapping
-    public ResponseEntity<String> processRequest(@RequestBody String userRequest) {
-        String assistantResponse = assistantService.processRequest(userRequest).getResponse();
-        return buildAssistantResponseEntity(assistantResponse);
-    }
-
-    @PostMapping("/thread/{threadId}")
-    public ResponseEntity<String> processRequest(@RequestBody String userRequest, @PathVariable String threadId) {
-        String assistantResponse = assistantService.processRequest(userRequest, threadId);
-        return buildAssistantResponseEntity(assistantResponse);
-    }
-
-    @NotNull
-    private static ResponseEntity<String> buildAssistantResponseEntity(String assistantResponse) {
-        try {
-            HttpHeaders responseHeaders = new HttpHeaders();
-            String threadId = MDC.get("threadId");
-            if (threadId != null) {
-                responseHeaders.set("ThreadId", threadId);
-            }
-            return ResponseEntity.ok()
-                    .headers(responseHeaders)
-                    .body(assistantResponse);
-        } finally {
-            MDC.clear();
-        }
-    }
+//    @PostMapping
+//    public ResponseEntity<String> processRequest(@RequestBody String userRequest) {
+//        String assistantResponse = assistantService.processRequest(userRequest).getResponse();
+//        return buildAssistantResponseEntity(assistantResponse);
+//    }
+//
+//    @PostMapping("/thread/{threadId}")
+//    public ResponseEntity<String> processRequest(@RequestBody String userRequest, @PathVariable String threadId) {
+//        String assistantResponse = assistantService.processRequest(userRequest, threadId);
+//        return buildAssistantResponseEntity(assistantResponse);
+//    }
+//
+//    @NotNull
+//    private static ResponseEntity<String> buildAssistantResponseEntity(String assistantResponse) {
+//        try {
+//            HttpHeaders responseHeaders = new HttpHeaders();
+//            String threadId = MDC.get("threadId");
+//            if (threadId != null) {
+//                responseHeaders.set("ThreadId", threadId);
+//            }
+//            return ResponseEntity.ok()
+//                    .headers(responseHeaders)
+//                    .body(assistantResponse);
+//        } finally {
+//            MDC.clear();
+//        }
+//    }
 
 }

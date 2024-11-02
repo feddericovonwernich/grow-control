@@ -2,7 +2,7 @@ package com.fg.grow_control.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fg.grow_control.entity.schedule.EventSchedule;
-import io.github.feddericovonwernich.spring_ai.function_calling_service.annotations.*;
+import io.github.feddericovonwernich.spring_ai.function_calling_service.openia.parameter_classes.annotations.*;
 import jakarta.persistence.*;
 import lombok.*;
 

@@ -1,7 +1,7 @@
 package com.fg.grow_control.entity;
 
 
-import io.github.feddericovonwernich.spring_ai.function_calling_service.annotations.*;
+import io.github.feddericovonwernich.spring_ai.function_calling_service.openia.parameter_classes.annotations.*;
 import jakarta.persistence.*;
 import lombok.*;
 

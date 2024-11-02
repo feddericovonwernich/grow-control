@@ -3,7 +3,7 @@ package com.fg.grow_control.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import io.github.feddericovonwernich.spring_ai.function_calling_service.annotations.*;
+import io.github.feddericovonwernich.spring_ai.function_calling_service.openia.parameter_classes.annotations.*;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 

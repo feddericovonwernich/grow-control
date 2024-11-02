@@ -1,8 +1,9 @@
 package com.fg.grow_control.entity;
 
-import io.github.feddericovonwernich.spring_ai.function_calling_service.annotations.FieldDescription;
-import io.github.feddericovonwernich.spring_ai.function_calling_service.annotations.ParameterClass;
-import io.github.feddericovonwernich.spring_ai.function_calling_service.annotations.RequiredField;
+
+import io.github.feddericovonwernich.spring_ai.function_calling_service.openia.parameter_classes.annotations.FieldDescription;
+import io.github.feddericovonwernich.spring_ai.function_calling_service.openia.parameter_classes.annotations.ParameterClass;
+import io.github.feddericovonwernich.spring_ai.function_calling_service.openia.parameter_classes.annotations.RequiredField;
 import jakarta.persistence.Embeddable;
 import lombok.*;
 

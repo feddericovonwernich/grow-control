@@ -2,7 +2,7 @@ package com.fg.grow_control.entity.schedule;
 
 import com.fg.grow_control.entity.SimpleTimestamp;
 import com.fg.grow_control.entity.SimpleTimestampConverter;
-import io.github.feddericovonwernich.spring_ai.function_calling_service.annotations.*;
+import io.github.feddericovonwernich.spring_ai.function_calling_service.openia.parameter_classes.annotations.*;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.JdbcTypeCode;

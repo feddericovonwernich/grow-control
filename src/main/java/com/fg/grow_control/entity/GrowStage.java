@@ -1,6 +1,6 @@
 package com.fg.grow_control.entity;
 
-import io.github.feddericovonwernich.spring_ai.function_calling_service.annotations.*;
+import io.github.feddericovonwernich.spring_ai.function_calling_service.openia.parameter_classes.annotations.*;
 import com.fg.grow_control.entity.schedule.RangeSchedule;
 import jakarta.persistence.*;
 import jakarta.persistence.OneToOne;
