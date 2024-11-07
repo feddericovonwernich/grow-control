@@ -20,36 +20,36 @@ public class EventScheduleValidator implements Validator {
         if (eventSchedule.getType() == ScheduleType.FIXED) {
 
             if (eventSchedule.getDate() == null) {
-                errors.rejectValue("date", "error.date.required");
+                errors.rejectValue("date", "error.date.required.fixed.schedule");
             }
             if (eventSchedule.getUnits() != null) {
-                errors.rejectValue("units", "error.units.mustBeNull");
+                errors.rejectValue("units", "error.units.fixed.schedule.mustBeNull");
             }
             if (eventSchedule.getUnitValue() != null) {
-                errors.rejectValue("unitValue", "error.unitValue.mustBeNull");
+                errors.rejectValue("unitValue", "error.unitValue.fixed.schedule.mustBeNull");
             }
             if (eventSchedule.getDirection() != null) {
-                errors.rejectValue("direction", "error.direction.mustBeNull");
+                errors.rejectValue("direction", "error.direction.fixed.schedule.mustBeNull");
             }
             if (eventSchedule.getReference() != null) {
-                errors.rejectValue("reference", "error.reference.mustBeNull");
+                errors.rejectValue("reference", "error.reference.fixed.schedule.mustBeNull");
             }
 
         } else if (eventSchedule.getType() == ScheduleType.RELATIVE) {
             if (eventSchedule.getDate() != null) {
-                errors.rejectValue("date", "error.date.mustBeNull");
+                errors.rejectValue("date", "error.date.relative.schedule.mustBeNull");
             }
             if (eventSchedule.getUnits() == null) {
-                errors.rejectValue("units", "error.units.required");
+                errors.rejectValue("units", "error.units.relative.schedule.required");
             }
             if (eventSchedule.getUnitValue() == null) {
-                errors.rejectValue("unitValue", "error.unitValue.required");
+                errors.rejectValue("unitValue", "error.unitValue.relative.schedule.required");
             }
             if (eventSchedule.getDirection() == null) {
-                errors.rejectValue("direction", "error.direction.required");
+                errors.rejectValue("direction", "error.direction.relative.schedule.required");
             }
             if (eventSchedule.getReference() == null) {
-                errors.rejectValue("reference", "error.reference.required");
+                errors.rejectValue("reference", "error.reference.relative.schedule.required");
             }
         }
     }

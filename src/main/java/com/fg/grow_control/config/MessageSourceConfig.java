@@ -5,7 +5,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ResourceBundleMessageSource;
 
-//This is a configuration class for drive a messages
 @Configuration
 public class MessageSourceConfig {
     @Bean

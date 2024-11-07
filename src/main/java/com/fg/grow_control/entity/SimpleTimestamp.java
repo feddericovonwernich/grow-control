@@ -9,6 +9,7 @@ import lombok.*;
 
 import java.sql.Timestamp;
 import java.util.Calendar;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -50,6 +51,28 @@ public class SimpleTimestamp {
     @NotNull
     Integer seconds;
 
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        SimpleTimestamp that = (SimpleTimestamp) obj;
+        return Objects.equals(this.day, that.day) &&
+                Objects.equals(this.month, that.month) &&
+                Objects.equals(this.year, that.year) &&
+                Objects.equals(this.hour, that.hour) &&
+                Objects.equals(this.minutes, that.minutes) &&
+                Objects.equals(this.seconds, that.seconds);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(day, month, year, hour, minutes, seconds);
+    }
+    
     public static SimpleTimestamp fromSqlTimestamp(java.sql.Timestamp timestamp) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(timestamp);

@@ -74,7 +74,7 @@ public class GrowingEventControllerIntegrationTest extends BasicApplicationinteg
     @Order(2)
     public void updateEventScheduleThroughGrowingEvent_FixedType() {
 
-        LocalDateTime currentDateTime = LocalDateTime.now();
+        LocalDateTime currentDateTime = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
 
         GrowingEventType growingEventType = GrowingEventType.builder()
                 .name(appendCurrentDateTime("updateEventScheduleThroughGrowingEvent_FixedType"))
@@ -84,7 +84,7 @@ public class GrowingEventControllerIntegrationTest extends BasicApplicationinteg
 
         EventSchedule eventScheduleFixed = EventSchedule.builder()
                 .type(ScheduleType.FIXED)
-                .date(SimpleTimestamp.fromSqlTimestamp(java.sql.Timestamp.valueOf(LocalDateTime.now())))
+                .date(SimpleTimestamp.fromSqlTimestamp(java.sql.Timestamp.valueOf(currentDateTime)))
                 .direction(null)
                 .units(null)
                 .unitValue(null)
@@ -100,17 +100,12 @@ public class GrowingEventControllerIntegrationTest extends BasicApplicationinteg
 
         SimpleTimestamp newDate = SimpleTimestamp.fromSqlTimestamp(java.sql.Timestamp.valueOf(currentDateTime.plusDays(10)));
 
-        growingEvent.getEventSchedule().setDate(SimpleTimestamp.fromSqlTimestamp(java.sql.Timestamp.valueOf(currentDateTime.plusDays(10))));
+        growingEvent.getEventSchedule().setDate(newDate);
         growingEvent = growingEventService.createOrUpdate(growingEvent);
 
         GrowingEvent updatedGrowingEvent = growingEventService.getById(growingEvent.getId());
 
-        Assertions.assertEquals(newDate.getDay(), updatedGrowingEvent.getEventSchedule().getDate().getDay(), "El día no fue actualizado correctamente");
-        Assertions.assertEquals(newDate.getMonth(), updatedGrowingEvent.getEventSchedule().getDate().getMonth(), "El mes no fue actualizado correctamente");
-        Assertions.assertEquals(newDate.getYear(), updatedGrowingEvent.getEventSchedule().getDate().getYear(), "El año no fue actualizado correctamente");
-        Assertions.assertEquals(newDate.getHour(), updatedGrowingEvent.getEventSchedule().getDate().getHour(), "La hora no fue actualizada correctamente");
-        Assertions.assertEquals(newDate.getMinutes(), updatedGrowingEvent.getEventSchedule().getDate().getMinutes(), "Los minutos no fueron actualizados correctamente");
-        Assertions.assertEquals(newDate.getSeconds(), updatedGrowingEvent.getEventSchedule().getDate().getSeconds(), "Los segundos no fueron actualizados correctamente");
+        Assertions.assertEquals(newDate, updatedGrowingEvent.getEventSchedule().getDate(), "La fecha no fue actualizada correctamente");
         Assertions.assertNull(updatedGrowingEvent.getEventSchedule().getDirection(), "La dirección no es null");
         Assertions.assertNull(updatedGrowingEvent.getEventSchedule().getUnits(), "Las unidades no son null");
         Assertions.assertNull(updatedGrowingEvent.getEventSchedule().getUnitValue(), "El valor de la unidad no es null");

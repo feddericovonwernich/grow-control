@@ -63,7 +63,7 @@ public class EventScheduleValidatorTest extends BasicApplicationintegrationTest 
             eventScheduleService.createOrUpdate(fixedSchedule);
         });
 
-        String errorCode = "error.unitValue.mustBeNull";
+        String errorCode = "error.unitValue.fixed.schedule.mustBeNull";
         String expectedMessage = messageSource.getMessage(errorCode, null, Locale.getDefault());
         Assertions.assertTrue(exception.getMessage().contains(expectedMessage));
     }
@@ -90,7 +90,7 @@ public class EventScheduleValidatorTest extends BasicApplicationintegrationTest 
             eventScheduleService.createOrUpdate(relativeSchedule);
         });
 
-        String errorCode = "error.date.mustBeNull";
+        String errorCode = "error.date.relative.schedule.mustBeNull";
         String expectedMessage = messageSource.getMessage(errorCode, null, Locale.getDefault());
         Assertions.assertTrue(exception.getMessage().contains(expectedMessage));
     }

@@ -31,8 +31,7 @@ public class EventScheduleService extends BasicService<EventSchedule, Long, Even
     @Override
     public EventSchedule createOrUpdate(EventSchedule object) {
 
-        DataBinder binder = validateSchedule(object, eventScheduleValidator);
-        BindingResult result = binder.getBindingResult();
+        BindingResult result = validateSchedule(object);
 
         if (result.hasErrors()) {
             // Collect all error messages using MessageSource
@@ -62,10 +61,11 @@ public class EventScheduleService extends BasicService<EventSchedule, Long, Even
     public Optional<EventSchedule> findByDateAndType(SimpleTimestamp simpleTimestamp, ScheduleType scheduleType) {
         return repository.findByDateAndType(simpleTimestamp,scheduleType);
     }
-    public DataBinder validateSchedule(Object object, EventScheduleValidator eventScheduleValidator) {
+    public BindingResult validateSchedule(Object object) {
         DataBinder binder = new DataBinder(object);
-        binder.addValidators(eventScheduleValidator);
+        binder.addValidators(this.eventScheduleValidator);
         binder.validate();
-        return binder;
+        return binder.getBindingResult();
+
     }
 }
