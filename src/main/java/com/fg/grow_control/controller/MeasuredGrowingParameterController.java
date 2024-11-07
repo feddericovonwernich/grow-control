@@ -6,7 +6,6 @@ import com.fg.grow_control.service.MeasuredGrowingParameterService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
 @RestController
 @RequestMapping("/measuredGrowingParameter")
 public class MeasuredGrowingParameterController extends BasicController<MeasuredGrowingParameter, Long, GrowingParameterRepository, MeasuredGrowingParameterService> {

@@ -1,6 +1,7 @@
 package com.fg.grow_control.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import io.github.feddericovonwernich.spring_ai.function_calling_service.annotations.*;
@@ -29,6 +30,7 @@ public class DeviceTrigger {
     @FieldDescription(description = "Link to the action device that is triggered")
     private ActionDevice triggeredDevice;
 
+    @NotNull
     @Column(nullable = false)
     @RequiredField
     @FieldDescription(description = "Value at which the device trigger is activated")

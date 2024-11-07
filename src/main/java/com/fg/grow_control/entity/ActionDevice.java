@@ -2,6 +2,7 @@ package com.fg.grow_control.entity;
 
 import io.github.feddericovonwernich.spring_ai.function_calling_service.annotations.*;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 @Entity
@@ -30,11 +31,14 @@ public class ActionDevice {
     @Reference
     MeasurementDevice watchedMeasurement;
 
+
+    @NotNull
     @Column(nullable = false)
     @FieldDescription(description = "Threshold for activating the device")
     @RequiredField
     Integer activationThreshold;
 
+    @NotNull
     @Column(nullable = false)
     @FieldDescription(description = "Threshold for deactivating the device")
     @RequiredField

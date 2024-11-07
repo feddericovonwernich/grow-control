@@ -2,6 +2,7 @@ package com.fg.grow_control.entity;
 
 import io.github.feddericovonwernich.spring_ai.function_calling_service.annotations.*;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 @Entity
@@ -20,6 +21,7 @@ public class GrowingEventType {
     @ReferenceField
     private Long id;
 
+    @NotBlank
     @Column(nullable = false, unique = true)
     @RequiredField  // Assuming the field is required
     @FieldDescription(description = "Name of the growing event type")

@@ -24,10 +24,7 @@ import static org.slf4j.LoggerFactory.getLogger;
 @RequestMapping("/actionDevice")
 public class ActionDeviceController extends BasicController<ActionDevice, Long, ActionDeviceRepository, ActionDeviceService> {
 
-
-    // Initialize logger for ActionDeviceController
     private static final Logger log = getLogger(ActionDeviceController.class);
-
 
     @Autowired
     private final DeviceReadingService deviceReadingService;
@@ -41,7 +38,6 @@ public class ActionDeviceController extends BasicController<ActionDevice, Long, 
         this.deviceReadingService = deviceReadingService;
         this.deviceTriggerService = deviceTriggerService;
     }
-
 
     @GetMapping("/actionStatus/{id}")
     public ResponseEntity<Boolean> shouldTrigger(@PathVariable Long id) {
