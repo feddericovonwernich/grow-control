@@ -37,5 +37,4 @@ public class GrowCycle {
     @Singular
     @Ignore
     private List<GrowStage> growStages;
-
 }
