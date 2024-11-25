@@ -19,5 +19,4 @@ public class PingPongController {
     public String pingSecured(){
         return "Pong! Unauthorized";
     }
-
 }
