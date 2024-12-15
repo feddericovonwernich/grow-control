@@ -29,19 +29,19 @@ public class GrowingEvent {
     @RequiredField
     private String description;
 
-    @OneToOne(cascade = ALL)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "event_schedule_id", referencedColumnName = "id")
     @JsonProperty("eventSchedule")
     @RequiredField
     @FieldDescription(description = "The schedule for this GrowingEvent, marks when this event should happen.")
     EventSchedule eventSchedule;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_grow_stage")
     @Reference
     private GrowStage growStage;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_growing_event_type")
     @FieldDescription(description = "Reference to the growing event type")
     @RequiredField

@@ -27,7 +27,7 @@ public class OptimalGrowingParameter {
     @FieldDescription(description = "The schedule for this GrowingParameter, marks when the this optimal value is desired.")
     private RangeSchedule rangeSchedule;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_growing_parameter")
     @RequiredField
     @Reference
