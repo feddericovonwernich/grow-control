@@ -4,6 +4,8 @@ import com.fg.grow_control.entity.schedule.RangeSchedule;
 import io.github.feddericovonwernich.spring_ai.function_calling_service.annotations.*;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -33,8 +35,8 @@ public class GrowCycle {
     @RequiredField
     RangeSchedule rangeSchedule;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "growCycle", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @Singular
     @Ignore
-    private List<GrowStage> growStages;
+    private List<GrowStage> growStages;    
 }
