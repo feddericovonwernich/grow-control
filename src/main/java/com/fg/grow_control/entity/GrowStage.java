@@ -3,7 +3,6 @@ package com.fg.grow_control.entity;
 import io.github.feddericovonwernich.spring_ai.function_calling_service.annotations.*;
 import com.fg.grow_control.entity.schedule.RangeSchedule;
 import jakarta.persistence.*;
-import jakarta.persistence.OneToOne;
 import lombok.*;
 
 import java.util.List;
@@ -28,24 +27,24 @@ public class GrowStage {
     @JoinColumn(name = "range_schedule_id", referencedColumnName = "id")
     RangeSchedule rangeSchedule;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_grow_stage_type")
     @FieldDescription(description = "Reference to the grow stage type")
     @RequiredField
     private GrowStageType growStageType;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_grow_cycle")
     @FieldDescription(description = "Reference to the grow cycle")
     @Reference
     private GrowCycle growCycle;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "growStage", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @Singular
     @Ignore
     private List<GrowingEvent> growingEvents;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "growStage", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @Singular
     @Ignore
     private List<MeasuredGrowingParameter> growingParameters;
