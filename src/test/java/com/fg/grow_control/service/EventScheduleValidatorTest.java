@@ -1,6 +1,7 @@
 package com.fg.grow_control.service;
 
 import com.fg.grow_control.BasicApplicationintegrationTest;
+import com.fg.grow_control.entity.MessagePropertiesKeys;
 import com.fg.grow_control.entity.schedule.EventSchedule;
 import com.fg.grow_control.entity.schedule.ScheduleType;
 import com.fg.grow_control.entity.SimpleTimestamp;
@@ -10,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 
 import java.util.Locale;
+
+import static com.fg.grow_control.entity.MessagePropertiesKeys.ERROR_DATE_RELATIVE_SCHEDULE_MUST_BE_NULL;
 
 public class EventScheduleValidatorTest extends BasicApplicationintegrationTest {
 
@@ -63,8 +66,7 @@ public class EventScheduleValidatorTest extends BasicApplicationintegrationTest 
             eventScheduleService.createOrUpdate(fixedSchedule);
         });
 
-        String errorCode = "error.unitValue.fixed.schedule.mustBeNull";
-        String expectedMessage = messageSource.getMessage(errorCode, null, Locale.getDefault());
+        String expectedMessage = messageSource.getMessage(MessagePropertiesKeys.ERROR_UNIT_VALUE_FIXED_SCHEDULE_MUST_BE_NULL, null, Locale.getDefault());
         Assertions.assertTrue(exception.getMessage().contains(expectedMessage));
     }
 
@@ -90,8 +92,7 @@ public class EventScheduleValidatorTest extends BasicApplicationintegrationTest 
             eventScheduleService.createOrUpdate(relativeSchedule);
         });
 
-        String errorCode = "error.date.relative.schedule.mustBeNull";
-        String expectedMessage = messageSource.getMessage(errorCode, null, Locale.getDefault());
+        String expectedMessage = messageSource.getMessage(MessagePropertiesKeys.ERROR_DATE_RELATIVE_SCHEDULE_MUST_BE_NULL, null, Locale.getDefault());
         Assertions.assertTrue(exception.getMessage().contains(expectedMessage));
     }
 }

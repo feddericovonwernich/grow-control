@@ -1,5 +1,6 @@
 package com.fg.grow_control.validator;
 
+import com.fg.grow_control.entity.MessagePropertiesKeys;
 import com.fg.grow_control.entity.schedule.EventSchedule;
 import com.fg.grow_control.entity.schedule.ScheduleType;
 import org.springframework.stereotype.Component;
@@ -20,36 +21,36 @@ public class EventScheduleValidator implements Validator {
         if (eventSchedule.getType() == ScheduleType.FIXED) {
 
             if (eventSchedule.getDate() == null) {
-                errors.rejectValue("date", "error.date.required.fixed.schedule");
+                errors.rejectValue("date", MessagePropertiesKeys.ERROR_DATE_REQUIRED_FIXED_SCHEDULE);
             }
             if (eventSchedule.getUnits() != null) {
-                errors.rejectValue("units", "error.units.fixed.schedule.mustBeNull");
+                errors.rejectValue("units", MessagePropertiesKeys.ERROR_UNITS_FIXED_SCHEDULE_MUST_BE_NULL);
             }
             if (eventSchedule.getUnitValue() != null) {
-                errors.rejectValue("unitValue", "error.unitValue.fixed.schedule.mustBeNull");
+                errors.rejectValue("unitValue", MessagePropertiesKeys.ERROR_UNIT_VALUE_FIXED_SCHEDULE_MUST_BE_NULL);
             }
             if (eventSchedule.getDirection() != null) {
-                errors.rejectValue("direction", "error.direction.fixed.schedule.mustBeNull");
+                errors.rejectValue("direction", MessagePropertiesKeys.ERROR_DIRECTION_FIXED_SCHEDULE_MUST_BE_NULL);
             }
             if (eventSchedule.getReference() != null) {
-                errors.rejectValue("reference", "error.reference.fixed.schedule.mustBeNull");
+                errors.rejectValue("reference", MessagePropertiesKeys.ERROR_REFERENCE_FIXED_SCHEDULE_MUST_BE_NULL);
             }
 
         } else if (eventSchedule.getType() == ScheduleType.RELATIVE) {
             if (eventSchedule.getDate() != null) {
-                errors.rejectValue("date", "error.date.relative.schedule.mustBeNull");
+                errors.rejectValue("date", MessagePropertiesKeys.ERROR_DATE_RELATIVE_SCHEDULE_MUST_BE_NULL);
             }
             if (eventSchedule.getUnits() == null) {
-                errors.rejectValue("units", "error.units.relative.schedule.required");
+                errors.rejectValue("units", MessagePropertiesKeys.ERROR_UNITS_RELATIVE_SCHEDULE_REQUIRED);
             }
             if (eventSchedule.getUnitValue() == null) {
-                errors.rejectValue("unitValue", "error.unitValue.relative.schedule.required");
+                errors.rejectValue("unitValue", MessagePropertiesKeys.ERROR_UNIT_VALUE_RELATIVE_SCHEDULE_REQUIRED);
             }
             if (eventSchedule.getDirection() == null) {
-                errors.rejectValue("direction", "error.direction.relative.schedule.required");
+                errors.rejectValue("direction", MessagePropertiesKeys.ERROR_DIRECTION_RELATIVE_SCHEDULE_REQUIRED);
             }
             if (eventSchedule.getReference() == null) {
-                errors.rejectValue("reference", "error.reference.relative.schedule.required");
+                errors.rejectValue("reference", MessagePropertiesKeys.ERROR_REFERENCE_RELATIVE_SCHEDULE_REQUIRED);
             }
         }
     }

@@ -66,7 +66,7 @@ public class GrowingEventControllerIntegrationTest extends BasicApplicationinteg
 
         ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
 
-        Assertions.assertTrue(response.getStatusCode().is2xxSuccessful(), "La solicitud HTTP no fue exitosa. Respuesta: " + response.getBody());
+        Assertions.assertTrue(response.getStatusCode().is2xxSuccessful(), "The HTTP request failed. Response:" + response.getBody());
 
     }
 
@@ -105,10 +105,10 @@ public class GrowingEventControllerIntegrationTest extends BasicApplicationinteg
 
         GrowingEvent updatedGrowingEvent = growingEventService.getById(growingEvent.getId());
 
-        Assertions.assertEquals(newDate, updatedGrowingEvent.getEventSchedule().getDate(), "La fecha no fue actualizada correctamente");
-        Assertions.assertNull(updatedGrowingEvent.getEventSchedule().getDirection(), "La dirección no es null");
-        Assertions.assertNull(updatedGrowingEvent.getEventSchedule().getUnits(), "Las unidades no son null");
-        Assertions.assertNull(updatedGrowingEvent.getEventSchedule().getUnitValue(), "El valor de la unidad no es null");
+        Assertions.assertEquals(newDate, updatedGrowingEvent.getEventSchedule().getDate(), "The date was not updated correctly");
+        Assertions.assertNull(updatedGrowingEvent.getEventSchedule().getDirection(), "The direction is not null");
+        Assertions.assertNull(updatedGrowingEvent.getEventSchedule().getUnits(), "The units are not null");
+        Assertions.assertNull(updatedGrowingEvent.getEventSchedule().getUnitValue(), "The unit value is not null");
     }
 
     @Test
@@ -149,11 +149,11 @@ public class GrowingEventControllerIntegrationTest extends BasicApplicationinteg
 
         GrowingEvent updatedEvent = growingEventService.getById(growingEvent.getId());
 
-        Assertions.assertEquals(Direction.AFTER, updatedEvent.getEventSchedule().getDirection(), "La dirección no fue actualizada correctamente");
-        Assertions.assertEquals(ChronoUnit.DAYS, updatedEvent.getEventSchedule().getUnits(), "Las unidades no fueron actualizadas correctamente");
-        Assertions.assertEquals(5.0, updatedEvent.getEventSchedule().getUnitValue(), "El valor de la unidad no fue actualizado correctamente");
+        Assertions.assertEquals(Direction.AFTER, updatedEvent.getEventSchedule().getDirection(), "The direction was not updated correctly");
+        Assertions.assertEquals(ChronoUnit.DAYS, updatedEvent.getEventSchedule().getUnits(), "The units were not updated correctly");
+        Assertions.assertEquals(5.0, updatedEvent.getEventSchedule().getUnitValue(), "The unit value was not updated correctly");
 
-        Assertions.assertNull(updatedEvent.getEventSchedule().getDate(), "La fecha debería ser null para un tipo RELATIVE");
+        Assertions.assertNull(updatedEvent.getEventSchedule().getDate(), "The date should be null for a RELATIVE type");
     }
 
 }
