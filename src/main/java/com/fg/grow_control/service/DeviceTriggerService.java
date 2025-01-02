@@ -7,7 +7,6 @@ import com.fg.grow_control.entity.DeviceTrigger;
 import com.fg.grow_control.repository.DeviceTriggerRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -62,8 +61,8 @@ public class DeviceTriggerService extends BasicService<DeviceTrigger, Long, Devi
 
     @Override
     @FunctionDefinition(name = "DeviceTriggerService_getAll", description = "Retrieves all DeviceTrigger objects.", parameters = "{}")
-    public Page<DeviceTrigger> getAll(Pageable pageable) {
-        return super.getAll(pageable);
+    public Page<DeviceTrigger> getAll(int pageNumber, int pageSize) {
+        return super.getAll(pageNumber, pageSize);
     }
 
     @Override
