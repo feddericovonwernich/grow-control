@@ -7,7 +7,6 @@ import com.fg.grow_control.repository.GrowCycleRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -64,8 +63,8 @@ public class GrowCycleService extends BasicService<GrowCycle, Long, GrowCycleRep
 
     @Override
     @FunctionDefinition(name = "GrowCycleService_getAll", description = "Retrieves all GrowCycle objects.", parameters = "{}")
-    public Page<GrowCycle> getAll(Pageable pageable) {
-        return super.getAll(pageable);
+    public Page<GrowCycle> getAll(int pageNumber, int pageSize) {
+        return super.getAll(pageNumber, pageSize);
     }
 
     @Override

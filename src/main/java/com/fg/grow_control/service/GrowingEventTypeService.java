@@ -7,7 +7,6 @@ import com.fg.grow_control.repository.GrowingEventTypeRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -50,8 +49,8 @@ public class GrowingEventTypeService extends BasicService<GrowingEventType, Long
 
     @Override
     @FunctionDefinition(name = "GrowingEventTypeService_getAll", description = "Retrieves all GrowingEventType objects.", parameters = "{}")
-    public Page<GrowingEventType> getAll(Pageable pageable) {
-        return super.getAll(pageable);
+    public Page<GrowingEventType> getAll(int pageNumber, int pageSize) {
+        return super.getAll(pageNumber, pageSize);
     }
 
     @Override

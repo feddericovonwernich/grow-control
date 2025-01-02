@@ -7,7 +7,6 @@ import com.fg.grow_control.repository.OptimalGrowingParameterRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -52,10 +51,9 @@ public class OptimalGrowingParameterService extends BasicService<OptimalGrowingP
 
     @Override
     @FunctionDefinition(name = "OptimalGrowingParameterService_getAll", description = "Retrieves all OptimalGrowingParameter objects.", parameters = "{}")
-    public Page<OptimalGrowingParameter> getAll(Pageable pageable) {
-        return super.getAll(pageable);
+    public Page<OptimalGrowingParameter> getAll(int pageNumber, int pageSize) {
+        return super.getAll(pageNumber, pageSize);
     }
-
     @Override
     @FunctionDefinition(name = "OptimalGrowingParameterService_deleteById", description = "Deletes an OptimalGrowingParameter object by its Id.", parameters = """
             {

@@ -3,9 +3,8 @@ package com.fg.grow_control.controller;
 import com.fg.grow_control.service.BasicService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,16 +19,20 @@ public class BasicController<T, ID, R extends JpaRepository<T, ID>, S extends Ba
         this.service = service;
     }
 
-    // Método con paginación, usando valores predeterminados si no se proporcionan parámetros
+    @Value("${pagination.default-page}")
+    public int defaultPage;
+
+    @Value("${pagination.default-size}")
+    public int defaultSize;
+
     @GetMapping
     public ResponseEntity<Page<T>> getAll(@RequestParam(required = false) Integer page,
                                           @RequestParam(required = false) Integer size) {
-        // Definir valores predeterminados para page y size si no se proporcionan en la URL
-        int pageNumber = (page != null) ? page : 0; // Página 0 por defecto
-        int pageSize = (size != null) ? size : 10;  // Tamaño de 10 elementos por defecto
+        int pageNumber = (page != null) ? page : defaultPage;
+        int pageSize = (size != null) ? size : defaultSize;
 
-        Pageable pageable = PageRequest.of(pageNumber, pageSize);
-        Page<T> entities = service.getAll(pageable);
+        Page<T> entities = service.getAll(pageNumber, pageSize);
+
         return new ResponseEntity<>(entities, HttpStatus.OK);
     }
 

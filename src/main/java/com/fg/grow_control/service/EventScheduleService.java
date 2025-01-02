@@ -4,9 +4,9 @@ import com.fg.grow_control.entity.SimpleTimestamp;
 import com.fg.grow_control.entity.schedule.EventSchedule;
 import com.fg.grow_control.entity.schedule.ScheduleType;
 import com.fg.grow_control.repository.EventScheduleRepository;
+import io.github.feddericovonwernich.spring_ai.function_calling_service.annotations.FunctionDefinition;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -29,8 +29,9 @@ public class EventScheduleService extends BasicService<EventSchedule, Long, Even
     }
 
     @Override
-    public Page<EventSchedule> getAll(Pageable pageable) {
-        return super.getAll(pageable);
+    @FunctionDefinition(name = "EventScheduleService_getAll", description = "Retrieves all EventSchedule objects.", parameters = "{}")
+    public Page<EventSchedule> getAll(int pageNumber, int pageSize) {
+        return super.getAll(pageNumber, pageSize);
     }
 
     @Override

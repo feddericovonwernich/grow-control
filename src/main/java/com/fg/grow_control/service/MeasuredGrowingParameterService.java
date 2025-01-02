@@ -7,7 +7,6 @@ import com.fg.grow_control.repository.GrowingParameterRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -70,13 +69,12 @@ public class MeasuredGrowingParameterService extends BasicService<MeasuredGrowin
     }
 
     @Override
-    @FunctionDefinition(name = "GrowingParameterService_getAll", description = "Retrieves all GrowingParameter objects.", parameters = "{}")
-    public Page<MeasuredGrowingParameter> getAll(Pageable pageable) {
-        return super.getAll(pageable);
+    @FunctionDefinition(name = "MeasuredGrowingParameterService_getAll", description = "Retrieves all MeasuredGrowingParameter objects.", parameters = "{}")
+    public Page<MeasuredGrowingParameter> getAll(int pageNumber, int pageSize) {
+        return super.getAll(pageNumber, pageSize);
     }
-
     @Override
-    @FunctionDefinition(name = "GrowingParameterService_deleteById", description = "Deletes a GrowingParameter object by its Id.", parameters = """
+    @FunctionDefinition(name = "MeasuredGrowingParameterService_deleteById", description = "Deletes a MeasuredGrowingParameter object by its Id.", parameters = """
             {
                 "type": "object",
                 "properties": {
