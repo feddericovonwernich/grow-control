@@ -1,6 +1,7 @@
 package com.fg.grow_control.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import io.github.feddericovonwernich.spring_ai.function_calling_service.annotations.*;
 
@@ -20,6 +21,7 @@ public class GrowingParameterType {
     @ReferenceField
     private Long id;
 
+    @NotBlank
     @Column(nullable = false, unique = true)
     @FieldDescription(description = "Name of the GrowingParameterType")
     @RequiredField

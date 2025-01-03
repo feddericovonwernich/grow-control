@@ -3,6 +3,7 @@ package com.fg.grow_control.entity;
 import com.fg.grow_control.entity.schedule.RangeSchedule;
 import io.github.feddericovonwernich.spring_ai.function_calling_service.annotations.*;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import java.util.List;
 
@@ -22,6 +23,7 @@ public class GrowCycle {
     @ReferenceField
     private Long id;
 
+    @NotBlank
     @Column(nullable = false)
     @FieldDescription(description = "Detailed description of the grow cycle")
     @RequiredField

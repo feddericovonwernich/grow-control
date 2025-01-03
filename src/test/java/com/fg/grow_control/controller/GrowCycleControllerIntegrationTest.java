@@ -19,15 +19,12 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import java.util.Optional;
 
-
 public class GrowCycleControllerIntegrationTest extends BasicApplicationintegrationTest {
 
     @Autowired
     private GrowingParameterTypeService growingParameterTypeService;
-
     @Autowired
     private GrowStageTypeService growStageTypeService;
-
     @Autowired
     private GrowingEventTypeService growingEventTypeService;
 
