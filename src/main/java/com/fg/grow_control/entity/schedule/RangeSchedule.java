@@ -54,5 +54,6 @@ public class RangeSchedule {
     private Double unitValue;
 
     // TODO Is this missing Direction, and OffsetReference? Need to think about this.
+    //  Start date is relative to something. End date is calculated from unit and unitValue.
 
 }
