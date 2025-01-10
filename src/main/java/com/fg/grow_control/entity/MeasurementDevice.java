@@ -1,11 +1,9 @@
 package com.fg.grow_control.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
+import io.github.feddericovonwernich.spring_ai.function_calling_service.annotations.*;
 import jakarta.persistence.*;
 import lombok.*;
-
-import io.github.feddericovonwernich.spring_ai.function_calling_service.annotations.*;
 
 @Entity
 @Getter
@@ -23,7 +21,7 @@ public class MeasurementDevice {
     @FieldDescription(description = "Unique identifier for MeasurementDevice")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "id_growing_parameter_type")
     @RequiredField
     @FieldDescription(description = "Reference to the growing parameter type")
