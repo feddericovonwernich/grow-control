@@ -17,6 +17,8 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.Optional;
 
 
@@ -127,9 +129,9 @@ public class GrowCycleControllerIntegrationTest extends BasicApplicationintegrat
                .growStage(growStage)
                .build();
 
-        // Make request: Creación de la solicitud HTTP para crear un GrowCycle
+        // Make request: Create growCycle HTTP Request.
 
-        // Se convierte el objeto growCycleWithStage a formato JSON. Se configuran los encabezados HTTP y se crea una entidad HTTP con el cuerpo JSON y los encabezados
+        // Convert growCycleWithStage object to JSON format. HTTP configs.
 
         Gson gson = new GsonBuilder()
                 .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS")
@@ -143,15 +145,15 @@ public class GrowCycleControllerIntegrationTest extends BasicApplicationintegrat
 
         HttpEntity<String> entity = new HttpEntity<>(jsonString, httpHeaders);
 
-        // Se crea la URL para la solicitud HTTP
+        // Create URL for HTTP Request
 
         String url = this.createURLWithPort("/growCycle");
 
         ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
 
-        // Assert: Verificación de la respuesta HTTP exitosa
-
         Assertions.assertTrue(response.getStatusCode().is2xxSuccessful(), "La solicitud HTTP no fue exitosa. Respuesta: " + response.getBody());
     }
+
+
 
 }

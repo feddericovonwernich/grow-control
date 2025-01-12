@@ -40,5 +40,5 @@ cors:
     methods: GET,POST,PUT,DELETE
 
 pagination:
-  default-page: 1
+  default-page: 0
   default-size: 10
