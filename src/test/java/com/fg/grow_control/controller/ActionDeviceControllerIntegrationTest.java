@@ -151,15 +151,12 @@ public class ActionDeviceControllerIntegrationTest extends BasicApplicationinteg
 
     private MeasurementDevice createOrGetMeasurementDeviceForType(String typeName) {
 
-        // Verificar si un MeasurementDevice con el nombre del tipo ya existe en la base de datos
         Optional<MeasurementDevice> existingDevice = measurementDeviceService.findByGrowingParameterTypeName(typeName);
 
         if (existingDevice.isPresent()) {
-            // Si ya existe, devolver el MeasurementDevice encontrado
             return existingDevice.get();
         }
 
-        // Si no existe, crear uno nuevo usando el método createMeasurementDevice
         return createMeasurementDevice(typeName);
     }
 
@@ -172,10 +169,8 @@ public class ActionDeviceControllerIntegrationTest extends BasicApplicationinteg
         Optional<ActionDevice> existingActionDevice = actionDeviceService.getActionDeviceByMeasurementDevice(measurementDevice);
         ActionDevice actionDevice;
         if (existingActionDevice.isPresent()) {
-            // Si ya existe, usar el ActionDevice existente
             actionDevice = existingActionDevice.get();
         } else {
-            // Si no existe, crear un nuevo ActionDevice
             actionDevice = ActionDevice.builder()
                     .activationThreshold(20)
                     .deactivationThreshold(30)
@@ -239,10 +234,8 @@ public class ActionDeviceControllerIntegrationTest extends BasicApplicationinteg
         Optional<ActionDevice> existingActionDevice = actionDeviceService.getActionDeviceByMeasurementDevice(measurementDevice);
         ActionDevice actionDevice;
         if (existingActionDevice.isPresent()) {
-            // Si ya existe, usar el ActionDevice existente
             actionDevice = existingActionDevice.get();
         } else {
-            // Si no existe, crear un nuevo ActionDevice
             actionDevice = ActionDevice.builder()
                     .activationThreshold(20)
                     .deactivationThreshold(10)

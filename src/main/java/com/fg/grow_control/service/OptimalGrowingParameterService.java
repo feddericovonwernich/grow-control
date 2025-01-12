@@ -6,9 +6,8 @@ import com.fg.grow_control.entity.OptimalGrowingParameter;
 import com.fg.grow_control.repository.OptimalGrowingParameterRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @AssistantToolProvider
@@ -52,10 +51,9 @@ public class OptimalGrowingParameterService extends BasicService<OptimalGrowingP
 
     @Override
     @FunctionDefinition(name = "OptimalGrowingParameterService_getAll", description = "Retrieves all OptimalGrowingParameter objects.", parameters = "{}")
-    public List<OptimalGrowingParameter> getAll() {
-        return super.getAll();
+    public Page<OptimalGrowingParameter> getAll(int pageNumber, int pageSize) {
+        return super.getAll(pageNumber, pageSize);
     }
-
     @Override
     @FunctionDefinition(name = "OptimalGrowingParameterService_deleteById", description = "Deletes an OptimalGrowingParameter object by its Id.", parameters = """
             {

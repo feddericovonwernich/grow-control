@@ -7,9 +7,9 @@ import com.fg.grow_control.entity.GrowingEvent;
 import com.fg.grow_control.repository.GrowingEventRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -63,8 +63,8 @@ public class GrowingEventService extends BasicService<GrowingEvent, Long, Growin
 
     @Override
     @FunctionDefinition(name = "GrowingEventService_getAll", description = "Retrieves all GrowingEvent objects.", parameters = "{}")
-    public List<GrowingEvent> getAll() {
-        return super.getAll();
+    public Page<GrowingEvent> getAll(int pageNumber, int pageSize) {
+        return super.getAll(pageNumber, pageSize);
     }
 
     @Override

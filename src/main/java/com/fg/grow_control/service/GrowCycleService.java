@@ -6,9 +6,8 @@ import com.fg.grow_control.entity.GrowCycle;
 import com.fg.grow_control.repository.GrowCycleRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @AssistantToolProvider
@@ -64,8 +63,8 @@ public class GrowCycleService extends BasicService<GrowCycle, Long, GrowCycleRep
 
     @Override
     @FunctionDefinition(name = "GrowCycleService_getAll", description = "Retrieves all GrowCycle objects.", parameters = "{}")
-    public List<GrowCycle> getAll() {
-        return super.getAll();
+    public Page<GrowCycle> getAll(int pageNumber, int pageSize) {
+        return super.getAll(pageNumber, pageSize);
     }
 
     @Override

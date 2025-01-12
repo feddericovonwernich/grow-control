@@ -6,9 +6,9 @@ import com.fg.grow_control.entity.GrowingParameterType;
 import com.fg.grow_control.repository.GrowingParameterTypeRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -48,12 +48,11 @@ public class GrowingParameterTypeService extends BasicService<GrowingParameterTy
     @Override
     @FunctionDefinition(name = "GrowingParameterTypeService_getAll", description = "Retrieves all GrowingParameterType objects.",
             parameters = """
-                        {}
-                    """)
-    public List<GrowingParameterType> getAll() {
-        return super.getAll();
+                    {}
+                """)
+    public Page<GrowingParameterType> getAll(int pageNumber, int pageSize) {
+        return super.getAll(pageNumber, pageSize);
     }
-
     @Override
     @FunctionDefinition(name = "GrowingParameterTypeService_deleteById", description = "Deletes a GrowingParameterType object by its Id.",
         parameters = """

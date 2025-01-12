@@ -6,10 +6,10 @@ import com.fg.grow_control.entity.MeasurementDevice;
 import com.fg.grow_control.repository.MeasurementDeviceRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -56,12 +56,10 @@ public class MeasurementDeviceService extends BasicService<MeasurementDevice, Lo
     }
 
     @Override
-    @FunctionDefinition(name = "MeasurementDeviceService_getAll", description = "Retrieves all MeasurementDevice objects.",
-            parameters = "{}")
-    public List<MeasurementDevice> getAll() {
-        return super.getAll();
+    @FunctionDefinition(name = "MeasurementDeviceService_getAll", description = "Retrieves all MeasurementDevice objects.", parameters = "{}")
+    public Page<MeasurementDevice> getAll(int pageNumber, int pageSize) {
+        return super.getAll(pageNumber, pageSize);
     }
-
     @Override
     @Transactional
     @FunctionDefinition(name = "MeasurementDeviceService_deleteById", description = "Deletes a MeasurementDevice object with the given Id.",
