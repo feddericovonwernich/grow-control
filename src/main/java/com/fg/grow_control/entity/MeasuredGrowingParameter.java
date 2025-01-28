@@ -24,20 +24,20 @@ public class MeasuredGrowingParameter {
     @ReferenceField
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_grow_stage")
     @RequiredField
     @Reference
     @FieldDescription(description = "Reference to the grow stage associated with this parameter")
     private GrowStage growStage;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_growing_parameter_type")
     @RequiredField
     @FieldDescription(description = "Type of the growing parameter")
     private GrowingParameterType growingParameterType;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.LAZY)
     @Singular
     @Ignore
     private List<OptimalGrowingParameter> optimalGrowingParameters;
@@ -45,5 +45,4 @@ public class MeasuredGrowingParameter {
     @OneToOne(mappedBy = "growingParameter")
     @Ignore
     private MeasurementDevice measurementDevice;
-
 }

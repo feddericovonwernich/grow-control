@@ -1,11 +1,9 @@
 package com.fg.grow_control.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import io.github.feddericovonwernich.spring_ai.function_calling_service.annotations.FieldDescription;
+import io.github.feddericovonwernich.spring_ai.function_calling_service.annotations.*;
 import jakarta.persistence.*;
 import lombok.*;
-
-import io.github.feddericovonwernich.spring_ai.function_calling_service.annotations.*;
 
 @Entity
 @Getter
